@@ -9,13 +9,13 @@
 
 ***
 
-###示例图片
-####1.登录界面
+### 示例图片
+#### 1.登录界面
 
 ![Image text](https://raw.githubusercontent.com/a497556016/my-project/master/web-client/src/assets/sample/login.jpg)
-####2.主页
+#### 2.主页
 
 ![Image text](https://github.com/a497556016/my-project/blob/master/web-client/src/assets/sample/index.jpg?raw=true)
-####3.项目文档结构
+#### 3.项目文档结构
 
 ![Image text](https://github.com/a497556016/my-project/blob/master/web-client/src/assets/sample/devloper.jpg?raw=true)
