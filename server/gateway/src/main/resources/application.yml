@@ -1,0 +1,37 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka/
+server:
+  port: 7002
+
+spring:
+  application:
+    name: zuul
+  cloud:
+    gateway:
+      enabled: true
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: true
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+#      routes:
+#        - id: file-server
+#          uri: lb://file-server
+#          predicates:
+#            - Path=/filer-server/**
+#          filters:
+#            - StripPrefix=1 # 去除请求地址中的filer-server
+#        - id: account-server
+#          uri: lb://account-server
+#          predicates:
+#            - Path=/predicates/**
+
+
