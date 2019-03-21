@@ -7,7 +7,13 @@
 
 前端vue使用的ui是[vue-ant-design](https://vue.ant.design)
 
-***
+---
+
+### 服务调用链路监控
+- zipkin服务端的jar包可以到官网https://zipkin.io/pages/quickstart.html自行下载,然后放到目录my-project/zipkin-jar下，
+修改startup.bat里面的zipkin.jar的文件名，启动之，在浏览器输入http://localhost:9411可以访问微服务链路监控
+---
+
 ### 启动方式
 - 1.启动my-project/eureka，服务注册中心
 - 2.启动my-project/server/gateway，网关服务
@@ -16,8 +22,8 @@
 db/data-mysql.sql，账户密码是：admin 123456
 - 4.在my-project/web-client下按照readme.md的描述启动前端
 - 5.浏览器输入http://localhost:8080访问
-
 ---
+
 
 ### 示例图片
 
