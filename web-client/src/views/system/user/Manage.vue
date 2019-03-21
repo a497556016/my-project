@@ -7,67 +7,20 @@
             <a-button slot="action" slot-scope="{record}" @click="openUserEdit(record.id)">编辑</a-button>
         </m-table>
 
-        <a-modal title="添加用户" v-model="addUserVisible" @ok="addUserSubmit">
-            <a-form :form="addUserForm">
-                <a-form-item label="用户名" :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol">
-                    <a-input v-decorator="['username', {rules: [{required: true, message: '请输入用户名！'}]}]"/>
-                </a-form-item>
-                <a-form-item label="密码" :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol">
-                    <a-input type="password" v-decorator="['password', {rules: [{required: true, message: '请输入密码！'}]}]"/>
-                </a-form-item>
-                <a-form-item label="手机" :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol">
-                    <a-input v-decorator="['phone', {rules: [{required: true, message: '请输入手机！'}]}]"/>
-                </a-form-item>
-                <a-form-item label="邮箱" :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol">
-                    <a-input v-decorator="['email', {rules: []}]"/>
-                </a-form-item>
-                <a-form-item label="性别" :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol">
-                    <a-radio-group v-decorator="['gender', {rules: [], initialValue: '0'}]" buttonStyle="solid">
-                        <a-radio-button value="1">男</a-radio-button>
-                        <a-radio-button value="0">女</a-radio-button>
-                    </a-radio-group>
-                </a-form-item>
-                <a-form-item label="生日日期" :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol">
-                    <a-date-picker v-decorator="['birthday', {rules: []}]"></a-date-picker>
-                </a-form-item>
-                <a-form-item label="上传头像" :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol">
-                    <a-upload
-                            name="avatar"
-                            listType="picture-card"
-                            class="avatar-uploader"
-                            :showUploadList="false"
-                            :customRequest="upload"
-                            @change="onSelectFile"
-                    >
-                        <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
-                        <div v-else>
-                            <a-icon :type="uploading ? 'loading' : 'plus'" />
-                            <div class="ant-upload-text">点击上传</div>
-                        </div>
-                    </a-upload>
-                </a-form-item>
-            </a-form>
-        </a-modal>
+        <add-modal :after-success="search"></add-modal>
 
-        <edit-modal @reloadTable="search"></edit-modal>
+        <edit-modal :after-success="search"></edit-modal>
     </div>
 </template>
 
 <script>
     import SearchForm from '@/components/form/Search'
     import MTable from '@/components/table/Table'
-    import AFormItem from "ant-design-vue/es/form/FormItem";
-    import ARadioGroup from "ant-design-vue/es/radio/Group";
     import EditModal from './Edit'
+    import AddModal from './Add'
 
     import {mapMutations, mapActions, mapState, mapGetters} from 'vuex'
-    import {account, user, userEdit, file} from '@/store/types'
-
-    function getBase64 (img, callback) {
-        const reader = new FileReader()
-        reader.addEventListener('load', () => callback(reader.result))
-        reader.readAsDataURL(img)
-    }
+    import {user, userEdit, userAdd} from '@/store/types'
 
     const searchItems = [
         {component: 'a-input', field: 'username', placeholder: '请输入用户名'},
@@ -84,82 +37,50 @@
     ];
     export default {
         name: "UserManagePage",
-        components: {ARadioGroup, AFormItem, SearchForm, MTable, EditModal},
+        components: {SearchForm, MTable, EditModal, AddModal},
         data(){
+            const that = this;
             return {
                 searchItems,
                 table: {
                     columns,
                     actionBtns: [
-                        {type: 'primary', text: '添加', icon: 'plus', handler: this.addUser},
-                        {type: 'danger', text: '批量删除', icon: 'delete', disable(selectedRowKeys, currentPageData) {
+                        {type: 'primary', text: '添加', icon: 'plus', handler: this.openUserAdd},
+                        {type: 'danger', text: '批量删除', icon: 'delete',
+                            disable(selectedRowKeys, currentPageData) {
+                                that.setSelectedKeys(selectedRowKeys);
                                 return selectedRowKeys.length == 0;
-                            }
+                            },
+                            handler: that.batchDelete
                         }
                     ]
                 },
-
-                addUserVisible: false,
-                addUserForm: this.$form.createForm(this),
-                formItemLayout: {
-                    labelCol: {span: 4},
-                    wrapperCol: {span: 18, offset: 2}
-                },
-
-                uploading: false
             }
         },
         computed: {
-            ...mapState({
-                uploadedFile: state => state.file.uploadedFile
-            }),
-            ...mapGetters({
-                imageUrl: file.getters.FILE_DOWNLOAD_PATH
-            })
+
         },
         mounted() {
 
         },
         methods: {
             ...mapActions({
-                saveUser: account.actions.REGISTER_USER,
                 selectPage: user.actions.SELECT_PAGE,
-                upload: file.actions.UPLOAD,
-                openUserEdit: userEdit.actions.OPEN_USER_EDIT
+                openUserEdit: userEdit.actions.OPEN_USER_EDIT,
+                batchDelete: user.actions.BATCH_DELETE
             }),
             ...mapMutations({
-
+                openUserAdd: userAdd.OPEN_ADD,
+                setSelectedKeys: user.mutations.SET_SELECTED_KEYS
             }),
-            addUser(){
-                this.addUserVisible = true;
-            },
             search(){
                 this.$refs.table.search(this.$refs.searchForm.form.getFieldsValue());
             },
-            addUserSubmit(){
-                this.addUserForm.validateFields((err, values) => {
-                    if (!err) {
-                        values.birthday = values.birthday.format('YYYY-MM-DD');
-                        values.avatar = this.uploadedFile.path;
-                        this.saveUser(values).then(res => {
-                            this.addUserVisible = false;
-                            this.search();
-                        });
-                    }
-                });
-            },
-            onSelectFile(info){
-                if (info.file.status === 'uploading') {
-                    this.uploading = true
-                    return
-                }
-                if (info.file.status === 'done') {
-                    // Get this url from response in real world.
-                    getBase64(info.file.originFileObj, (imageUrl) => {
-                        this.imageUrl = imageUrl
-                        this.uploading = false
-                    })
-                }
+            batchDelete(){
+                this.$store.dispatch(user.actions.BATCH_DELETE).then(res => {
+                    this.$message('删除完成！');
+                    this.search();
+                })
             }
         }
     }

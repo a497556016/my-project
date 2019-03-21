@@ -4,7 +4,7 @@
             <a-form-item label="用户名" v-bind="formItemLayout">
                 <a-input disabled v-decorator="['username', {rules: [{required: true, message: '请输入用户名！'}]}]"></a-input>
             </a-form-item>
-            <a-form-item label="密码" v-bind="formItemLayout">
+            <a-form-item label="修改密码" v-bind="formItemLayout">
                 <a-input v-decorator="['password', {rules: []}]"></a-input>
             </a-form-item>
             <a-form-item label="确认密码" v-bind="formItemLayout">
@@ -51,6 +51,7 @@
 
     export default {
         name: "Edit",
+        props: ['afterSuccess'],
         data(){
             return {
                 // form: this.$form.createForm(this),
@@ -112,7 +113,7 @@
                 util.getValuesWithValid(this.form).then(values => {
                     this.updateUser().then(() => {
                         console.log('完成更新')
-                        this.$emit('reloadTable');
+                        this.afterSuccess();
                     });
                 })
             },

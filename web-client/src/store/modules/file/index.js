@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import types from './types'
 
-import FileService from '@/service/file'
+import FileService from '@/api/file'
 
 const fileService = new FileService();
 

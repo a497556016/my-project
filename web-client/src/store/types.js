@@ -2,8 +2,10 @@
 //用户账户
 import accountTypes from './modules/account/types'
 
+//用户管理
 import * as userTypes from './modules/user/types'
 import * as userEditTypes from './modules/user/edit/types'
+import * as userAddTypes from './modules/user/add/types'
 
 //界面布局
 import * as layoutTypes from './modules/layout/types'
@@ -38,6 +40,7 @@ const _export = function (module, m) {
 export const account = _export(accountTypes, 'account');
 export const user = _export(userTypes, 'user');
 export const userEdit = _export(userEditTypes, 'userEdit');
+export const userAdd = _export(userAddTypes, 'userAdd');
 export const layout = _export(layoutTypes, 'layout');
 export const file = _export(fileTypes, 'file');
 

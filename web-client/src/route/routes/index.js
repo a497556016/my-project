@@ -50,25 +50,6 @@ const routes = [
                     }
                 ]
             },
-            {
-                path: '/form',
-                component: HomePage,
-                meta: {
-                    title: '开发工具',
-                    icon: 'tool'
-                },
-                children: [
-                    {
-                        path: '/formManage',
-                        component: () => import('@/views/form/Manage'),
-                        name: 'FormManagePage',
-                        meta: {
-                            title: '表单管理',
-                            icon: 'table'
-                        }
-                    }
-                ]
-            },
         ]
     }
 ]

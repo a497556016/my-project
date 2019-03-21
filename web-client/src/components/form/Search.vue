@@ -45,8 +45,8 @@
             handleSearch(e){
                 e.preventDefault();
                 this.form.validateFields((error, values) => {
-                    console.log('error', error);
-                    console.log('Received values of form: ', values);
+                    // console.log('error', error);
+                    // console.log('Received values of form: ', values);
                     if(!error){
                         this.$emit('submit', values);
                     }

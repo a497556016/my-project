@@ -7,11 +7,10 @@ import {
 } from './types'
 
 import moment from 'moment'
-import util from '@/util'
 
-import UserService from '@/service/user'
+import UserService from '@/api/user'
 const userService = new UserService();
-import AccountService from '@/service/account'
+import AccountService from '@/api/account'
 const accountService = new AccountService();
 
 export default {
@@ -48,16 +47,18 @@ export default {
     actions: {
         [actions.OPEN_USER_EDIT] ({commit, state}, id) {
             commit(mutations.OPEN_EDIT);
-            userService.selectById(id).then(res => {
-                const user = res.data;
-                if(user) {
-                    user.password = '';
-                    user.confirmPassword = '';
-                    if(user.birthday)
-                        user.birthday = moment(user.birthday, 'YYYY-MM-DD');
-                }
-                state.editUserInfo = user;
-            })
+            if(id) {
+                userService.selectById(id).then(res => {
+                    const user = res.data;
+                    if (user) {
+                        user.password = '';
+                        user.confirmPassword = '';
+                        if (user.birthday)
+                            user.birthday = moment(user.birthday, 'YYYY-MM-DD');
+                    }
+                    state.editUserInfo = user;
+                })
+            }
         },
         [actions.MODIFY_USER] ({commit, state}) {
             console.log('修改用户：', state.editUserInfo)

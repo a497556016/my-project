@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import account from './modules/account'
 import user from './modules/user'
 import userEdit from './modules/user/edit'
+import userAdd from './modules/user/add'
 import layout from './modules/layout'
 import file from './modules/file'
 
@@ -14,6 +15,7 @@ const store = new Vuex.Store({
         account,
         user,
         userEdit,
+        userAdd,
         layout,
         file,
     },
