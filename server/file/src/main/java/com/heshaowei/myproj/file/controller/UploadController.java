@@ -4,6 +4,8 @@ import com.heshaowei.myproj.bean.response.Result;
 import com.heshaowei.myproj.file.entity.FileBaseInfo;
 import com.heshaowei.myproj.file.props.FileProperties;
 import com.heshaowei.myproj.file.repository.FileBaseInfoRepository;
+import com.heshaowei.myproj.utils.image.ImageHandler;
+import com.heshaowei.myproj.utils.image.ImageUtils;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -45,24 +47,34 @@ public class UploadController {
         if(i>=0) {
             suffix = filename.substring(i);
         }
-        String fileSaveName = File.separator + UUID.randomUUID().toString() + suffix;
+        String fileSaveName = UUID.randomUUID().toString();
+        String fileSavePath = File.separator + fileSaveName + suffix;
 
         String folderPath = fileProperties.getSavePath() + relativePath;
-        File saveFile = new File( folderPath + fileSaveName);
+        File saveFile = new File( folderPath + fileSavePath);
         try {
             fileBaseInfo.setName(filename);
-            fileBaseInfo.setPath(relativePath + fileSaveName);
+            fileBaseInfo.setPath(relativePath + fileSavePath);
             fileBaseInfo.setContentType(file.getContentType());
             fileBaseInfo.setCreateTime(new Date());
             fileBaseInfo.setCreateUser(username);
-            fileBaseInfoRepository.save(fileBaseInfo);
 
             if(!saveFile.getParentFile().exists()) {
                 saveFile.getParentFile().mkdirs();
             }
 
+            //保存图片
             file.transferTo(saveFile);
-        } catch (IOException e) {
+
+            //对于图片类型，生成缩略图
+            if(file.getContentType().startsWith("image")){
+                String thumbName = fileSaveName + "_thumb";
+                new ImageHandler(saveFile.getAbsolutePath(), folderPath, thumbName, suffix.substring(1)).zoom(100, 100).writeToFile();
+                fileBaseInfo.setThumbPath(relativePath + File.separator + thumbName + suffix);
+            }
+
+            fileBaseInfoRepository.save(fileBaseInfo);
+        } catch (Exception e) {
             log.error(e);
             throw new RuntimeException("文件保存发生异常！");
         }

@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
@@ -50,6 +51,11 @@ public class Config {
                         JsonObject user = result.get("data").getAsJsonObject();
 
                         JWTUtil.verify(accessToken, username, user.get("password").getAsString());
+
+                        //向headers中放文件，记得build
+                        ServerHttpRequest host = exchange.getRequest().mutate().header("username", username).build();
+                        //将现在的request 变成 change对象
+                        exchange = exchange.mutate().request(host).build();
                     }
                 }catch (Exception e) {
                     log.error(e);

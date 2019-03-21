@@ -43,6 +43,5 @@ public class DownloadController {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
     }
 }

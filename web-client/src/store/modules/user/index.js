@@ -28,7 +28,8 @@ const actions = {
             userService.selectPage(option).then(res => {
                 res.content.forEach(d => {
                     if(d.avatar) {
-                        d.avatar = Vue.config.custom.baseURL + '/file-server/download?path=' + encodeURI(d.avatar);
+                        const arr = d.avatar.split(".");
+                        d.avatar = Vue.config.custom.baseURL + '/file-server/download?path=' + encodeURI(arr[0]+'_thumb.'+arr[1]);
                     }
                 });
                 resolve(res);

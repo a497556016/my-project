@@ -1,11 +1,9 @@
 package com.heshaowei.myproj.file.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Data
@@ -17,6 +15,9 @@ public class FileBaseInfo {
     private String name;
     private String contentType;
     private String path;
+    private String thumbPath;
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
     private String createUser;
 }
