@@ -3,7 +3,7 @@
 
 ---
 
-也可以用来入门学习vue和spring boot 和 spring cloud
+也可以用来入门学习vue和spring boot 和 spring cloud和作为脚手架搭建项目基础框架
 
 前端vue使用的ui是[vue-ant-design](https://vue.ant.design)
 

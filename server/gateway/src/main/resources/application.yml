@@ -22,6 +22,10 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
+  cache:
+    ehcache:
+      config: classpath:cache/ehcache.xml
+    type: ehcache
 #      routes:
 #        - id: file-server
 #          uri: lb://file-server
