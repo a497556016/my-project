@@ -1,6 +1,6 @@
 package com.heshaowei.myproj.gateway;
 
-import com.heshaowei.myproj.gateway.service.AccountService;
+import com.heshaowei.myproj.gateway.service.IAccountService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 @Log4j2
 public class AppRunner implements CommandLineRunner {
 
-    private final AccountService accountService;
+    private final IAccountService accountService;
 
-    public AppRunner(AccountService accountService) {
+    public AppRunner(IAccountService accountService) {
         this.accountService = accountService;
     }
 

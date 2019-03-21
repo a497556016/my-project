@@ -35,8 +35,8 @@
     <cache name="user"
            maxElementsInMemory="1"
            eternal="false"
-           timeToIdleSeconds="30"
-           timeToLiveSeconds="60"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="600"
            overflowToDisk="true"
     />
 

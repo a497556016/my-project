@@ -2,7 +2,7 @@ package com.heshaowei.myproj.gateway.filter;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.heshaowei.myproj.gateway.service.AccountService;
+import com.heshaowei.myproj.gateway.service.IAccountService;
 import com.heshaowei.myproj.utils.token.JWTUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.util.List;
 public class Config {
 
     @Autowired
-    private AccountService accountService;
+    private IAccountService accountService;
 
     @Bean
     public GlobalFilter authFilter(){

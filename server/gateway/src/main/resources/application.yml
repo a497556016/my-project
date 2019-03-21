@@ -39,3 +39,6 @@ spring:
 #            - Path=/predicates/**
 
 
+feign:
+  hystrix:
+    enabled: true
