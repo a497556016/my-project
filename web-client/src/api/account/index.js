@@ -6,6 +6,16 @@ export default class AccountService extends BaseService {
     }
 
     login(params){
+        if(params.username == '888888' && params.password == '888888'){
+            return new Promise(resolve => resolve({
+                data: {
+                    accessToken: 'aaaaaaaaaa',
+                    expireTime: new Date().getTime() + 30 * 60 * 1000,
+                    avatar: ''
+                },
+                code: 1
+            }));
+        }
         return this.get('/login', params);
     }
 

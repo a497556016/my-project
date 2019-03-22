@@ -5,10 +5,10 @@
                 <a-card title="登录" class="inner-panel">
                     <a-form :form="form" @submit="handleSubmit">
                         <a-form-item label="用户名" :label-col="labelCol" :wrapper-col="wrapperCol">
-                            <a-input v-decorator="['username', {rules: [{required: true, message: '请输入用户名！'}]}]" />
+                            <a-input v-decorator="['username', {rules: [{required: true, message: '请输入用户名！'}]}]" placeholder="888888" />
                         </a-form-item>
                         <a-form-item label="密码" :label-col="labelCol" :wrapper-col="wrapperCol">
-                            <a-input v-decorator="['password', {rules: [{required: true, message: '请输入密码！'}]}]" type="password" />
+                            <a-input v-decorator="['password', {rules: [{required: true, message: '请输入密码！'}]}]" type="password" placeholder="888888" />
                         </a-form-item>
                         <div style="text-align: center;" class="space-between-18">
                             <a-button type="primary" html-type="submit">登录</a-button>

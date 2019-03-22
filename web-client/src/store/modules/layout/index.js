@@ -14,7 +14,18 @@ export default {
         headerMenus: [
             {id: 1, name: '管理系统', route: 'index'},
             {id: 2, name: '文件系统', route: 'file'}
-        ]
+        ],
+
+        noticeBoxVisible: false,
+        noticeLoading: false,
+        noticesData: [
+            {title: '重大消息！！！', description: 'wscnmsl!!!!'},
+            {title: '哈哈哈哈哈！！', description: '中华人民共和国万岁！！'}
+        ],
+        hasMore: true
+    },
+    getters: {
+
     },
     mutations: {
         [types.SET_MENUS_BY_ROUTES] (state, routes) {
@@ -69,7 +80,12 @@ export default {
                 state.loading = false;
             }, 200);
         },
-
+        [types.SHOW_NOTICE_BOX] (state) {
+            state.noticeBoxVisible = true;
+        },
+        [types.HIDE_NOTICE_BOX] (state) {
+            state.noticeBoxVisible = false;
+        }
     },
     actions: {
         [types.CHANGE_SUB_MENUS] ({commit}, route) {
@@ -79,6 +95,22 @@ export default {
                 commit(types.SET_MENUS_BY_ROUTES, routes);
             });
 
+        },
+        [types.LOAD_MORE_NOTICES] ({commit, state}) {
+            state.noticeLoading = true;
+            setTimeout(() => {
+
+                state.noticesData = state.noticesData.concat([
+                    {title: '又有新消息啦！', description: '让我们来看看是什么'},
+                    {title: '完啦完啦！', description: '小明和小红。。。'}
+                ]);
+
+                state.noticeLoading = false;
+
+                if(state.noticesData.length > 6) {
+                    state.hasMore = false;
+                }
+            }, 1000);
         }
     }
 }
