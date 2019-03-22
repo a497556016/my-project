@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d21ad5a"],{bccf:function(n,t,e){"use strict";e.r(t);var a=[{path:"/main",component:function(){return e.e("chunk-2d221fb8").then(e.bind(null,"cd56"))},name:"Main",meta:{title:"主页",showInFirst:!0}},{path:"/fileMana",component:function(){return e.e("chunk-2d221fb8").then(e.bind(null,"cd56"))},name:"Main",meta:{title:"文件管理"}}];t["default"]=a}}]);
-//# sourceMappingURL=chunk-2d21ad5a.340b1e86.js.map

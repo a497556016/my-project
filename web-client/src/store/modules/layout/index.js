@@ -12,7 +12,7 @@ export default {
         loadingProcess: 0,
 
         headerMenus: [
-            {id: 1, name: '管理系统', route: 'index'},
+            {id: 1, name: '管理系统', route: 'index'}, //route 对应的在目录@/route/routes下的文件名称，新增的子系统需要添加对应的路由描述文件，默认的index不能改
             {id: 2, name: '文件系统', route: 'file'}
         ],
 
