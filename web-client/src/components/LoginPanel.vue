@@ -3,7 +3,6 @@
         <div style="display: flex; flex-flow: row; justify-content: center">
             <div class="outer-panel">
                 <a-card title="登录" class="inner-panel">
-                    <a href="#" slot="extra">{{msg}}</a>
                     <a-form :form="form" @submit="handleSubmit">
                         <a-form-item label="用户名" :label-col="labelCol" :wrapper-col="wrapperCol">
                             <a-input v-decorator="['username', {rules: [{required: true, message: '请输入用户名！'}]}]" />
@@ -25,7 +24,7 @@
 <script>
     export default {
         name: "LoginPanel",
-        props: ['msg'],
+        props: [],
         data(){
             return {
                 form: this.$form.createForm(this),

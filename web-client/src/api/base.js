@@ -26,6 +26,14 @@ export default class BaseService {
         return this.put('/update', data);
     }
 
+    deleteById(id) {
+        return this.delete('/delete', {id: id});
+    }
+
+    batchDelete(ids) {
+        return this.put('/batchDelete', ids);
+    }
+
     get(url, params, config = {}){
         config.params = params;
         return http.get(this.basePath + url, config);

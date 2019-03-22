@@ -81,6 +81,7 @@
                         if(values.birthday)
                         values.birthday = values.birthday.format('YYYY-MM-DD');
                         values.avatar = this.uploadedFile.path;
+                        values.thumbAvatar = this.uploadedFile.thumbPath;
                         this.saveUser(values).then(res => {
                             this.closeUserAdd();
                             this.afterSuccess();

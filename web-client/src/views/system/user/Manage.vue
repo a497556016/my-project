@@ -3,7 +3,9 @@
         <search-form ref="searchForm" :items="searchItems" @submit="(values) => $refs.table.search(values)"></search-form>
         <m-table ref="table" :columns="table.columns" :load-fun="selectPage" :action-btns="table.actionBtns">
             <a href="#" slot="username" slot-scope="{value}">{{value}}</a>
-            <img slot="avatar" slot-scope="{value}" :src="value" :style="{width: '50px', height: '50px'}" />
+            <template slot="avatar" slot-scope="{value}">
+                <img v-if="value" :src="value" :style="{width: '50px', height: '50px'}" />
+            </template>
             <a-button slot="action" slot-scope="{record}" @click="openUserEdit(record.id)">编辑</a-button>
         </m-table>
 
@@ -77,10 +79,15 @@
                 this.$refs.table.search(this.$refs.searchForm.form.getFieldsValue());
             },
             batchDelete(){
-                this.$store.dispatch(user.actions.BATCH_DELETE).then(res => {
-                    this.$message('删除完成！');
-                    this.search();
-                })
+                this.$confirm({
+                    title: '确认要删除吗？',
+                    onOk(){
+                        this.$store.dispatch(user.actions.BATCH_DELETE).then(res => {
+                            this.$message.success('删除完成！');
+                            this.search();
+                        })
+                    }
+                });
             }
         }
     }

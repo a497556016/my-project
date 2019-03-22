@@ -64,6 +64,7 @@
         watch: {
             uploadedFile(file){
                 this.editUserInfo.avatar = file.path;
+                this.editUserInfo.thumbAvatar = file.thumbPath;
             },
             editUserInfo(user) {
                 this.form.setFieldsValue(user);

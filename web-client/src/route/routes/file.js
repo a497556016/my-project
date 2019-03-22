@@ -1,8 +1,8 @@
 const routes = [
     {
         path: '/main',
-        component: () => import('@/views/Main.vue'),
-        name: 'Main',
+        component: () => import('@/views/file/Main.vue'),
+        name: 'FileSystemMain',
         meta: {
             title: '主页',
             showInFirst: true
@@ -10,8 +10,8 @@ const routes = [
     },
     {
         path: '/fileMana',
-        component: () => import('@/views/Main.vue'),
-        name: 'Main',
+        component: () => import('@/views/file/Manage.vue'),
+        name: 'FileSystemManage',
         meta: {
             title: '文件管理'
         }

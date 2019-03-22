@@ -36,6 +36,8 @@ public class User implements Serializable {
 
     private String avatar;
 
+    private String thumbAvatar;
+
     private String creater;
 
     @Temporal(TemporalType.TIMESTAMP)

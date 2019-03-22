@@ -1,6 +1,6 @@
 <template>
     <div :style="{height: '100%', backgroundImage: 'url('+bgImg+')'}">
-        <login-panel :msg="msg" @login="login"></login-panel>
+        <login-panel @login="login"></login-panel>
     </div>
 </template>
 
@@ -14,7 +14,6 @@
         name: "Login",
         data(){
             return {
-                msg: '欢迎使用',
                 bgImg: require("../assets/img/login_bg2.png")
             }
         },

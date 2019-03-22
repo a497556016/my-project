@@ -27,9 +27,10 @@ const actions = {
         return new Promise(resolve => {
             userService.selectPage(option).then(res => {
                 res.content.forEach(d => {
-                    if(d.avatar) {
-                        const arr = d.avatar.split(".");
-                        d.avatar = Vue.config.custom.baseURL + '/file-server/download?path=' + encodeURI(arr[0]+'_thumb.'+arr[1]);
+                    if(d.thumbAvatar) {
+                        d.avatar = Vue.config.custom.baseURL + '/file-server/download?path=' + encodeURI(d.thumbAvatar);
+                    }else{
+                        d.avatar = null;
                     }
                 });
                 resolve(res);

@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -38,5 +40,11 @@ public class UserController {
     public Result selectById(Long id){
         User user = this.userService.selectById(id);
         return Result.success(user);
+    }
+
+    @PutMapping("/batchDelete")
+    public Result batchDelete(@RequestBody List<Long> ids){
+        this.userService.batchDelete(ids);
+        return Result.success();
     }
 }

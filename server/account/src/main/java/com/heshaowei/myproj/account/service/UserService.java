@@ -1,5 +1,6 @@
 package com.heshaowei.myproj.account.service;
 
+import com.google.common.collect.Lists;
 import com.heshaowei.myproj.account.bean.PageReq;
 import com.heshaowei.myproj.account.domain.User;
 import com.heshaowei.myproj.account.repository.UserRepository;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -38,5 +41,15 @@ public class UserService {
         User updateUser = this.userRepository.findById(user.getId()).orElse(new User());
         PropertyCopys.copyNotnull(updateUser, user);
         this.userRepository.saveAndFlush(updateUser);
+    }
+
+    public void batchDelete(List<Long> ids) {
+        final List<User> users = Lists.newArrayList();
+        ids.forEach(id -> {
+            User user = new User();
+            user.setId(id);
+            users.add(user);
+        });
+        this.userRepository.deleteInBatch(users);
     }
 }
