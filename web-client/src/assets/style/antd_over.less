@@ -2,11 +2,16 @@
 
     .ant-tabs-bar {
         border-bottom: 1px solid #d2dde6;
-        box-shadow: 0px 0px 10px #c9e0e8;
+        box-shadow: 0px 0px 5px #c9e0e8;
         padding: 6px;
-        background: #ffffff;
+        background: #f0f2f5;
         border-radius: 4px;
         height: 41px;
+
+        position: fixed;
+        left: 266px;
+        right: 17px;
+        z-index: 999999;
 
         .ant-tabs-nav-container{
             .ant-tabs-nav-wrap {
@@ -36,6 +41,11 @@
             }
         }
 
+    }
+
+    .ant-tabs-content {
+        //position: absolute;
+        margin-top: 50px;
     }
 }
 

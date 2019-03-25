@@ -1,5 +1,5 @@
 <template>
-    <a-layout-sider :trigger="null" :width="width" collapsible v-model="collapsed">
+    <a-layout-sider :trigger="null" :width="width" collapsible :collapsed="collapsed">
         <layout-logo></layout-logo>
         <a-menu
                 theme="dark"
@@ -25,6 +25,9 @@
 
 <script>
     import Logo from './Logo'
+
+    import {mapState} from 'vuex'
+
     import {layout} from '@/store/types'
     export default {
         name: "Left",
@@ -32,10 +35,7 @@
             'layout-logo': Logo
         },
         props: {
-            collapsed: {
-                type: Boolean,
-                default: false
-            },
+
             width: {
                 type: Number,
                 default: 200
@@ -47,11 +47,10 @@
             }
         },
         computed: {
-            menus(){
-                const menus = this.$store.state.layout.menus;
-
-                return menus;
-            }
+            ...mapState({
+                collapsed: state => state.layout.collapsed,
+                menus: state => state.layout.menus
+            })
         },
         methods: {
             onMenuClick(menu){

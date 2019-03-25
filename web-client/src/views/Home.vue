@@ -1,8 +1,8 @@
 <template>
     <a-layout style="height: 100%;">
-        <layout-left :collapsed="collapsed" :width="250"></layout-left>
+        <layout-left :width="250"></layout-left>
         <a-layout>
-            <layout-header :menus="headerMenus" :defaultSelectedMenus="[defaultSelectedMenus]" :collapsed="collapsed" @collapseChange="collapseChange"></layout-header>
+            <layout-header :menus="headerMenus" :defaultSelectedMenus="[defaultSelectedMenus]"></layout-header>
             <layout-content></layout-content>
         </a-layout>
     </a-layout>
@@ -24,7 +24,7 @@
         },
         data(){
             return {
-                collapsed: false
+
             }
         },
         computed: {
@@ -40,9 +40,7 @@
             }
         },
         methods: {
-            collapseChange(collapsed){
-                this.collapsed = collapsed;
-            }
+
         }
     }
 </script>

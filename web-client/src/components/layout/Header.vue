@@ -3,8 +3,8 @@
         <a-layout-header style="background: #fff; padding: 0">
             <a-icon
                     style="float: left;line-height: 64px;margin: 0 24px;cursor: pointer;"
-                    :type="iconCollapsed ? 'menu-unfold' : 'menu-fold'"
-                    @click="()=> iconCollapsed = !iconCollapsed"
+                    :type="collapsed ? 'menu-unfold' : 'menu-fold'"
+                    @click="toggleCollapsed"
             />
             <a-menu
                     mode="horizontal"
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-    import {mapGetters, mapMutations, mapActions} from 'vuex'
+    import {mapState, mapGetters, mapMutations, mapActions} from 'vuex'
     import {account, layout} from '@/store/types'
 
     import NoticeBox from './NoticeBox'
@@ -56,33 +56,30 @@
             },
             defaultSelectedMenus: {
                 type: Array
-            },
-            collapsed: {
-                type: Boolean,
-                default: false
             }
         },
         data(){
             return {
-                iconCollapsed: this.collapsed,
                 // avatar: require('../../assets/logo.png')
             }
         },
         computed: {
+            ...mapState({
+                collapsed: state => state.layout.collapsed
+            }),
             ...mapGetters({
                 userInfo: account.getters.GET_USER_INFO,
-                avatar: account.getters.GET_AVATAR
+                avatar: account.getters.GET_AVATAR,
             })
         },
         watch: {
-            iconCollapsed(val){
-                this.$emit('collapseChange', val);
-            }
+
         },
         methods: {
             ...mapMutations({
                 logout: account.mutations.LOGOUT,
-                showNoticeBox: layout.SHOW_NOTICE_BOX
+                showNoticeBox: layout.SHOW_NOTICE_BOX,
+                toggleCollapsed: layout.TOGGLE_COLLAPSED
             }),
             ...mapActions({
                 changeSubMenus: layout.CHANGE_SUB_MENUS

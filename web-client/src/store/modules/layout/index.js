@@ -8,6 +8,8 @@ export default {
         menuTabs: [],
         activeMenuKey: '',
 
+        collapsed: false,
+
         loading: false,
         loadingProcess: 0,
 
@@ -28,6 +30,9 @@ export default {
 
     },
     mutations: {
+        [types.TOGGLE_COLLAPSED] (state, collapsed) {
+            state.collapsed = !state.collapsed;
+        },
         [types.SET_MENUS_BY_ROUTES] (state, routes) {
             const {menus, menuTabs} = util.buildMenuFromRoutes(routes);
             state.menus = menus;

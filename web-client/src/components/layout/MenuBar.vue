@@ -15,6 +15,7 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex'
     import {layout} from '@/store/types'
 
     export default {
@@ -26,8 +27,21 @@
             }
         },
         computed: {
+            ...mapState({
+                collapsed: state => state.layout.collapsed
+            }),
             panes(){
                 return this.$store.state.layout.menuTabs;
+            }
+        },
+        watch: {
+            collapsed(v) {
+                const tabList = document.getElementById('menu-bar').firstChild;
+                // console.log('改变tab bar宽度：', v, tabList)
+                tabList.style.left = v?'96px': '266px';
+                // document.getElementById('menu-bar')[0].getElementsByClassName('.ant-tabs-bar').forEach(el => {
+                //     console.log('改变tab bar宽度：', v, el);
+                // })
             }
         },
         methods: {
