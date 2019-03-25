@@ -46,18 +46,41 @@
                 <div id="chart2" style="height: 300px;"></div>
             </a-col>
         </a-row>
+        <a-divider />
+        <a-row>
+            <a-col :span="24">
+                <m-table :columns="columns" :data="taskData">
+                    <template slot="action">
+                        <a-button>处理</a-button>
+                    </template>
+                </m-table>
+            </a-col>
+        </a-row>
     </div>
 </template>
 
 <script>
+    import MTable from '@/components/table/Table'
+
     import echarts from 'echarts'
     export default {
         name: "Main",
+        components: {MTable},
         data(){
             return {
                 chart1: null,
                 cData: [
 
+                ],
+                columns: [
+                    {title: 'ID', dataIndex: 'id'},
+                    {title: '任务名称', dataIndex: 'name'},
+                    {title: '简要描述', dataIndex: 'remark'},
+                    {title: '创建日期', dataIndex: 'createTime'},
+                    {title: '操作', slot: 'action', fixed: 'right'}
+                ],
+                taskData: [
+                    {id: 1, name: '吃饭了', remark: '小明回家吃饭', createTime: '2019-06-15 23:00'}
                 ]
             }
         },

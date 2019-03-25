@@ -1,5 +1,5 @@
 <template>
-    <layout-menu-bar :style="{ margin: '16px' }"></layout-menu-bar>
+    <layout-menu-bar :style="{ margin: '16px', overflowY: 'auto' }"></layout-menu-bar>
 </template>
 
 <script>

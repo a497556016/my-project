@@ -48,4 +48,7 @@
     .content-card:hover{
         box-shadow: 0 0 10px #ddd;
     }
+    #menu-bar::-webkit-scrollbar {
+        display: none;
+    }
 </style>
