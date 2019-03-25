@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d21ad5a"],{bccf:function(n,e,t){"use strict";t.r(e);var i=[{path:"/main",component:function(){return t.e("chunk-2d22491f").then(t.bind(null,"e163"))},name:"FileSystemMain",meta:{title:"主页",icon:"home",showInFirst:!0}},{path:"/fileMana",component:function(){return t.e("chunk-2d20f1d3").then(t.bind(null,"b1f4"))},name:"FileSystemManage",meta:{title:"文件管理",icon:"file"}}];e["default"]=i}}]);
+//# sourceMappingURL=chunk-2d21ad5a.ad1f1aa6.js.map
