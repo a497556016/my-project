@@ -25,5 +25,10 @@ module.exports = {
                 javascriptEnabled: true
             }
         }
-    }
+    },
+    pluginOptions: {
+        ghPages: {
+            message: 'Updates',
+        },
+    },
 }
