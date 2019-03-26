@@ -18,6 +18,14 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private IFileService fileService;
+
+    private void updateFileBusId(String path, Long id){
+        if(null != path) {
+            this.fileService.updateBusId(new IFileService.FileReq(path, "account-server/user/" + id));
+        }
+    }
 
     public User findByUsername(String username) {
         User user = new User();
@@ -26,7 +34,9 @@ public class UserService {
     }
 
     public void save(User user) {
-        this.userRepository.save(user);
+        user = this.userRepository.save(user);
+
+        this.updateFileBusId(user.getAvatar(), user.getId());
     }
 
     public Page selectPage(PageRequest pageReq) {
@@ -41,6 +51,7 @@ public class UserService {
         User updateUser = this.userRepository.findById(user.getId()).orElse(new User());
         PropertyCopys.copyNotnull(updateUser, user);
         this.userRepository.saveAndFlush(updateUser);
+        this.updateFileBusId(user.getAvatar(), user.getId());
     }
 
     public void batchDelete(List<Long> ids) {

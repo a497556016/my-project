@@ -11,7 +11,11 @@ import java.util.Date;
 public class FileBaseInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
+    /**
+     * 业务ID
+     */
+    private String busId;
     private String name;
     private String contentType;
     private String path;
@@ -20,4 +24,6 @@ public class FileBaseInfo {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
     private String createUser;
+    @Column(name="`delete`", columnDefinition = "bit(1) DEFAULT b'0'")
+    private Boolean delete = false;
 }
