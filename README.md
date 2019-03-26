@@ -29,12 +29,12 @@ db/data-mysql.sql，账户密码是：admin 123456
 
 - 登录界面
 
-![Image text](https://raw.githubusercontent.com/a497556016/my-project/master/web-client/src/assets/sample/login.jpg)
+![Image text](https://raw.githubusercontent.com/a497556016/my-project/master/doc/sample/login.jpg)
 
 - 主页
 
-![Image text](https://github.com/a497556016/my-project/blob/master/web-client/src/assets/sample/index.jpg?raw=true)
+![Image text](https://github.com/a497556016/my-project/blob/master/doc/sample/index.jpg?raw=true)
 
 - 项目文档结构
 
-![Image text](https://github.com/a497556016/my-project/blob/master/web-client/src/assets/sample/devloper.jpg?raw=true)
+![Image text](https://github.com/a497556016/my-project/blob/master/doc/sample/devloper.jpg?raw=true)
