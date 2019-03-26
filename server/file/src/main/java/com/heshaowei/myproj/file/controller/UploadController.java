@@ -58,6 +58,7 @@ public class UploadController {
             fileBaseInfo.setContentType(file.getContentType());
             fileBaseInfo.setCreateTime(new Date());
             fileBaseInfo.setCreateUser(username);
+            fileBaseInfo.setSize(file.getSize());
 
             if(!saveFile.getParentFile().exists()) {
                 saveFile.getParentFile().mkdirs();
@@ -92,5 +93,12 @@ public class UploadController {
             saveMultipartFile(file, fileBaseInfo, username);
         }));
         return Result.success(fileBaseInfo);
+    }
+
+    public static void main(String[] args) {
+        File file = new File("f://picture/project");
+        System.out.println((double)file.getTotalSpace()/1024/1024/1024);
+        System.out.println((double)file.getUsableSpace()/1024/1024/1024);
+        System.out.println((double)file.length());
     }
 }

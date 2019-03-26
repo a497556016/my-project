@@ -1,6 +1,7 @@
 package com.heshaowei.myproj.file.controller;
 
 import com.heshaowei.myproj.bean.response.Result;
+import com.heshaowei.myproj.file.common.global.DownloadLog;
 import com.heshaowei.myproj.file.props.FileProperties;
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.io.FileUtils;
@@ -29,6 +30,7 @@ public class DownloadController {
 
     @GetMapping
     public void index(HttpServletResponse response, @RequestParam("path") String encodedPath){
+        DownloadLog.add();
         try {
             String path = URLDecoder.decode(encodedPath, StandardCharsets.UTF_8.name());
             File file = new File(fileProperties.getSavePath() + path);

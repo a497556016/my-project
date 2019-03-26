@@ -17,6 +17,10 @@ public class FileBaseInfo {
      */
     private String busId;
     private String name;
+    /**
+     * 文件大小
+     */
+    private Long size;
     private String contentType;
     private String path;
     private String thumbPath;

@@ -6,6 +6,7 @@ import com.heshaowei.myproj.gateway.service.IAccountService;
 import com.heshaowei.myproj.utils.token.JWTUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -25,6 +26,8 @@ public class Config {
 
     @Autowired
     private IAccountService accountService;
+    @Autowired
+    private CacheManager cacheManager;
 
     @Bean
     public GlobalFilter authFilter(){

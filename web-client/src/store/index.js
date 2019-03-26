@@ -7,6 +7,7 @@ import userEdit from './modules/user/edit'
 import userAdd from './modules/user/add'
 import layout from './modules/layout'
 import file from './modules/file'
+import fileMain from './modules/file/main'
 
 Vue.use(Vuex)
 
@@ -18,6 +19,7 @@ const store = new Vuex.Store({
         userAdd,
         layout,
         file,
+        fileMain
     },
 });
 

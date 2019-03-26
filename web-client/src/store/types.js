@@ -10,7 +10,10 @@ import * as userAddTypes from './modules/user/add/types'
 //界面布局
 import * as layoutTypes from './modules/layout/types'
 
+//文件系统
 import fileTypes from './modules/file/types'
+//文件系统首页
+import * as fileMainTypes from './modules/file/main/types'
 
 
 const _export = function (module, m) {
@@ -43,5 +46,6 @@ export const userEdit = _export(userEditTypes, 'userEdit');
 export const userAdd = _export(userAddTypes, 'userAdd');
 export const layout = _export(layoutTypes, 'layout');
 export const file = _export(fileTypes, 'file');
+export const fileMain = _export(fileMainTypes, 'fileMain');
 
 
