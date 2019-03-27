@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './routes'
 
-import util from '../util'
 import store from "../store";
 import {account, layout} from '../store/types'
 
@@ -26,10 +25,6 @@ router.beforeEach((to, from, next) => {
     }
     next();
 })
-
-
-//生成栏目
-store.commit(layout.SET_MENUS_BY_ROUTES, routes);
 
 
 export default router;

@@ -10,22 +10,17 @@ const buildMenuFromRoutes = function (routes) {
 
     function computeFromRoutes(menus, routes){
         routes.forEach(route => {
-            if(route.meta && !route.meta.hideInMenu){
+            if(route.meta){
                 // console.log(route.component)
+
                 let menu = {
-                    id: route.path,
+                    id: route.name,
                     title: route.meta.title,
                     component: route.name,
-                    icon: route.meta.icon
+                    icon: route.meta.icon,
+                    hide: route.meta.hideInMenu
                     // component: route.component
                 };
-
-                menus.push(menu);
-
-                //全局注册栏目页面组件
-                if(menu.component) {
-                    Vue.component(menu.component, route.component);
-                }
 
                 if(route.meta.showInFirst){
                     menu.noCloseable = true;
@@ -36,6 +31,14 @@ const buildMenuFromRoutes = function (routes) {
                     menu.children = [];
                     computeFromRoutes(menu.children, route.children);
                 }
+
+                menus.push(menu);
+
+                //全局注册栏目页面组件
+                if(route.name && route.component) {
+                    Vue.component(route.name, route.component);
+                }
+
             }else{
                 if(route.children && route.children.length > 0){
                     computeFromRoutes(menus, route.children);

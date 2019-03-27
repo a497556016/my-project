@@ -1,6 +1,5 @@
 const routes = [
     {
-        path: '/main',
         component: () => import('@/views/file/Main.vue'),
         name: 'FileSystemMain',
         meta: {
@@ -10,7 +9,6 @@ const routes = [
         }
     },
     {
-        path: '/fileMana',
         component: () => import('@/views/file/Manage.vue'),
         name: 'FileSystemManage',
         meta: {

@@ -4,6 +4,8 @@ import util from '@/util'
 export default {
     namespaced: true,
     state: {
+        menuTree: {},
+
         menus: [],
         menuTabs: [],
         activeMenuKey: '',
@@ -13,9 +15,11 @@ export default {
         loading: false,
         loadingProcess: 0,
 
+        activeHeadMenu: 'system',
         headerMenus: [
-            {id: 1, name: '管理系统', route: 'index'}, //route 对应的在目录@/route/routes下的文件名称，新增的子系统需要添加对应的路由描述文件，默认的index不能改
-            {id: 2, name: '文件系统', route: 'file'}
+            {name: '管理系统', route: 'system'}, //route 对应的在目录@/route/routes下的文件名称，新增的子系统需要添加对应的路由描述文件，默认的index不能改
+            {name: '文件系统', route: 'file'},
+            {name: '自定义表单系统', route: 'form'}
         ],
 
         noticeBoxVisible: false,
@@ -30,16 +34,28 @@ export default {
 
     },
     mutations: {
-        [types.TOGGLE_COLLAPSED] (state, collapsed) {
+        [types.TOGGLE_COLLAPSED] (state) {
             state.collapsed = !state.collapsed;
         },
-        [types.SET_MENUS_BY_ROUTES] (state, routes) {
-            const {menus, menuTabs} = util.buildMenuFromRoutes(routes);
+        [types.SET_MENUS_BY_ROUTE] (state, route) {
+            const {menus, menuTabs} = state.menuTree[route];
             state.menus = menus;
             state.menuTabs = menuTabs;
             state.activeMenuKey = menuTabs.length > 0 ? menuTabs[0].id : '';
         },
         [types.ADD_MENU_TAB] (state, menu) {
+            if(typeof menu === 'string') {
+                if(menu.includes('/')){
+                    const arr = menu.split('/');
+                    const route = arr[0], name = arr[1];
+                    if(state.menuTree[route]) {
+                        menu = state.menuTree[route].menus.find(m => m.id == name);
+                        // state.activeHeadMenu = route;
+                    }
+                }else {
+                    menu = state.menus.find(m => m.id == menu);
+                }
+            }
             const tab = state.menuTabs.filter(menuTab => menuTab.id == menu.id);
             if(tab.length == 0){
                 state.menuTabs.push(menu);
@@ -93,13 +109,26 @@ export default {
         }
     },
     actions: {
-        [types.CHANGE_SUB_MENUS] ({commit}, route) {
-            import('@/route/routes/'+route+'.js').then(v => {
-                const routes = v.default;
-                console.log('加载的路由：', routes);
-                commit(types.SET_MENUS_BY_ROUTES, routes);
-            });
+        [types.CREATE_MENU_TREE_DATA] ({commit, state}) {
+            const promises = [];
+            state.headerMenus.forEach((hm, index) => {
+                promises.push(new Promise(resolve => {
+                    import('@/route/menus/'+hm.route+'.js').then(v => {
+                        const routes = v.default;
+                        console.log('加载的路由：', routes);
 
+                        const menuTree = util.buildMenuFromRoutes(routes);
+                        state.menuTree[hm.route] = menuTree;
+
+                        //生成第一个系统栏目
+                        if(index == 0) {
+                            commit(types.SET_MENUS_BY_ROUTE, hm.route);
+                        }
+                        resolve(menuTree);
+                    })
+                }));
+            })
+            return Promise.all(promises);
         },
         [types.LOAD_MORE_NOTICES] ({commit, state}) {
             state.noticeLoading = true;

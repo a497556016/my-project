@@ -8,10 +8,10 @@
             />
             <a-menu
                     mode="horizontal"
-                    :defaultSelectedKeys="defaultSelectedMenus"
+                    :selectedKeys="[activeHeadMenu]"
                     :style="{ lineHeight: '64px', float: 'left' }"
             >
-                <a-menu-item v-for="menu in menus" :key="menu.id" @click="menuHandler(menu)">{{menu.name}}</a-menu-item>
+                <a-menu-item v-for="menu in menus" :key="menu.route" @click="menuHandler(menu)">{{menu.name}}</a-menu-item>
             </a-menu>
 
             <div style="float: right; display: flex; flex-flow: row;">
@@ -27,7 +27,10 @@
                     </a>
                     <a-menu slot="overlay">
                         <a-menu-item>
-                            <a href="javascript:;" @click="logout()">退出登录</a>
+                            <a @click="addMenuTab">个人中心</a>
+                        </a-menu-item>
+                        <a-menu-item>
+                            <a @click="logout()">退出登录</a>
                         </a-menu-item>
                     </a-menu>
                 </a-dropdown>
@@ -48,15 +51,7 @@
         name: "Header",
         components: {NoticeBox},
         props: {
-            menus: {
-                type: Array,
-                default(){
-                    return []
-                }
-            },
-            defaultSelectedMenus: {
-                type: Array
-            }
+
         },
         data(){
             return {
@@ -65,7 +60,9 @@
         },
         computed: {
             ...mapState({
-                collapsed: state => state.layout.collapsed
+                collapsed: state => state.layout.collapsed,
+                menus: state => state.layout.headerMenus,
+                activeHeadMenu: state => state.layout.activeHeadMenu
             }),
             ...mapGetters({
                 userInfo: account.getters.GET_USER_INFO,
@@ -75,17 +72,25 @@
         watch: {
 
         },
+        mounted(){
+            //初始化所有栏目组件
+            this.createMenuTreeData().then(menuTree => console.log('所有栏目已经初始化完成！',menuTree));
+        },
         methods: {
             ...mapMutations({
                 logout: account.mutations.LOGOUT,
                 showNoticeBox: layout.SHOW_NOTICE_BOX,
-                toggleCollapsed: layout.TOGGLE_COLLAPSED
+                toggleCollapsed: layout.TOGGLE_COLLAPSED,
+                setMenusByRoute: layout.SET_MENUS_BY_ROUTE,
             }),
             ...mapActions({
-                changeSubMenus: layout.CHANGE_SUB_MENUS
+                createMenuTreeData: layout.CREATE_MENU_TREE_DATA
             }),
             menuHandler(menu) {
-                this.changeSubMenus(menu.route);
+                this.setMenusByRoute(menu.route);
+            },
+            addMenuTab(){
+                this.$store.commit(layout.ADD_MENU_TAB, 'system/UserCenter');
             }
         }
     }

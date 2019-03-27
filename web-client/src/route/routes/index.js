@@ -1,4 +1,3 @@
-import HomePage from '@/views/Home'
 
 const routes = [
     {
@@ -7,50 +6,11 @@ const routes = [
     },
     {
         path: '/login',
-        component: () => import('@/views/Login.vue'),
-        meta: {
-            title: '登录',
-            hideInMenu: true
-        }
+        component: () => import('@/views/Login.vue')
     },
     {
         path: '/home',
-        component: HomePage,
-        meta: {
-            title: '主页',
-            hideInMenu: true
-        },
-        children: [
-            {
-                path: '/main',
-                component: () => import('@/views/Main.vue'),
-                name: 'Main',
-                meta: {
-                    title: '首页',
-                    showInFirst: true,
-                    icon: 'home'
-                }
-            },
-            {
-                path: '/system',
-                component: HomePage,
-                meta: {
-                    title: '系统管理',
-                    icon: 'setting'
-                },
-                children: [
-                    {
-                        path: '/userManage',
-                        component: () => import('@/views/system/user/Manage'),
-                        name: 'UserManagePage',
-                        meta: {
-                            title: '用户管理',
-                            icon: 'user'
-                        }
-                    }
-                ]
-            },
-        ]
+        component: () => import('@/views/Home')
     }
 ]
 
