@@ -8,6 +8,7 @@ import userAdd from './modules/user/add'
 import layout from './modules/layout'
 import file from './modules/file'
 import fileMain from './modules/file/main'
+import fileManage from './modules/file/manage'
 
 Vue.use(Vuex)
 
@@ -19,7 +20,8 @@ const store = new Vuex.Store({
         userAdd,
         layout,
         file,
-        fileMain
+        fileMain,
+        fileManage
     },
 });
 

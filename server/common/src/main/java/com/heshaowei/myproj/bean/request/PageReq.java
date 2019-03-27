@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PageReq {
-    private int current;
-    private int size;
+    private int current = 1;
+    private int size = 10;
 
     private List<Order> orders;
 

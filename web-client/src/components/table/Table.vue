@@ -60,6 +60,9 @@
                 where: {}
             }
         },
+        watch: {
+
+        },
         computed: {
             _columns(){
                 return this.columns.map(col => {

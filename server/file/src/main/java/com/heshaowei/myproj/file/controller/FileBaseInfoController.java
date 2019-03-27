@@ -19,8 +19,8 @@ public class FileBaseInfoController {
     @Autowired
     private FileBaseInfoService fileBaseInfoService;
 
-    @GetMapping("/findByPage")
-    public PageResult findByPage(PageReq pageReq){
+    @GetMapping("/selectPage")
+    public PageResult selectPage(PageReq pageReq){
         pageReq.setSort(Sort.by(Sort.Direction.DESC, "createTime"));
         Page<FileBaseInfo> page = this.fileBaseInfoService.findByPage(pageReq);
         return PageResult.success(page);

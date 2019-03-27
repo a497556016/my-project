@@ -14,7 +14,8 @@ import * as layoutTypes from './modules/layout/types'
 import fileTypes from './modules/file/types'
 //文件系统首页
 import * as fileMainTypes from './modules/file/main/types'
-
+//文件管理
+import * as fileManageTypes from './modules/file/manage/types'
 
 const _export = function (module, m) {
 
@@ -47,5 +48,6 @@ export const userAdd = _export(userAddTypes, 'userAdd');
 export const layout = _export(layoutTypes, 'layout');
 export const file = _export(fileTypes, 'file');
 export const fileMain = _export(fileMainTypes, 'fileMain');
+export const fileManage = _export(fileManageTypes, 'fileManage');
 
 
