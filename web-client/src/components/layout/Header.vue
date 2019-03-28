@@ -8,7 +8,7 @@
             />
             <a-menu
                     mode="horizontal"
-                    :selectedKeys="[activeHeadMenu]"
+                    :defaultSelectedKeys="[activeHeadMenu]"
                     :style="{ lineHeight: '64px', float: 'left' }"
             >
                 <a-menu-item v-for="menu in menus" :key="menu.route" @click="menuHandler(menu)">{{menu.name}}</a-menu-item>

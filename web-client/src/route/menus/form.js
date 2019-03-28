@@ -9,6 +9,14 @@ const routes = [
         }
     },
     {
+        name: 'FormCreate',
+        component: () => import('@/views/form/Create.vue'),
+        meta: {
+            title: '创建表单',
+            icon: 'diff'
+        }
+    },
+    {
         name: 'FormManage',
         component: () => import('@/views/form/Manage.vue'),
         meta: {
