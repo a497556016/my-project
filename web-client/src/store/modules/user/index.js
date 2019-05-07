@@ -26,7 +26,7 @@ const actions = {
     [actionTypes.SELECT_PAGE] ({commit}, option) {
         return new Promise(resolve => {
             userService.selectPage(option).then(res => {
-                res.content.forEach(d => {
+                res.data.forEach(d => {
                     if(d.thumbAvatar) {
                         d.avatar = Vue.config.custom.baseURL + '/file-server/download?path=' + encodeURI(d.thumbAvatar);
                     }else{

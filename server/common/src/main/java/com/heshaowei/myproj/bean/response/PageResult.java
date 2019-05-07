@@ -8,31 +8,42 @@ public class PageResult<T> extends Result<List<T>> {
     private long current;
     private long size;
 
-    public PageResult(){}
+    private PageResult(){}
 
-    private PageResult(List<T> data, long total) {
-        this.setData(data);
-        this.setTotal(total);
+
+    public static <T> PageResult<T> of(Class<T> clz, long current, long size){
+        PageResult<T> pageResult = new PageResult<>();
+        pageResult.setCurrent(current);
+        pageResult.setSize(size);
+        return pageResult;
     }
 
-    public static <T> PageResult<T> success(List<T> data, long total){
-        return new PageResult<>(data, total);
+    public static <T> PageResult<T> of(Class<T> clz){
+        PageResult<T> pageResult = new PageResult<>();
+        return pageResult;
+    }
+
+    public PageResult<T> success(List<T> data, long total){
+        PageResult<T> pageResult = this.setTotal(total).setData(data);
+        pageResult.setCode(SUCCESS);
+        return pageResult;
     }
 
     public long getTotal() {
         return total;
     }
 
-    public void setTotal(long total) {
+    public PageResult setTotal(long total) {
         this.total = total;
+        return this;
     }
 
     public long getPages() {
         if (this.size == 0) {
             this.pages = 0L;
         } else {
-            long pages = this.total / (long)this.size;
-            if (this.total % (long)this.size != 0L) {
+            long pages = this.total / this.size;
+            if (this.total % this.size != 0L) {
                 ++pages;
             }
 
@@ -59,5 +70,11 @@ public class PageResult<T> extends Result<List<T>> {
 
     public void setSize(long size) {
         this.size = size;
+    }
+
+    @Override
+    public PageResult<T> setData(List<T> data) {
+        super.setData(data);
+        return this;
     }
 }

@@ -18,29 +18,32 @@ public class Result<T> implements Serializable {
         return this.code;
     }
 
-    public final void setCode(int var1) {
+    public final Result setCode(int var1) {
         this.code = var1;
+        return this;
     }
 
     public final String getMsg() {
         return this.msg;
     }
 
-    public final void setMsg(String var1) {
+    public final Result setMsg(String var1) {
         this.msg = var1;
+        return this;
     }
 
     public final T getData() {
         return this.data;
     }
 
-    public final void setData(T var1) {
+    public Result setData(T var1) {
         this.data = var1;
+        return this;
     }
 
     public static <T> Result<T> success(String msg, T data) {
         Result<T> result = new Result<>();
-        result.setCode(1);
+        result.setCode(SUCCESS);
         result.setData(data);
         if (msg == null) {
             msg = "执行成功";
@@ -65,7 +68,7 @@ public class Result<T> implements Serializable {
 
     public static <T> Result<T> error(String msg) {
         Result<T> result = new Result<>();
-        result.setCode(0);
+        result.setCode(ERROR);
         result.setMsg(msg == null ? "执行失败！" : msg);
         return result;
     }

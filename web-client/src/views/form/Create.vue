@@ -26,7 +26,7 @@
 
                 <div v-if="item.disabled" class="disabled"></div>
             </div>
-            <div>
+            <div class="input-item">
                 <a-button @click="save" type="primary">保存</a-button>
             </div>
         </div>
@@ -106,7 +106,7 @@
                         disabled: false
                     },
                     {
-                        name: '描述说明', component: 'description', meta: {
+                        name: '描述说明', component: 'textarea', meta: {
 
                         },
                         disabled: false
@@ -223,6 +223,7 @@
         padding: 15px;
         display: flex;
         width: 100%;
+        min-height: 500px;
 
         .left-content {
             width: 150px;

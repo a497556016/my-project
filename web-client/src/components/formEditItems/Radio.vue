@@ -17,7 +17,7 @@
         </div>
 
         <a-modal title="添加输入框" v-model="addInputModalVisible" @ok="addInputModalVisible = false">
-            <a-checkbox @change="addInputChange" :checked="!index||options[index].editable">是否添加一个输入框</a-checkbox>
+            <a-checkbox @change="addInputChange" :checked="addInputChecked">是否添加一个输入框</a-checkbox>
         </a-modal>
     </div>
 </template>
@@ -61,6 +61,14 @@
                 index: null
             }
         },
+        computed: {
+            addInputChecked(){
+                if(this.index === null || this.index === undefined){
+                    return false;
+                }
+                return this.options[this.index].editable;
+            }
+        },
         watch: {
             options(v){
                 //设置每一项的分值
@@ -75,8 +83,10 @@
                 this.target = e.target;
                 this.index = index;
 
+                console.log(this.index, this.options)
+
                 this.editActionPosition = {
-                    left: this.target.offsetLeft + this.target.offsetWidth - 200,
+                    left: this.target.offsetLeft,// + this.target.offsetWidth - 200,
                     top: this.target.offsetTop - 36
                 }
 
@@ -96,7 +106,7 @@
                 this.index = index;
 
                 this.itemActionsPosition = {
-                    left: this.target.offsetLeft + this.target.offsetWidth - 145,
+                    left: this.target.offsetLeft,// + this.target.offsetWidth - 145,
                     top: this.target.offsetTop - 29
                 }
 

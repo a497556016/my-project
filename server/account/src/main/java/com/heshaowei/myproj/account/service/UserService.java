@@ -1,7 +1,6 @@
 package com.heshaowei.myproj.account.service;
 
 import com.google.common.collect.Lists;
-import com.heshaowei.myproj.account.bean.PageReq;
 import com.heshaowei.myproj.account.domain.User;
 import com.heshaowei.myproj.account.repository.UserRepository;
 import com.heshaowei.myproj.utils.PropertyCopys;
