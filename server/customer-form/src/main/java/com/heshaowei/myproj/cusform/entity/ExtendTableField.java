@@ -1,4 +1,4 @@
-package com.heshaowei.myproj.cusform.domain;
+package com.heshaowei.myproj.cusform.entity;
 
 import lombok.Data;
 

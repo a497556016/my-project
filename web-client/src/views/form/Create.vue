@@ -10,10 +10,10 @@
         </div>
         <div class="right-content" :style="{height: contentHeight}">
             <div class="input-item title">
-                <input type="text" placeholder="请输入标题" />
+                <input type="text" placeholder="请输入标题" v-model="formData.title" />
             </div>
             <div class="input-item">
-                <input type="text" value="感谢您能抽时间参与本次问卷，您的意见和建议就是我们前行的动力！" />
+                <input type="text" placeholder="" v-model="formData.desc" />
             </div>
             <div v-if="inputItems.length == 0" class="drag-content" @drop="dropHandler" @dragover="allowDrop">
                 从左边控件选择控件拖动到该区域
@@ -58,6 +58,12 @@
     import MTextareaSetting from '@/components/formEditItems/setting/Textarea';
     import MCascadeSetting from '@/components/formEditItems/setting/Cascade';
 
+    import {formCreate} from '@/store/types'
+
+    import {mapActions} from 'vuex'
+
+    const defaultFormDesc = "感谢您能抽时间参与本次问卷，您的意见和建议就是我们前行的动力！";
+
     export default {
         name: "Create",
         components: {
@@ -66,6 +72,9 @@
         },
         data(){
             return {
+                formData: {
+                    desc: defaultFormDesc
+                },
                 formItems: [
                     {
                         name: '单选题', component: 'm-radio', question: '请选择以下一项', meta: {
@@ -163,6 +172,9 @@
             }
         },
         methods: {
+            ...mapActions({
+                saveForm: formCreate.SAVE_FORM
+            }),
             dragBegin(e){
                 // console.log(e);
                 const component = e.target.dataset.component;
@@ -265,7 +277,33 @@
                 }
             },
             save(){
-                console.log(this.inputItems)
+                console.log(this.inputItems);
+                if(!this.formData.title){
+                    this.$message.error('请输入表单标题！');
+                    return;
+                }
+                if(this.inputItems.length==0){
+                    this.$error({
+                        content: '没有表单元素！'
+                    })
+                    return;
+                }
+                this.formData.formItems = this.inputItems;
+                this.saveForm(this.formData).then(res => {
+                    if(res.code == 1) {
+                        this.$message.success("保存成功！");
+
+                        //重置表单
+                        this.reset();
+                    }
+                });;
+            },
+            reset() {
+                this.formData = {
+                    desc: defaultFormDesc
+                }
+                this.inputItems = [];
+                this.settingItem = null;
             }
         }
     }

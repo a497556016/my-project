@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: account-server
+    name: form-server
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     host: 192.168.0.45
@@ -18,6 +18,10 @@ spring:
     platform: mysql
     continue-on-error: false
     sql-script-encoding: utf-8
+
+  data:
+    mongodb:
+      uri: mongodb://admin:123456@localhost:27017/my_project_form
 
   jpa:
     hibernate:
