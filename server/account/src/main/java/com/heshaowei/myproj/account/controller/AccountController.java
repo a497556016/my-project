@@ -1,7 +1,7 @@
 package com.heshaowei.myproj.account.controller;
 
 import com.google.common.collect.Maps;
-import com.heshaowei.myproj.account.domain.User;
+import com.heshaowei.myproj.account.entity.User;
 import com.heshaowei.myproj.account.service.UserService;
 import com.heshaowei.myproj.bean.response.Result;
 import com.heshaowei.myproj.utils.PasswordEncode;

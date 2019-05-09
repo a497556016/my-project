@@ -2,7 +2,7 @@ package com.heshaowei.myproj.account.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.base.Converter;
-import com.heshaowei.myproj.account.domain.User;
+import com.heshaowei.myproj.account.entity.User;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.beans.BeanUtils;

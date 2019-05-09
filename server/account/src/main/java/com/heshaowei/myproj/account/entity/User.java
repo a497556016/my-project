@@ -1,4 +1,4 @@
-package com.heshaowei.myproj.account.domain;
+package com.heshaowei.myproj.account.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

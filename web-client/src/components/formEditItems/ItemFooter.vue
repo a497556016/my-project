@@ -15,7 +15,7 @@
         <div class="action" style="z-index: 2;" @click="toggleHide">
             <a-icon :type="item.disabled?'eye':'eye-invisible'" /> {{item.disabled?'显示':'隐藏'}}
         </div>
-        <div class="action">
+        <div class="action" @click="setting">
             <a-icon type="setting" /> 设置
         </div>
     </div>
@@ -25,14 +25,10 @@
     export default {
         name: "ItemFooter",
         props: {
-            value: {
+            item: {
                 type: Object
             },
             index: Number
-        },
-        model: {
-            prop: 'value',
-            event: 'change'
         },
         data(){
             return {
@@ -40,7 +36,7 @@
 
                 dragItem: null,
 
-                item: this.value
+                disabled: this.item.disabled
             }
         },
         methods: {
@@ -66,7 +62,7 @@
             drag(e){
                 // e.preventDefault();
                 console.log(e)
-                this.dragItem = e.path.find(el => el.className == 'input-item');
+                this.dragItem = e.path.find(el => el.className.startsWith('input-item'));
                 if(this.dragItem) {
                     this.dragItem.style.display = 'none';
                 }
@@ -83,8 +79,12 @@
                 this.$emit('move')
             },
             toggleHide(){
-                this.item.disabled = !this.item.disabled;
-                this.$emit('change', this.item);
+                this.disabled = !this.disabled;
+                this.$emit('hide');
+            },
+
+            setting(){
+                this.$emit('setting');
             }
         }
     }

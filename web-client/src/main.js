@@ -4,6 +4,8 @@ import App from './App.vue'
 import 'ant-design-vue/dist/antd.less'
 import '@/assets/style/antd_over.less'
 
+let _ = require('lodash');
+
 import router from './route/router'
 import store from './store'
 

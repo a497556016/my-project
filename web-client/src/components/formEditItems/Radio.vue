@@ -11,7 +11,7 @@
                 </div>
                 <div style="flex: 1;">
                     <input class="input" type="text" style="float: left" v-model="item.label" @mouseover="onMoveIn($event, index)" @mouseleave="onMoveOut" @click="onInputClick($event, index)"/>
-                    <input v-if="item.editable" class="input more-input" type="text" />
+                    <input v-if="item.inputable" class="input more-input" type="text" />
                 </div>
             </div>
         </div>
@@ -66,7 +66,7 @@
                 if(this.index === null || this.index === undefined){
                     return false;
                 }
-                return this.options[this.index].editable;
+                return this.options[this.index].inputable;
             }
         },
         watch: {
@@ -97,7 +97,7 @@
                 this.addInputModalVisible = true;
             },
             addInputChange(e){
-                this.options[this.index].editable = e.target.checked;
+                this.options[this.index].inputable = e.target.checked;
             },
             onMoveIn(e, index){
                 // console.log(e, index);
@@ -127,7 +127,7 @@
                 switch (type) {
                     default: break;
                     case 'plus':
-                        this.options.splice(this.index+1, 0, {label: '选项'+(this.options.length), editable: false, value: this.options.length})
+                        this.options.splice(this.index+1, 0, {label: '选项'+(this.options.length), inputable: false, value: this.options.length})
                         break;
                     case 'up': {
                         const option = this.options.splice(this.index - 1, 1);
