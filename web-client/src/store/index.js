@@ -10,6 +10,7 @@ import file from './modules/file'
 import fileMain from './modules/file/main'
 import fileManage from './modules/file/manage'
 import formCreate from './modules/form/create'
+import formManage from './modules/form/manage'
 
 Vue.use(Vuex)
 
@@ -23,7 +24,8 @@ const store = new Vuex.Store({
         file,
         fileMain,
         fileManage,
-        formCreate
+        formCreate,
+        formManage
     },
 });
 

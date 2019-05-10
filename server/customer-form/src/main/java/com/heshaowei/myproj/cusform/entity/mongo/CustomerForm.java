@@ -14,5 +14,6 @@ public class CustomerForm {
     private ObjectId id;
     private String title;
     private String desc;
+    private String createBy;
     private List<CustomerFormItem> formItems;
 }

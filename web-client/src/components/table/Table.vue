@@ -2,7 +2,7 @@
     <a-table
             :columns="_columns"
             :data-source="dataSource"
-            :row-key="record => record[keyField]"
+            :row-key="getRowKey"
             :rowSelection="rowSelection"
             :pagination="pagination"
             :loading="loading"
@@ -14,7 +14,7 @@
                 <a-button v-for="btn in actionBtns"
                           :type="btn.type"
                           :disabled="btn.disable ? btn.disable(rowSelection.selectedRowKeys, currentPageData) : false"
-                          @click="btn.handler?btn.handler(currentPageData):null">
+                          @click="btn.handler?btn.handler(currentPageData, rowSelection.selectedRowKeys):null">
                     <a-icon v-if="btn.icon" :type="btn.icon"></a-icon>
                     {{btn.text}}
                 </a-button>
@@ -41,6 +41,7 @@
                 type: String,
                 default: 'id'
             },
+            autoLoad: Boolean,
             loadFun: Function,
             actionBtns: Array
         },
@@ -81,7 +82,9 @@
         },
         mounted(){
             console.log(this)
-            this.load(1);
+            if(this.autoLoad) { //自动加载
+                this.load(1);
+            }
             const tableContents = document.getElementsByClassName('ant-table-body');
             console.log(tableContents);
             if(tableContents.length > 0) {
@@ -89,6 +92,11 @@
             }
         },
         methods: {
+            getRowKey(record) {
+                const rowKey = eval('record.'+this.keyField);
+                // console.log(rowKey);
+                return rowKey;
+            },
             load(current){
                 if(this.loadFun){
                     this.loading = true;

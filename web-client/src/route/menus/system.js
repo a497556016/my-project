@@ -21,6 +21,14 @@ const routes = [
                     title: '用户管理',
                     icon: 'user'
                 }
+            },
+            {
+                component: () => import('@/views/system/role/Manage'),
+                name: 'RoleManagePage',
+                meta: {
+                    title: '角色管理',
+                    icon: 'users'
+                }
             }
         ]
     },

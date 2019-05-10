@@ -58,7 +58,7 @@
     import MTextareaSetting from '@/components/formEditItems/setting/Textarea';
     import MCascadeSetting from '@/components/formEditItems/setting/Cascade';
 
-    import {formCreate} from '@/store/types'
+    import {formCreate as formTypes} from '@/store/types'
 
     import {mapActions} from 'vuex'
 
@@ -173,7 +173,7 @@
         },
         methods: {
             ...mapActions({
-                saveForm: formCreate.SAVE_FORM
+                saveForm: formTypes.SAVE_FORM
             }),
             dragBegin(e){
                 // console.log(e);

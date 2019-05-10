@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import types from "../store/modules/user/types";
 
 /**
  * 根据路由配置生成菜单栏目

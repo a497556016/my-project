@@ -6,10 +6,10 @@
                 :layout="'inline'"
         >
             <a-form-item v-for="item in items" :label="item.label">
-                <a-input v-if="item.component == 'a-input'" v-decorator="[item.field, {rules: item.rules || []}]" :placeholder="item.placeholder"></a-input>
-                <a-select v-else-if="item.component == 'a-select'" style="width: 160px;" v-decorator="[item.field, {rules: item.rules || []}]" :placeholder="item.placeholder">
+                <a-select v-if="item.component == 'a-select'" style="width: 160px;" v-decorator="[item.field, {rules: item.rules || []}]" :placeholder="item.placeholder">
                     <a-select-option v-for="data in item.data" :value="data.value">{{data.name}}</a-select-option>
                 </a-select>
+                <component v-else :is="item.component" v-decorator="[item.field, {rules: item.rules||[]}]" :placeholder="item.placeholder"></component>
             </a-form-item>
             <a-form-item>
                 <a-button type="primary" html-type="submit">搜索</a-button>

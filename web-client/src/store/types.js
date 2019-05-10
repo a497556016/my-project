@@ -17,7 +17,9 @@ import * as fileMainTypes from './modules/file/main/types'
 //文件管理
 import * as fileManageTypes from './modules/file/manage/types'
 
+//表单
 import * as formCreateTypes from './modules/form/create/types'
+import * as formManageTypes from './modules/form/manage/types'
 
 const _export = function (module, m) {
 
@@ -51,6 +53,8 @@ export const layout = _export(layoutTypes, 'layout');
 export const file = _export(fileTypes, 'file');
 export const fileMain = _export(fileMainTypes, 'fileMain');
 export const fileManage = _export(fileManageTypes, 'fileManage');
+
 export const formCreate = _export(formCreateTypes, 'formCreate');
+export const formManage = _export(formManageTypes, 'formManage');
 
 
