@@ -1,4 +1,4 @@
-const routes = [
+const menus = [
     {
         component: () => import('@/views/file/Main.vue'),
         name: 'FileSystemMain',
@@ -18,4 +18,4 @@ const routes = [
     }
 ]
 
-export default routes;
+export default menus;

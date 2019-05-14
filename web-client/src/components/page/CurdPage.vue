@@ -1,9 +1,12 @@
 <template>
     <div>
+
         <search-form ref="searchForm" :items="searchItems" @submit="search"></search-form>
 
-        <m-table ref="table" auto-load :load-fun="loadFun" :columns="columns" :key-field="keyField" :action-btns="actionBtns">
-            <a-button slot="action" slot-scope="{record}" @click="edit(record)">编辑</a-button>
+        <m-table ref="table" auto-load :load-fun="loadFun" :columns="columns" :key-field="keyField" :action-btns="toolBtns">
+            <template slot="action" slot-scope="{record}">
+                <a-button v-for="btn in actionBtns" @click="btn.handler(record)">{{btn.text}}</a-button>
+            </template>
         </m-table>
     </div>
 </template>
@@ -23,7 +26,7 @@
                 default: 'id'
             },
             loadFun: Function,
-            actionBtns: {
+            toolBtns: {
                 type: Array,
                 default() {
                     const that = this;
@@ -49,11 +52,20 @@
                         }
                     ]
                 }
+            },
+            moreActions: {
+                type: Array,
+                default(){
+                    return []
+                }
             }
         },
         data(){
             return {
-
+                actionBtns: [
+                    {type: 'default', text: '编辑', handler: this.edit},
+                    ...this.moreActions
+                ]
             }
         },
         computed: {

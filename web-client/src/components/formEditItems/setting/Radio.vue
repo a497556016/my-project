@@ -1,18 +1,22 @@
 <template>
-    <div class="select-setting">
+    <div class="setting-radio">
         <a-button @click="addItem">添加一行</a-button>
         <div class="grid">
             <a-row>
                 <a-col :span="15" :style="{textAlign: 'center'}">文本</a-col>
-                <a-col :span="6" :style="{textAlign: 'center'}">值</a-col>
+                <!--<a-col :span="3" :style="{textAlign: 'center'}">值</a-col>-->
+                <a-col :span="6" :style="{textAlign: 'center'}">可输入</a-col>
                 <a-col :span="3" :style="{textAlign: 'center'}">删除</a-col>
             </a-row>
-            <a-row v-for="option in config.options" :style="{marginTop: '5px'}">
+            <a-row :gutter="5" v-for="(option, index) in config.options" :style="{marginTop: '5px'}">
                 <a-col :span="15" :style="{textAlign: 'center'}">
                     <a-input v-model="option.label" placeholder="请输入选项名称"></a-input>
                 </a-col>
+                <!--<a-col :span="3" :style="{textAlign: 'center'}">-->
+                    <!--<a-input-number v-model="option.value" :style="{width: '50px'}"></a-input-number>-->
+                <!--</a-col>-->
                 <a-col :span="6" :style="{textAlign: 'center'}">
-                    <a-input v-model="option.value"></a-input>
+                    <a-switch v-model="option.inputable"></a-switch>
                 </a-col>
                 <a-col :span="3" :style="{textAlign: 'center'}">
                     <a-popconfirm title="确认要删除吗？" @confirm="removeItem(index)">
@@ -27,7 +31,7 @@
 
 <script>
     export default {
-        name: "Select",
+        name: "Radio",
         props: {
             value: Object
         },
@@ -42,7 +46,8 @@
         },
         methods: {
             addItem(){
-                const value = _.maxBy(this.config.options, 'value').value + 1;
+                const maxOption = _.maxBy(this.config.options, 'value');
+                const value = (maxOption?maxOption.value:0) + 1;
                 this.config.options.push({label: '', value: value});
                 this.$emit('change', this.config);
             },
@@ -54,10 +59,13 @@
     }
 </script>
 
-<style scoped>
-    .grid{
-        margin: 5px 0;
-        padding: 3px;
-        border: 1px solid #dedede;
+<style scoped lang="less">
+    .setting-radio {
+        .grid{
+            margin: 5px 0;
+            padding: 3px;
+            border: 1px solid #dedede;
+        }
     }
+
 </style>

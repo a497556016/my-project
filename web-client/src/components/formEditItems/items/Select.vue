@@ -1,7 +1,7 @@
 <template>
     <div class="select">
 
-        <a-select ref="select" :style="{width: '100%'}">
+        <a-select ref="select" :style="{width: '100%'}" v-model="option.value">
             <a-select-option v-for="item in options" :value="item.value">{{item.label}}</a-select-option>
         </a-select>
 

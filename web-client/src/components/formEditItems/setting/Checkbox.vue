@@ -4,15 +4,22 @@
 
         <div class="grid">
             <a-row>
-                <a-col :span="18">文本</a-col>
+                <a-col :span="15">文本</a-col>
                 <a-col :span="6">值</a-col>
+                <a-col :span="3">删除</a-col>
             </a-row>
             <a-row v-for="option in config.options" :style="{marginTop: '5px'}">
-                <a-col :span="18">
-                    <a-input v-model="option.label"></a-input>
+                <a-col :span="15">
+                    <a-input v-model="option.label" placeholder="请输入选项名称"></a-input>
                 </a-col>
                 <a-col :span="6">
                     <a-input v-model="option.value"></a-input>
+                </a-col>
+                <a-col :span="3" :style="{textAlign: 'center'}">
+                    <a-popconfirm title="确认要删除吗？" @confirm="removeItem(index)">
+                        <a-icon slot="icon" type="question-circle-o" style="color: red" />
+                        <a-button type="danger" size="small"><a-icon type="delete"></a-icon></a-button>
+                    </a-popconfirm>
                 </a-col>
             </a-row>
         </div>
@@ -42,7 +49,7 @@
         methods: {
             addItem(){
                 const value = _.maxBy(this.config.options, 'value').value + 1;
-                this.config.options.push({label: '新的选项', value: value});
+                this.config.options.push({label: '', value: value});
                 this.$emit('change', this.config);
             }
         }
@@ -51,6 +58,8 @@
 
 <style scoped>
     .grid{
-        padding: 5px 0;
+        margin: 5px 0;
+        padding: 3px;
+        border: 1px solid #dedede;
     }
 </style>

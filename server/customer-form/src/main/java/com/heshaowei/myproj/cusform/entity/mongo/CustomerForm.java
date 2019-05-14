@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
+import java.util.Date;
 import java.util.List;
 
 @Document
@@ -15,5 +16,6 @@ public class CustomerForm {
     private String title;
     private String desc;
     private String createBy;
+    private Date createTime;
     private List<CustomerFormItem> formItems;
 }

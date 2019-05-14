@@ -8,14 +8,14 @@ import {account, layout} from '../store/types'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
-    mode: 'history',
+    // mode: 'history',
     routes // (缩写) 相当于 routes: routes
 });
 
 router.beforeEach((to, from, next) => {
     // ...
     console.log(from, to);
-    if(to.path != '/login'){
+    if(to.path != '/login' && !to.path.startsWith('/form/share')){
         //check login
         const userInfo = store.getters[account.getters.GET_USER_INFO];
         console.log(userInfo)

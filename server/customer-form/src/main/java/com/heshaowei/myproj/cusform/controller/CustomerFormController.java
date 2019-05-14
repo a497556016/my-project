@@ -7,6 +7,7 @@ import com.heshaowei.myproj.cusform.dto.CustomerFormDTO;
 import com.heshaowei.myproj.cusform.entity.mongo.CustomerForm;
 import com.heshaowei.myproj.cusform.service.CustomerFormService;
 import lombok.extern.log4j.Log4j2;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,7 +25,8 @@ public class CustomerFormController {
     private CustomerFormService formService;
 
     @PostMapping("/save")
-    public Result save(@RequestBody CustomerForm form, HttpServletRequest request){
+    public Result save(@RequestBody CustomerFormDTO formDTO, HttpServletRequest request){
+        CustomerForm form = CustomerFormDTO.builder().build().reverse().convert(formDTO);
         String username = request.getHeader("username");
 //        form.setCreateTime(new Date());
         form.setCreateBy(username);
@@ -37,5 +39,11 @@ public class CustomerFormController {
         Page<CustomerForm> page = this.formService.selectPage(PageRequest.of(current-1, size));
         Iterable<CustomerFormDTO> iterable = CustomerFormDTO.builder().build().convertAll(page.getContent());
         return PageResult.of(CustomerFormDTO.class, current, size).success(Lists.newArrayList(iterable), page.getTotalElements());
+    }
+
+    @GetMapping("/selectById")
+    public Result<CustomerFormDTO> selectById(String id){
+        CustomerForm form = this.formService.selectById(id);
+        return Result.success(CustomerFormDTO.builder().build().convert(form));
     }
 }

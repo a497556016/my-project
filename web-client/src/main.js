@@ -16,8 +16,9 @@ Vue.config.productionTip = false
 
 Vue.use(Antd)
 
+console.log(process.env)
 //预加载公共配置信息
-http.get('config.json').then(config => {
+http.get(`${process.env.BASE_URL}config.json`).then(config => {
     console.log('公共配置：', Vue.config);
 
     Vue.config.custom = config;

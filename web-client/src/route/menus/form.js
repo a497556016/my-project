@@ -1,4 +1,4 @@
-const routes = [
+const menus = [
     {
         name: 'FormMain',
         component: () => import('@/views/form/Main.vue'),
@@ -40,4 +40,4 @@ const routes = [
     }
 ]
 
-export default routes;
+export default menus;

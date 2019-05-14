@@ -73,7 +73,10 @@ public class Config {
     }
 
     private boolean needFilter(String path) {
-        if(path.equals("/account/login")||path.equals("/download")||path.equals("/account/refreshToken")){
+        if(path.startsWith("/userForm/")
+                ||path.equals("/account/login")
+                ||path.equals("/download")
+                ||path.equals("/account/refreshToken")){
             return false;
         }
         return true;

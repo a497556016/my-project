@@ -5,7 +5,7 @@ import axios from 'axios'
 import store from '../store';
 import {account, layout} from '../store/types'
 
-const excludes = ['/account-server/account/login','/account-server/account/refreshToken', 'config.json'];
+const excludes = ['/form-server/userForm/save','/form-server/userForm/selectById','/account-server/account/login','/account-server/account/refreshToken'];
 
 // axios默认配置
 axios.defaults.timeout = 10000;   // 超时时间
@@ -16,7 +16,7 @@ axios.interceptors.request.use(function (config) {
     store.commit(layout.LOADING_START);
 
     //过滤不需要拦截的请求
-    if(excludes.includes(config.url)){
+    if(excludes.includes(config.url) || config.url.endsWith('/config.json')){
         return config;
     }
 

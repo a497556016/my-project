@@ -40,14 +40,14 @@
 
 <script>
     import Question from '@/components/formEditItems/Question'
-    import MRadio from '@/components/formEditItems/Radio'
-    import MSelect from '@/components/formEditItems/Select'
-    import MCheckbox from '@/components/formEditItems/Checkbox'
-    import MInput from '@/components/formEditItems/Input'
-    import MRate from '@/components/formEditItems/Rate'
-    import MDate from '@/components/formEditItems/Date'
-    import MTextarea from '@/components/formEditItems/Textarea'
-    import MCascade from '@/components/formEditItems/Cascade'
+    import MRadio from '@/components/formEditItems/items/Radio'
+    import MSelect from '@/components/formEditItems/items/Select'
+    import MCheckbox from '@/components/formEditItems/items/Checkbox'
+    import MInput from '@/components/formEditItems/items/Input'
+    import MRate from '@/components/formEditItems/items/Rate'
+    import MDate from '@/components/formEditItems/items/Date'
+    import MTextarea from '@/components/formEditItems/items/Textarea'
+    import MCascade from '@/components/formEditItems/items/Cascade'
 
     import ItemFooter from "@/components/formEditItems/ItemFooter";
 
@@ -57,8 +57,9 @@
     import MDateSetting from '@/components/formEditItems/setting/Date';
     import MTextareaSetting from '@/components/formEditItems/setting/Textarea';
     import MCascadeSetting from '@/components/formEditItems/setting/Cascade';
+    import MRadioSetting from '@/components/formEditItems/setting/Radio';
 
-    import {formCreate as formTypes} from '@/store/types'
+    import {form as formTypes} from '@/store/types'
 
     import {mapActions} from 'vuex'
 
@@ -68,7 +69,7 @@
         name: "Create",
         components: {
             ItemFooter, Question, MRadio, MSelect, MCheckbox, MInput, MRate, MDate, MTextarea, MCascade,
-            MSelectSetting, MCheckboxSetting, MRateSetting, MDateSetting, MTextareaSetting, MCascadeSetting
+            MSelectSetting, MCheckboxSetting, MRateSetting, MDateSetting, MTextareaSetting, MCascadeSetting, MRadioSetting
         },
         data(){
             return {
@@ -288,6 +289,14 @@
                     })
                     return;
                 }
+                const noQesItem = this.inputItems.find(item => !item.question);
+                if(noQesItem){
+                    this.$error({
+                        content: '必须输入问题描述！'
+                    })
+                    return;
+                }
+
                 this.formData.formItems = this.inputItems;
                 this.saveForm(this.formData).then(res => {
                     if(res.code == 1) {
@@ -371,7 +380,7 @@
         .right-content {
             float: left;
             margin-left: 175px;
-            margin-right: 305px;
+            margin-right: 385px;
             flex: 1;
             overflow-y: auto;
 
@@ -431,7 +440,7 @@
 
         .setting-content {
             float: left;
-            width: 280px;
+            width: 360px;
             background: #fff;
             padding: 15px;
             border: 1px dashed #4e7cd0;

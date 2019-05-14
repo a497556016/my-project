@@ -2,10 +2,10 @@
     <div class="rate-setting">
         <a-form>
             <a-form-item label="默认值">
-                <a-input v-model="config.value"></a-input>
+                <a-input-number v-model="config.value"></a-input-number>
             </a-form-item>
             <a-form-item label="星星个数">
-                <a-input v-model="config.count"></a-input>
+                <a-input-number v-model="config.count"></a-input-number>
             </a-form-item>
             <a-form-item label="允许点击时清除">
                 <a-switch v-model="config.allowClear"></a-switch>
