@@ -1,7 +1,7 @@
 <template>
     <div>
         <search-form ref="searchForm" :items="searchItems" @submit="(values) => $refs.table.search(values)"></search-form>
-        <m-table ref="table" :columns="table.columns" :load-fun="selectPage" :action-btns="table.actionBtns">
+        <m-table ref="table" auto-load :columns="table.columns" :load-fun="selectPage" :action-btns="table.actionBtns">
             <a href="#" slot="username" slot-scope="{value}">{{value}}</a>
             <template slot="avatar" slot-scope="{value}">
                 <img v-if="value" :src="value" :style="{width: '50px', height: '50px'}" />

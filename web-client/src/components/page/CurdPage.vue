@@ -76,7 +76,11 @@
         },
         methods: {
             buildRowAction() {
-                this.columns.push({title: '操作', slot: 'action', fixed: 'right'})
+                let width = 65;
+                this.moreActions.forEach(btn => {
+                    width += (btn.text.length*30 + 5);
+                })
+                this.columns.push({title: '操作', width: width, slot: 'action', fixed: 'right'})
             },
             edit(record){
                 this.$emit('edit', record);

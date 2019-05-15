@@ -5,10 +5,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>common</module>
-        <module>core</module>
         <module>file</module>
         <module>account</module>
-        <module>zuul</module>
         <module>customer-form</module>
         <module>gateway</module>
     </modules>
@@ -80,20 +78,11 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
-    <repositories>
+    <!--<repositories>
         <repository>
             <id>snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
-    </repositories>
+    </repositories>-->
 
 </project>

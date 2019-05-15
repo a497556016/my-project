@@ -8,7 +8,7 @@
     >
         <a-tab-pane class="content-card" :style="{background: '#fff', borderRadius: '5px', padding: '16px'}" v-for="pane in panes" :tab="pane.title" :key="pane.id" :closable="!pane.noCloseable">
             <keep-alive>
-                <component v-bind:is="pane.component"></component>
+                <component v-bind:is="pane.component||pane.id" :data="pane.data"></component>
             </keep-alive>
         </a-tab-pane>
     </a-tabs>

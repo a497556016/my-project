@@ -30,4 +30,9 @@ public class CustomerFormService {
     public CustomerForm selectById(String id) {
         return this.formRepository.findById(new ObjectId(id)).get();
     }
+
+    public void update(CustomerForm form) {
+        form.setUpdateTime(new Date());
+        this.formRepository.save(form);
+    }
 }

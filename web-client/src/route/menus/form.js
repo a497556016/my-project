@@ -17,6 +17,15 @@ const menus = [
         }
     },
     {
+        name: 'FormEdit',
+        component: () => import('@/views/form/Edit.vue'),
+        meta: {
+            title: '编辑表单',
+            icon: 'diff',
+            hideInMenu: true
+        }
+    },
+    {
         name: 'FormManage',
         component: () => import('@/views/form/Manage.vue'),
         meta: {

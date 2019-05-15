@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Builder
@@ -25,6 +26,7 @@ public class CustomerFormDTO extends Converter<CustomerForm, CustomerFormDTO> {
     private String desc;
     private Date createTime;
     private String createBy;
+    private Map<String, Object> meta;
 
     private List<CustomerFormItemDTO> formItems;
 

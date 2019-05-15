@@ -1,12 +1,12 @@
 <template>
     <div class="page">
         <div class="user-form">
-            <div class="title">{{formData.title}}</div>
+            <div class="title" :style="{color: formData.meta.titleColor}">{{formData.title}}</div>
             <div class="desc">{{formData.desc}}</div>
             <div class="create-time">{{formData.createTime}}</div>
             <a-divider></a-divider>
             <a-form>
-                <a-form-item v-for="(item, index) in formData.formItems" :label="(index+1)+'.'+item.question" :colon="false">
+                <a-form-item v-for="(item, index) in formData.formItems" v-if="!item.disabled" :label="(index+1)+'.'+item.question" :colon="false">
                     <component :is="item.component" v-model="item.meta"></component>
                 </a-form-item>
                 <a-form-item>
@@ -55,6 +55,11 @@
             isMobile() {
                 let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i);
                 return flag;
+            }
+        },
+        watch: {
+            formData(){
+                document.title = this.formData.title;
             }
         },
         mounted() {

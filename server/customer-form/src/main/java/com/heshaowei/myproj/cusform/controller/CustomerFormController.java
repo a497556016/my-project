@@ -34,6 +34,15 @@ public class CustomerFormController {
         return Result.success();
     }
 
+    @PutMapping("/update")
+    public Result update(@RequestBody CustomerFormDTO formDTO, HttpServletRequest request){
+        CustomerForm form = CustomerFormDTO.builder().build().reverse().convert(formDTO);
+        String username = request.getHeader("username");
+        form.setUpdateBy(username);
+        this.formService.update(form);
+        return Result.success();
+    }
+
     @GetMapping("/selectPage")
     public PageResult<CustomerFormDTO> selectPage(int current, int size){
         Page<CustomerForm> page = this.formService.selectPage(PageRequest.of(current-1, size));

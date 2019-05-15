@@ -23,6 +23,12 @@ router.beforeEach((to, from, next) => {
             next({path: '/login'});
         }
     }
+
+    /*路由发生改变修改页面的title */
+    if(to.meta.title) {
+        document.title = to.meta.title
+    }
+
     next();
 })
 

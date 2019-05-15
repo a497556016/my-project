@@ -9,6 +9,10 @@ export default class CustomerFormService extends BaseService{
         return this.post('customerForm/save', form);
     }
 
+    update(form){
+        return this.put('customerForm/update', form);
+    }
+
     selectPage(params){
         return this.get('customerForm/selectPage', params);
     }

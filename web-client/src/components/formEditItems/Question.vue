@@ -44,6 +44,7 @@
                 border: 0;
                 padding: 0 10px;
                 width: 100%;
+                border: 1px solid #86b3eb;
                 &:hover {
                     border: 1px solid #ff4d4f;
                 }

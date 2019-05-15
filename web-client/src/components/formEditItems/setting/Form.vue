@@ -1,12 +1,18 @@
 <template>
-    <div class="textarea-input">
-        <a-textarea :placeholder="config.placeholder" v-model="config.value"></a-textarea>
+    <div class="title-setting">
+        <a-form>
+            <a-form-item label="标题颜色">
+                <color-picker v-model="config.titleColor"></color-picker>
+            </a-form-item>
+        </a-form>
     </div>
 </template>
 
 <script>
+    import ColorPicker from '@/components/form/ColorPicker'
     export default {
-        name: "Textarea",
+        name: "Form",
+        components: {ColorPicker},
         props: {
             value: Object
         },
@@ -16,7 +22,7 @@
         },
         data(){
             return {
-                config: this.value
+                config: this.value,
             }
         },
         watch: {

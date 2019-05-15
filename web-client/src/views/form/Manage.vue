@@ -38,7 +38,9 @@
                 ],
                 actions: [
                     {type: 'primary', text: '查看表单', handler(record){
-                        that.$router.push({path: '/form/share/pc/'+record.id})
+                        console.log(window.location)
+                        window.open(window.location.origin + window.location.pathname + '/#/form/share/pc/'+record.id)
+                        // that.$router.push({path: '/form/share/pc/'+record.id})
                         }}
                 ]
             }
@@ -62,6 +64,11 @@
             },
             onEdit(record) {
                 console.log(record);
+                this.addMenuTab({
+                    id: 'FormEdit',
+                    title: '编辑表单',
+                    data: record
+                });
             }
         }
     }

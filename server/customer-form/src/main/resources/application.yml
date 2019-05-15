@@ -21,7 +21,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://admin:123456@localhost:27017/my_project_form
+      uri: mongodb://admin:123456@47.106.197.183:27017/my_project_form
 
   jpa:
     hibernate:

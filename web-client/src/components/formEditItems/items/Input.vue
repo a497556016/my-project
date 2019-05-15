@@ -1,6 +1,6 @@
 <template>
     <div class="input">
-        <a-input :placeholder="placeholder"></a-input>
+        <a-input :placeholder="config.placeholder" v-model="config.value"></a-input>
     </div>
 </template>
 
@@ -16,7 +16,7 @@
         },
         data(){
             return {
-                placeholder: this.config.placeholder
+
             }
         }
     }

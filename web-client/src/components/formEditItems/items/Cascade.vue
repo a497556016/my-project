@@ -1,6 +1,6 @@
 <template>
     <div class="cascade-input">
-        <a-cascader :placeholder="config.placeholder" :options="config.options"></a-cascader>
+        <a-cascader :placeholder="config.placeholder" :options="config.options" v-model="config.value"></a-cascader>
     </div>
 </template>
 

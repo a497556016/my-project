@@ -1,6 +1,6 @@
 <template>
     <div class="checkbox">
-        <a-checkbox-group>
+        <a-checkbox-group v-model="config.value">
             <a-row v-for="option in options" :style="{marginBottom: '10px'}">
                 <a-checkbox :value="option.value">{{option.label}}</a-checkbox>
             </a-row>
