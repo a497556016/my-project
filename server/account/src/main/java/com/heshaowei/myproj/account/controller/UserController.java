@@ -1,6 +1,7 @@
 package com.heshaowei.myproj.account.controller;
 
 import com.google.common.collect.Lists;
+import com.heshaowei.myproj.account.controller.base.BaseController;
 import com.heshaowei.myproj.account.entity.User;
 import com.heshaowei.myproj.account.dto.UserDTO;
 import com.heshaowei.myproj.account.service.UserService;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
@@ -28,8 +29,7 @@ public class UserController {
     @GetMapping("/selectPage")
     public PageResult<UserDTO> selectPage(int current, int size){
         Page<User> page = this.userService.selectPage(PageRequest.of(current - 1, size));
-        Iterable<UserDTO> records = UserDTO.builder().build().reverse().convertAll(page.getContent());
-        return PageResult.of(UserDTO.class, current, size).success(Lists.newArrayList(records), page.getTotalElements());
+        return pageConvert(UserDTO.builder().build(), page);
     }
 
     @PostMapping("/save")

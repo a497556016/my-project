@@ -20,8 +20,8 @@
                 </a-button>
             </div>
         </template>
-        <template v-for="s in slots" :slot="s+'_outer'" slot-scope="d, record">
-            <slot :name="s" :record="record" :value="d"></slot>
+        <template v-for="s in slots" :slot="s+'_outer'" slot-scope="text, record, index">
+            <slot :name="s" :record="record" :text="text" :index="index"></slot>
         </template>
     </a-table>
 </template>

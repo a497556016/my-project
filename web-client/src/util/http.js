@@ -70,21 +70,27 @@ axios.interceptors.response.use(function (response) {
 
     let msg = '';
     if(error.response){
-        if(error.response.data)
-            msg += (error.response.data.msg || error.response.data.message);
 
+        if(error.response.status == 500){
+            msg = '系统异常！';
+        }else if(error.response.status == 401) {
+            msg = '没有访问权限！';
+        }else if(error.response.status == 408) {
+            msg = '登录已超时，请重新登录！';
+        }else if(error.response.status == 203) {
+            msg = '非法Token值！';
+        }
+
+        if(error.response.data) {
+            msg += (error.response.data.msg || error.response.data.message);
+        }
         // msg += error.response.statusText;
     }
     // Do something with response error
-    if(error.response.status == 500){
-        msg = msg || '系统异常！';
-    }else if(error.response.status == 401) {
-        msg = msg || '没有访问权限！';
-    }else if(error.response.status == 408) {
-        msg = msg || '登录已超时，请重新登录！';
-    }else if(error.response.status == 203) {
-        msg = msg || '非法Token值！';
+    if(error.message) {
+        msg += error.message;
     }
+
 
     Vue.prototype.$message.error(msg);
 

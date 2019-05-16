@@ -4,9 +4,13 @@
         <search-form ref="searchForm" :items="searchItems" @submit="search"></search-form>
 
         <m-table ref="table" auto-load :load-fun="loadFun" :columns="columns" :key-field="keyField" :action-btns="toolBtns">
-            <template slot="action" slot-scope="{record}">
-                <a-button v-for="btn in actionBtns" @click="btn.handler(record)">{{btn.text}}</a-button>
+            <template v-for="slot in slots" :slot="slot" slot-scope="{text, record, index}">
+                <slot :name="slot" :text="text" :record="record" :index="index"></slot>
             </template>
+            <template v-if="moreActions.length > 0" slot="action" slot-scope="{record}">
+                <a-button v-for="btn in moreActions" :type="btn.type" :icon="btn.icon" :shape="btn.shape" @click="btn.handler(record)">{{btn.text}}</a-button>
+            </template>
+            <a-button slot="edit" slot-scope="{record}" type="primary" shape="circle" icon="edit" @click="edit(record)"></a-button>
         </m-table>
     </div>
 </template>
@@ -62,10 +66,7 @@
         },
         data(){
             return {
-                actionBtns: [
-                    {type: 'default', text: '编辑', handler: this.edit},
-                    ...this.moreActions
-                ]
+                slots: []
             }
         },
         computed: {
@@ -76,17 +77,31 @@
         },
         methods: {
             buildRowAction() {
-                let width = 65;
-                this.moreActions.forEach(btn => {
-                    width += (btn.text.length*30 + 5);
-                })
-                this.columns.push({title: '操作', width: width, slot: 'action', fixed: 'right'})
+                //自定义列
+                this.slots = this.columns.filter(col => col.slot).map(col => col.slot);
+
+                //操作列
+                if(this.moreActions.length>0) {
+                    let width = 0;
+                    this.moreActions.forEach(btn => {
+                        width += (btn.text.length * 30 + 5);
+                    })
+                    this.columns.push({title: '操作', width: width, slot: 'action', fixed: 'right', align: 'center'})
+                }
+
+                //编辑操作列
+                this.columns.push({title: '编辑', width: 65, slot: 'edit', fixed: 'right', align: 'center'})
             },
             edit(record){
                 this.$emit('edit', record);
             },
             search(params){
                 this.$refs.table.search(params);
+            },
+            reload(){
+                const params = this.$refs.searchForm.getValues();
+                console.log('搜索参数',params);
+                this.search(params);
             }
         }
     }

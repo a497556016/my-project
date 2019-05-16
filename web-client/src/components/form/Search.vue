@@ -55,6 +55,9 @@
             handleReset () {
                 this.form.resetFields();
             },
+            getValues(){
+                return this.form.getFieldsValue();
+            }
         },
     }
 </script>

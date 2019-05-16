@@ -2,8 +2,6 @@ package com.heshaowei.myproj.account.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -12,10 +10,7 @@ import java.util.Date;
 
 @Data
 @Entity
-public class User implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends BaseEntity implements Serializable {
 
     @NotBlank(message = "用户名不能为空！")
     private String username;
@@ -38,15 +33,5 @@ public class User implements Serializable {
 
     private String thumbAvatar;
 
-    private String creater;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreationTimestamp
-    private Date createTime;
-
-    private String modifier;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @UpdateTimestamp
-    private Date modifyTime;
 }

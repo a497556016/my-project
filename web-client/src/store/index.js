@@ -5,6 +5,7 @@ import account from './modules/system/account'
 import user from './modules/system/user'
 import userEdit from './modules/system/user/edit'
 import userAdd from './modules/system/user/add'
+import role from './modules/system/role'
 import layout from './modules/layout'
 import file from './modules/file'
 import fileMain from './modules/file/main'
@@ -22,12 +23,11 @@ const store = new Vuex.Store({
         user,
         userEdit,
         userAdd,
+        role,
         layout,
         file,
         fileMain,
         fileManage,
-        // formCreate,
-        // formManage,
         form
     },
 });

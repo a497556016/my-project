@@ -27,7 +27,7 @@ const menus = [
                 name: 'RoleManagePage',
                 meta: {
                     title: '角色管理',
-                    icon: 'users'
+                    icon: 'cluster'
                 }
             }
         ]
