@@ -3,9 +3,9 @@
 import accountTypes from './modules/system/account/types'
 
 //用户管理
-import * as userTypes from './modules/user/types'
-import * as userEditTypes from './modules/user/edit/types'
-import * as userAddTypes from './modules/user/add/types'
+import * as userTypes from './modules/system/user/types'
+import * as userEditTypes from './modules/system/user/edit/types'
+import * as userAddTypes from './modules/system/user/add/types'
 
 //界面布局
 import * as layoutTypes from './modules/layout/types'
@@ -55,8 +55,6 @@ export const file = _export(fileTypes, 'file');
 export const fileMain = _export(fileMainTypes, 'fileMain');
 export const fileManage = _export(fileManageTypes, 'fileManage');
 
-// export const formCreate = _export(formCreateTypes, 'formCreate');
-// export const formManage = _export(formManageTypes, 'formManage');
 export const form = _export(formTypes, 'form');
 
 
