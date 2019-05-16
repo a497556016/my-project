@@ -1,6 +1,6 @@
 
 //用户账户
-import accountTypes from './modules/account/types'
+import accountTypes from './modules/system/account/types'
 
 //用户管理
 import * as userTypes from './modules/user/types'

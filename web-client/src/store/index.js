@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import account from './modules/account'
+import account from './modules/system/account'
 import user from './modules/user'
 import userEdit from './modules/user/edit'
 import userAdd from './modules/user/add'

@@ -3,7 +3,7 @@ import types from './types'
 
 import router from '@/route/router'
 
-import AccountService from '@/api/account'
+import AccountService from '@/api/system/account'
 const accountService = new AccountService();
 
 const state = {

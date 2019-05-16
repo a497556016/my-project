@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import {getters as getterTypes, mutations as mutationTypes, actions as actionTypes} from './types'
 
-import UserService from '@/api/user'
+import UserService from '@/api/system/user'
 const userService = new UserService();
 
 const state = {

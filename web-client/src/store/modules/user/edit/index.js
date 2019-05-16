@@ -8,9 +8,9 @@ import {
 
 import moment from 'moment'
 
-import UserService from '@/api/user'
+import UserService from '@/api/system/user'
 const userService = new UserService();
-import AccountService from '@/api/account'
+import AccountService from '@/api/system/account'
 const accountService = new AccountService();
 
 export default {

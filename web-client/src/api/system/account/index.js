@@ -1,4 +1,4 @@
-import BaseService from "../base";
+import BaseService from "../../base";
 
 export default class AccountService extends BaseService {
     constructor(){
