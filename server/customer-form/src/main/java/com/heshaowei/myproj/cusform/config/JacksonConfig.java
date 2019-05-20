@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class JacksonConfig {
- 
- 
+
+
     @Bean
     public SimpleModule simpleModule() {
         SimpleModule module = new SimpleModule();
@@ -23,5 +23,5 @@ public class JacksonConfig {
 
         return module;
     }
- 
+
 }

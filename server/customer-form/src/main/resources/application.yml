@@ -14,7 +14,7 @@ spring:
 
     initialization-mode: never
     schema: classpath:db/schema-mysql.sql
-#    data: classpath:db/data-mysql.sql
+    #    data: classpath:db/data-mysql.sql
     platform: mysql
     continue-on-error: false
     sql-script-encoding: utf-8

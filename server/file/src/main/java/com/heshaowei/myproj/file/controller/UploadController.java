@@ -36,7 +36,7 @@ public class UploadController {
     @Autowired
     private FileBaseInfoRepository fileBaseInfoRepository;
 
-    private void saveMultipartFile(MultipartFile file, FileBaseInfo fileBaseInfo, String username){
+    private void saveMultipartFile(MultipartFile file, FileBaseInfo fileBaseInfo, String username) {
 
         //创建保存相对路径
         String relativePath = File.separator + DateFormatUtils.format(new Date(), "yyyyMMdd");
@@ -44,14 +44,14 @@ public class UploadController {
         String suffix = ".jpg";
         String filename = file.getOriginalFilename();
         int i = filename.lastIndexOf(".");
-        if(i>=0) {
+        if (i >= 0) {
             suffix = filename.substring(i);
         }
         String fileSaveName = UUID.randomUUID().toString();
         String fileSavePath = File.separator + fileSaveName + suffix;
 
         String folderPath = fileProperties.getSavePath() + relativePath;
-        File saveFile = new File( folderPath + fileSavePath);
+        File saveFile = new File(folderPath + fileSavePath);
         try {
             fileBaseInfo.setName(filename);
             fileBaseInfo.setPath(relativePath + fileSavePath);
@@ -60,7 +60,7 @@ public class UploadController {
             fileBaseInfo.setCreateUser(username);
             fileBaseInfo.setSize(file.getSize());
 
-            if(!saveFile.getParentFile().exists()) {
+            if (!saveFile.getParentFile().exists()) {
                 saveFile.getParentFile().mkdirs();
             }
 
@@ -68,7 +68,7 @@ public class UploadController {
             file.transferTo(saveFile);
 
             //对于图片类型，生成缩略图
-            if(file.getContentType().startsWith("image")){
+            if (file.getContentType().startsWith("image")) {
                 String thumbName = fileSaveName + "_thumb";
                 new ImageHandler(saveFile.getAbsolutePath(), folderPath, thumbName, suffix.substring(1)).zoom(100, 100).writeToFile();
                 fileBaseInfo.setThumbPath(relativePath + File.separator + thumbName + suffix);
@@ -84,11 +84,11 @@ public class UploadController {
 
     @PostMapping
     @Transactional(rollbackFor = Exception.class)
-    public Result index(HttpServletRequest request){
+    public Result index(HttpServletRequest request) {
 
         final String username = Objects.toString(request.getHeader("username"), "");
         final FileBaseInfo fileBaseInfo = new FileBaseInfo();
-        MultiValueMap<String, MultipartFile> filesMap = ((MultipartHttpServletRequest)request).getMultiFileMap();
+        MultiValueMap<String, MultipartFile> filesMap = ((MultipartHttpServletRequest) request).getMultiFileMap();
         filesMap.forEach((name, files) -> files.forEach(file -> {
             saveMultipartFile(file, fileBaseInfo, username);
         }));
@@ -97,8 +97,8 @@ public class UploadController {
 
     public static void main(String[] args) {
         File file = new File("f://picture/project");
-        System.out.println((double)file.getTotalSpace()/1024/1024/1024);
-        System.out.println((double)file.getUsableSpace()/1024/1024/1024);
-        System.out.println((double)file.length());
+        System.out.println((double) file.getTotalSpace() / 1024 / 1024 / 1024);
+        System.out.println((double) file.getUsableSpace() / 1024 / 1024 / 1024);
+        System.out.println((double) file.length());
     }
 }

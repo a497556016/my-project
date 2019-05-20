@@ -14,9 +14,8 @@ import java.util.UUID;
 
 /**
  * 图像处理类.
- * 
+ *
  * @author nagsh
- * 
  */
 public class ImageHandler {
     private BufferedImage bufferedImage;
@@ -38,7 +37,7 @@ public class ImageHandler {
     public ImageHandler(String openUrl) throws Exception {
         this.openUrl = openUrl;
 
-        if(StringUtils.isNotEmpty(openUrl) && openUrl.contains(".")){
+        if (StringUtils.isNotEmpty(openUrl) && openUrl.contains(".")) {
             int index = openUrl.lastIndexOf(".");
             this.suffix = openUrl.substring(index + 1);
         }
@@ -58,36 +57,36 @@ public class ImageHandler {
         }
     }
 
-    private String getSuffix(){
-        if(StringUtils.isEmpty(suffix)){
+    private String getSuffix() {
+        if (StringUtils.isEmpty(suffix)) {
             return "jpg";
         }
         return suffix;
     }
 
     private String getSaveName() {
-        if(StringUtils.isEmpty(saveName)){
+        if (StringUtils.isEmpty(saveName)) {
             return UUID.randomUUID().toString();
         }
         return saveName;
     }
 
-    public int getWidth(){
+    public int getWidth() {
         return this.bufferedImage.getWidth();
     }
 
-    public int getHeight(){
+    public int getHeight() {
         return this.bufferedImage.getHeight();
     }
 
     public String writeToFile() {
-        if(null == saveUrl) {
+        if (null == saveUrl) {
             throw new RuntimeException("没有指定图片保存路径！");
         }
 
         File sf = new File(saveUrl, getSaveName() + "." + getSuffix());
         try {
-            if(sf.exists() || sf.mkdirs()) {
+            if (sf.exists() || sf.mkdirs()) {
                 ImageIO.write(this.bufferedImage, suffix, sf); // 保存图片
             }
         } catch (Exception e) {
@@ -100,7 +99,7 @@ public class ImageHandler {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try {
             boolean b = ImageIO.write(this.bufferedImage, getSuffix(), outputStream);
-            if(b){
+            if (b) {
                 return outputStream.toByteArray();
             }
         } catch (IOException e) {
@@ -111,11 +110,9 @@ public class ImageHandler {
 
     /**
      * 图片缩放.
-     * 
-     * @param width
-     *            需要的宽度
-     * @param height
-     *            需要的高度
+     *
+     * @param width  需要的宽度
+     * @param height 需要的高度
      */
     public ImageHandler zoom(int width, int height) {
         double sx = 0.0;
@@ -135,10 +132,11 @@ public class ImageHandler {
 
     /**
      * 按宽度等比例缩放
+     *
      * @param width
      * @return
      */
-    public ImageHandler scaleW(int width){
+    public ImageHandler scaleW(int width) {
         double x = (double) width / this.getWidth();
         int height = (int) (x * this.getHeight());
         return this.zoom(width, height);
@@ -146,10 +144,11 @@ public class ImageHandler {
 
     /**
      * 按高度等比例缩放
+     *
      * @param height
      * @return
      */
-    public ImageHandler scaleH(int height){
+    public ImageHandler scaleH(int height) {
         double x = (double) height / this.getHeight();
         int width = (int) (x * this.getWidth());
         return this.zoom(width, height);
@@ -157,9 +156,8 @@ public class ImageHandler {
 
     /**
      * 旋转
-     * 
-     * @param degree
-     *            旋转角度
+     *
+     * @param degree 旋转角度
      * @throws Exception
      */
     public ImageHandler spin(int degree) {
@@ -208,9 +206,11 @@ public class ImageHandler {
 
         return this;
     }
+
     /**
      * 马赛克化.
-     * @param size  马赛克尺寸，即每个矩形的长宽
+     *
+     * @param size 马赛克尺寸，即每个矩形的长宽
      * @return
      * @throws Exception
      */
@@ -241,15 +241,15 @@ public class ImageHandler {
         for (int i = 0; i < xcount; i++) {
             for (int j = 0; j < ycount; j++) {
                 //马赛克矩形格大小
-                 int mwidth = size;
-                 int mheight = size;
-                 if(i==xcount-1){   //横向最后一个比较特殊，可能不够一个size
-                     mwidth = this.bufferedImage.getWidth()-x;
-                 }
-                 if(j == ycount-1){  //同理
-                     mheight =this.bufferedImage.getHeight()-y;
-                 }
-              // 矩形颜色取中心像素点RGB值
+                int mwidth = size;
+                int mheight = size;
+                if (i == xcount - 1) {   //横向最后一个比较特殊，可能不够一个size
+                    mwidth = this.bufferedImage.getWidth() - x;
+                }
+                if (j == ycount - 1) {  //同理
+                    mheight = this.bufferedImage.getHeight() - y;
+                }
+                // 矩形颜色取中心像素点RGB值
                 int centerX = x;
                 int centerY = y;
                 if (mwidth % 2 == 0) {

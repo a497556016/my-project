@@ -1,4 +1,4 @@
-package com.heshaowei.myproj.account.entity;
+package com.heshaowei.myproj.account.entity.base;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;

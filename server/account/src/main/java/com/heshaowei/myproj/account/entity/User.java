@@ -1,12 +1,14 @@
 package com.heshaowei.myproj.account.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.heshaowei.myproj.account.entity.base.BaseEntity;
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -33,5 +35,6 @@ public class User extends BaseEntity implements Serializable {
 
     private String thumbAvatar;
 
-
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Role> roles;
 }

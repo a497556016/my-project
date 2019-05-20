@@ -25,13 +25,13 @@ public class UserFormController {
     private UserFormService userFormService;
 
     @GetMapping("/selectById")
-    public Result<CustomerFormDTO> selectById(String id){
+    public Result<CustomerFormDTO> selectById(String id) {
         CustomerForm form = this.formService.selectById(id);
         return Result.success(CustomerFormDTO.builder().build().convert(form));
     }
 
     @PostMapping("/save")
-    public Result<?> save(@RequestBody CustomerFormDTO dto, HttpServletRequest request){
+    public Result<?> save(@RequestBody CustomerFormDTO dto, HttpServletRequest request) {
         String username = request.getHeader("username");
         Iterable<CustomerFormItem> items = CustomerFormItemDTO.builder().build().reverse().convertAll(dto.getFormItems());
         UserForm userForm = new UserForm()

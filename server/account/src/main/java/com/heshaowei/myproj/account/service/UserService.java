@@ -20,8 +20,8 @@ public class UserService {
     @Autowired
     private IFileService fileService;
 
-    private void updateFileBusId(String path, Long id){
-        if(null != path) {
+    private void updateFileBusId(String path, Long id) {
+        if (null != path) {
             this.fileService.updateBusId(new IFileService.FileReq(path, "account-server/user/" + id));
         }
     }
@@ -61,5 +61,13 @@ public class UserService {
             users.add(user);
         });
         this.userRepository.deleteInBatch(users);
+    }
+
+    public void updateUserRoles(User user) {
+        User update = this.userRepository.findById(user.getId()).get();
+        if (null != update) {
+            update.setRoles(user.getRoles());
+        }
+        this.userRepository.saveAndFlush(update);
     }
 }

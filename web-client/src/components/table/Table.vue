@@ -27,15 +27,29 @@
 </template>
 
 <script>
-    import Vue from 'vue'
+    const defaultPageSize = 10;
+    const maxPageSize = 1000;
     export default {
         name: "Table",
         props: {
             columns: Array,
             data: Array,
+            page: {
+                type: Object,
+                default(){
+                    return {
+                        showQuickJumper: true,
+                        showSizeChanger: true,
+                        current: 1,
+                        pageSize: defaultPageSize,
+                        total: 0,
+                        showTotal: (t) => `共${t}条`
+                    }
+                }
+            },
             pageSize: {
                 type: Number,
-                default: 10
+                default: defaultPageSize
             },
             keyField: {
                 type: String,
@@ -45,24 +59,32 @@
             loadFun: Function,
             actionBtns: Array
         },
+        model: {
+            prop: 'data',
+            event: 'change'
+        },
         data(){
             return {
                 dataSource: this.data,
                 rowSelection: {selectedRowKeys: [], onChange: (selectedRowKeys) => this.rowSelection.selectedRowKeys = selectedRowKeys},
-                pagination: {
-                    showQuickJumper: true,
-                    showSizeChanger: true,
-                    current: 1,
-                    pageSize: this.pageSize,
-                    total: 0,
-                    showTotal: (t) => `共${t}条`
-                },
+                pagination: this.page,
                 loading: false,
                 where: {}
             }
         },
         watch: {
-
+            dataSource: {
+                handler(data){
+                    this.$emit('update:change', data);
+                },
+                deep: true
+            },
+            data: {
+                handler(data){
+                    this.dataSource = data;
+                },
+                deep: true
+            }
         },
         computed: {
             _columns(){
@@ -101,8 +123,8 @@
                 if(this.loadFun){
                     this.loading = true;
                     this.loadFun(Object.assign({
-                        current: current || this.pagination.current,
-                        size: this.pagination.pageSize
+                        current: current || (this.pagination?this.pagination.current:1),
+                        size: this.pagination?this.pagination.pageSize:maxPageSize
                     }, this.where)).then((res) => {
                         this.loading = false;
                         this.dataSource = res.data || res.content;

@@ -35,15 +35,15 @@ public class PasswordEncode {
      * MD5验证方法
      *
      * @param text 明文
-     * @param key 密钥
-     * @param md5 密文
+     * @param key  密钥
+     * @param md5  密文
      * @return true/false
      * @throws Exception
      */
     public static boolean verify(String text, String key, String md5) {
         //根据传入的密钥进行验证
         String md5Text = encrypt(text, key);
-        if(md5Text.equalsIgnoreCase(md5)) {
+        if (md5Text.equalsIgnoreCase(md5)) {
             return true;
         }
 

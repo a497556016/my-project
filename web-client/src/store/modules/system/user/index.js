@@ -5,20 +5,44 @@ import {getters as getterTypes, mutations as mutationTypes, actions as actionTyp
 import UserService from '@/api/system/user'
 const userService = new UserService();
 
+import roleService from '@/api/system/role'
+
 const state = {
     openEdit: false,
     editUserInfo: {},
 
-    selectedKeys: []
+    selectedKeys: [],
+
+    //给此用户分配角色
+    assignRoleUser: {
+        roleList: [] //用户拥有的角色
+    },
+    //系统角色列表
+    roleList: []
 }
 
 const getters = {
+    [getterTypes.GET_USER_ASSIGNED_INFO] (state) {
+        state.assignRoleUser.roleList = state.roleList.filter(role => role.assigned);
 
+        return state.assignRoleUser;
+    }
 }
 
 const mutations = {
     [mutationTypes.SET_SELECTED_KEYS] (state, keys) {
         state.selectedKeys = keys;
+    },
+    [mutationTypes.SET_ROLE_LIST] (state, roleList) {
+        const ids = state.assignRoleUser.roleList.map(role => role.id);
+
+        state.roleList = roleList.map(role => {
+            role.assigned = _.includes(ids, role.id);
+            return role;
+        })
+    },
+    [mutationTypes.SET_ASSIGN_ROLE_USER] (state, user) {
+        state.assignRoleUser = user;
     }
 }
 
@@ -40,6 +64,9 @@ const actions = {
     [actionTypes.BATCH_DELETE] ({commit, state}) {
         console.log('删除', state.selectedKeys)
         return userService.batchDelete(state.selectedKeys);
+    },
+    [actionTypes.ASSIGN_USER_ROLES] ({commit, state}, user) {
+        return userService.assignRoles(user);
     }
 }
 

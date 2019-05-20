@@ -73,7 +73,7 @@ public class Result<T> implements Serializable {
         return result;
     }
 
-    public static <T> Result<T> error(String msg, String... args){
+    public static <T> Result<T> error(String msg, String... args) {
         return error(String.format(msg, args));
     }
 
@@ -84,7 +84,7 @@ public class Result<T> implements Serializable {
     public static Result error(BindingResult br) {
         StringBuffer errorMsg = new StringBuffer();
         for (FieldError fieldError : br.getFieldErrors()) {
-            errorMsg.append(fieldError.getDefaultMessage()+"\n");
+            errorMsg.append(fieldError.getDefaultMessage() + "\n");
         }
 
         return Result.error(errorMsg.toString());

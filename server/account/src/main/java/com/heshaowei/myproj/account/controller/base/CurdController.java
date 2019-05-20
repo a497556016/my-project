@@ -22,11 +22,12 @@ public class CurdController<S extends JpaRepository<E, Long>, E, D extends Conve
     private S repository;
 
     @GetMapping("/selectPage")
-    public PageResult<D> selectPage(int current, int size, HttpServletRequest request){
+    public PageResult<D> selectPage(int current, int size, HttpServletRequest request) {
         ParameterizedType parameterizedType = (ParameterizedType) this.getClass().getGenericSuperclass();//获取当前new对象的泛型的父类类型
         Class<E> entityClz = (Class<E>) parameterizedType.getActualTypeArguments()[1];
         Class<D> dtoClz = (Class<D>) parameterizedType.getActualTypeArguments()[2];
-        D d = null; E e = null;
+        D d = null;
+        E e = null;
         try {
             d = dtoClz.newInstance();
             e = entityClz.newInstance();
@@ -42,11 +43,11 @@ public class CurdController<S extends JpaRepository<E, Long>, E, D extends Conve
         for (Field field : fields) {
             String fieldName = field.getName();
             String[] values = map.get(fieldName);
-            if(null != values && values.length > 0 && StringUtils.isNotBlank(values[0])) {
+            if (null != values && values.length > 0 && StringUtils.isNotBlank(values[0])) {
                 field.setAccessible(true);
                 try {
                     field.set(e, values[0]);
-                    if(field.getType().equals(String.class)) {
+                    if (field.getType().equals(String.class)) {
                         matcher.withMatcher(fieldName, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
                     }
                 } catch (IllegalAccessException e1) {
@@ -59,38 +60,38 @@ public class CurdController<S extends JpaRepository<E, Long>, E, D extends Conve
         Sort sort = Sort.unsorted();
         String sortField = request.getParameter("sortField");
         String sortDirection = request.getParameter("sortDirection");
-        if(StringUtils.isNotBlank(sortField) && StringUtils.isNotBlank(sortDirection)) {
+        if (StringUtils.isNotBlank(sortField) && StringUtils.isNotBlank(sortDirection)) {
             sort.and(Sort.by(Sort.Direction.fromString(sortDirection), sortField));
         }
 
-        Page<E> page = this.repository.findAll(example, PageRequest.of(current-1, size, sort));
+        Page<E> page = this.repository.findAll(example, PageRequest.of(current - 1, size, sort));
 
         return pageConvert(d, page);
     }
 
     @PostMapping("/save")
-    public Result<D> save(@RequestBody D d){
+    public Result<D> save(@RequestBody D d) {
         E e = d.convert(d);
         e = this.repository.save(e);
         return Result.success("保存成功！", d.reverse().convert(e));
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result delete(@PathParam("id") Long id){
+    public Result delete(@PathParam("id") Long id) {
         this.repository.deleteById(id);
         return Result.success();
     }
 
     @PutMapping("/delete")
-    public Result delete(@RequestBody D d){
+    public Result delete(@RequestBody D d) {
         E e = d.convert(d);
         this.repository.delete(e);
         return Result.success();
     }
 
     @PutMapping("/batchDelete")
-    public Result batchDelete(@RequestBody List<D> list){
-        if(null != list){
+    public Result batchDelete(@RequestBody List<D> list) {
+        if (null != list) {
             D d = list.get(0);
             Iterable<E> iterable = d.convertAll(list);
             this.repository.deleteInBatch(iterable);

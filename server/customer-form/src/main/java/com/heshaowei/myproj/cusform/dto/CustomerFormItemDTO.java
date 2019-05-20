@@ -18,6 +18,7 @@ public class CustomerFormItemDTO extends Converter<CustomerFormItem, CustomerFor
     private String component;
     private Boolean disabled;
     private Map<String, Object> meta;
+
     @Override
     protected CustomerFormItemDTO doForward(CustomerFormItem customerFormItem) {
         CustomerFormItemDTO dto = CustomerFormItemDTO.builder().build();

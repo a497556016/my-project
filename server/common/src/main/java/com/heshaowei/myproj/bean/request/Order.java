@@ -4,7 +4,8 @@ public class Order {
     private String direction = Direction.ASC;
     private String[] properties;
 
-    public Order(){}
+    public Order() {
+    }
 
 
     public static Order of(String direction, String... properties) {
@@ -31,7 +32,7 @@ public class Order {
     }
 
     public interface Direction {
-       String DESC = "desc";
-       String ASC = "asc";
+        String DESC = "desc";
+        String ASC = "asc";
     }
 }

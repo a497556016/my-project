@@ -29,22 +29,23 @@ public class CountController {
 
     /**
      * 分类统计首页数据
+     *
      * @return
      */
     @GetMapping("/getClassifiedStatistical")
-    public Result getClassifiedStatistical(){
+    public Result getClassifiedStatistical() {
         File file = new File(this.fileProperties.getSavePath());
-        double usableSpace = (double)file.getUsableSpace()/1024/1024/1024;
+        double usableSpace = (double) file.getUsableSpace() / 1024 / 1024 / 1024;
         DecimalFormat df = new DecimalFormat("#.###");
         String diskLeftSpace = df.format(usableSpace);
 
         long totalSize = this.fileBaseInfoService.selectTotalSize();
-        String fileUsedSpace = df.format((double)totalSize/1024/1024);
+        String fileUsedSpace = df.format((double) totalSize / 1024 / 1024);
 
         long todayUploadTimes = this.fileBaseInfoService.selectUploadTimes(new Date());
 
         long size = this.fileBaseInfoService.selectUploadSize(new Date());
-        String todayUploadSize = df.format((double)size/1024/1024);
+        String todayUploadSize = df.format((double) size / 1024 / 1024);
 
         Map<String, Object> result = Maps.newHashMap();
         result.put("diskLeftSpace", diskLeftSpace);

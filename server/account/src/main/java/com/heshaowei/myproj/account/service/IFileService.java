@@ -17,7 +17,7 @@ public interface IFileService {
     boolean delete(String path);
 
     @Data
-    class FileReq{
+    class FileReq {
         private String path;
         private String busId;
 

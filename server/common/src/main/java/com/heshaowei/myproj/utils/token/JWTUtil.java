@@ -12,10 +12,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 public class JWTUtil {
- 
+
     // 过期时间5分钟
     private static final long EXPIRE_TIME = 5 * 60 * 1000;
- 
+
     /**
      * 校验token是否正确
      *
@@ -38,7 +38,7 @@ public class JWTUtil {
             throw new RuntimeException("Token验证发生异常！");
         }
     }
- 
+
     /**
      * 获得token中的信息无需secret解密也能获得
      *
@@ -52,7 +52,7 @@ public class JWTUtil {
             return null;
         }
     }
- 
+
     /**
      * 生成签名
      *
@@ -62,7 +62,7 @@ public class JWTUtil {
      */
     public static TokenResponse sign(String username, String secret, Long expireTime) {
         try {
-            if(null == expireTime) {
+            if (null == expireTime) {
                 expireTime = EXPIRE_TIME;
             }
             Date date = new Date(System.currentTimeMillis() + expireTime);
@@ -80,6 +80,7 @@ public class JWTUtil {
 
     /**
      * 生成签名,默认超时时间5min
+     *
      * @param username
      * @param secret
      * @return

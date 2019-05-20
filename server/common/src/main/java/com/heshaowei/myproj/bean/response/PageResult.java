@@ -8,22 +8,23 @@ public class PageResult<T> extends Result<List<T>> {
     private long current;
     private long size;
 
-    private PageResult(){}
+    private PageResult() {
+    }
 
 
-    public static <T> PageResult<T> of(Class<T> clz, long current, long size){
+    public static <T> PageResult<T> of(Class<T> clz, long current, long size) {
         PageResult<T> pageResult = new PageResult<>();
         pageResult.setCurrent(current);
         pageResult.setSize(size);
         return pageResult;
     }
 
-    public static <T> PageResult<T> of(Class<T> clz){
+    public static <T> PageResult<T> of(Class<T> clz) {
         PageResult<T> pageResult = new PageResult<>();
         return pageResult;
     }
 
-    public PageResult<T> success(List<T> data, long total){
+    public PageResult<T> success(List<T> data, long total) {
         PageResult<T> pageResult = this.setTotal(total).setData(data);
         pageResult.setCode(SUCCESS);
         return pageResult;

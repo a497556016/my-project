@@ -1,19 +1,18 @@
 package com.heshaowei.myproj.account.dto;
 
-import com.google.common.base.Converter;
 import com.heshaowei.myproj.account.entity.Role;
-import lombok.Builder;
+import com.heshaowei.myproj.base.MyConverter;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
-public class RoleDTO extends Converter<RoleDTO, Role> {
+public class RoleDTO extends MyConverter<RoleDTO, Role> {
 
     private Long id;
     private String name;
@@ -21,17 +20,5 @@ public class RoleDTO extends Converter<RoleDTO, Role> {
     private String creater;
     private Date createTime;
 
-    @Override
-    protected Role doForward(RoleDTO roleDTO) {
-        Role role = new Role();
-        BeanUtils.copyProperties(roleDTO, role);
-        return role;
-    }
-
-    @Override
-    protected RoleDTO doBackward(Role role) {
-        RoleDTO dto = new RoleDTO();
-        BeanUtils.copyProperties(role, dto);
-        return dto;
-    }
+    private List<UserDTO> userList;
 }

@@ -30,21 +30,21 @@ public class Config {
     private CacheManager cacheManager;
 
     @Bean
-    public GlobalFilter authFilter(){
+    public GlobalFilter authFilter() {
         return (exchange, chain) -> {
             log.info("before权限验证拦截器...");
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
 
-            if(!this.needFilter(request.getPath().pathWithinApplication().value())){
+            if (!this.needFilter(request.getPath().pathWithinApplication().value())) {
                 return chain.filter(exchange);
             }
 
             List<String> accessTokens = request.getHeaders().get("Authorization");
-            if(null == accessTokens || accessTokens.isEmpty()){
+            if (null == accessTokens || accessTokens.isEmpty()) {
                 return response401(response, HttpStatus.NON_AUTHORITATIVE_INFORMATION, "没有访问权限！");
-            }else{
-                try{
+            } else {
+                try {
                     String accessToken = accessTokens.get(0);
                     String username = JWTUtil.getUsername(accessToken);
 
@@ -60,7 +60,7 @@ public class Config {
                         //将现在的request 变成 change对象
                         exchange = exchange.mutate().request(host).build();
                     }
-                }catch (Exception e) {
+                } catch (Exception e) {
                     log.error(e);
                     return response401(response, HttpStatus.UNAUTHORIZED, "权限已经失效，请重新登录！");
                 }
@@ -73,16 +73,16 @@ public class Config {
     }
 
     private boolean needFilter(String path) {
-        if(path.startsWith("/userForm/")
-                ||path.equals("/account/login")
-                ||path.equals("/download")
-                ||path.equals("/account/refreshToken")){
+        if (path.startsWith("/userForm/")
+                || path.equals("/account/login")
+                || path.equals("/download")
+                || path.equals("/account/refreshToken")) {
             return false;
         }
         return true;
     }
 
-    private Mono<Void> response401(ServerHttpResponse response, HttpStatus status, String msg){
+    private Mono<Void> response401(ServerHttpResponse response, HttpStatus status, String msg) {
         response.setStatusCode(status);
         JsonObject message = new JsonObject();
         message.addProperty("code", 0);

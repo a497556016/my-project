@@ -28,6 +28,6 @@ public class FileBaseInfo {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
     private String createUser;
-    @Column(name="`delete`", columnDefinition = "bit(1) DEFAULT b'0'")
+    @Column(name = "`delete`", columnDefinition = "bit(1) DEFAULT b'0'")
     private Boolean delete = false;
 }

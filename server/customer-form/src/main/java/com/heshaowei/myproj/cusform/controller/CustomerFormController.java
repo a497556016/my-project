@@ -25,7 +25,7 @@ public class CustomerFormController {
     private CustomerFormService formService;
 
     @PostMapping("/save")
-    public Result save(@RequestBody CustomerFormDTO formDTO, HttpServletRequest request){
+    public Result save(@RequestBody CustomerFormDTO formDTO, HttpServletRequest request) {
         CustomerForm form = CustomerFormDTO.builder().build().reverse().convert(formDTO);
         String username = request.getHeader("username");
 //        form.setCreateTime(new Date());
@@ -35,7 +35,7 @@ public class CustomerFormController {
     }
 
     @PutMapping("/update")
-    public Result update(@RequestBody CustomerFormDTO formDTO, HttpServletRequest request){
+    public Result update(@RequestBody CustomerFormDTO formDTO, HttpServletRequest request) {
         CustomerForm form = CustomerFormDTO.builder().build().reverse().convert(formDTO);
         String username = request.getHeader("username");
         form.setUpdateBy(username);
@@ -44,14 +44,14 @@ public class CustomerFormController {
     }
 
     @GetMapping("/selectPage")
-    public PageResult<CustomerFormDTO> selectPage(int current, int size){
-        Page<CustomerForm> page = this.formService.selectPage(PageRequest.of(current-1, size));
+    public PageResult<CustomerFormDTO> selectPage(int current, int size) {
+        Page<CustomerForm> page = this.formService.selectPage(PageRequest.of(current - 1, size));
         Iterable<CustomerFormDTO> iterable = CustomerFormDTO.builder().build().convertAll(page.getContent());
         return PageResult.of(CustomerFormDTO.class, current, size).success(Lists.newArrayList(iterable), page.getTotalElements());
     }
 
     @GetMapping("/selectById")
-    public Result<CustomerFormDTO> selectById(String id){
+    public Result<CustomerFormDTO> selectById(String id) {
         CustomerForm form = this.formService.selectById(id);
         return Result.success(CustomerFormDTO.builder().build().convert(form));
     }

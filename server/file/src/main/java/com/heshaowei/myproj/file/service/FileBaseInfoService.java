@@ -30,7 +30,7 @@ public class FileBaseInfoService {
         FileBaseInfo probe = new FileBaseInfo();
         probe.setPath(path);
         FileBaseInfo fbi = this.fileBaseInfoRepository.findOne(Example.of(probe)).orElse(null);
-        if(null != fbi) {
+        if (null != fbi) {
             fbi.setBusId(busId);
             this.fileBaseInfoRepository.saveAndFlush(fbi);
         }
@@ -41,7 +41,7 @@ public class FileBaseInfoService {
         FileBaseInfo probe = new FileBaseInfo();
         probe.setPath(path);
         FileBaseInfo fbi = this.fileBaseInfoRepository.findOne(Example.of(probe)).orElse(null);
-        if(null != fbi) {
+        if (null != fbi) {
             fbi.setDelete(true);
             this.fileBaseInfoRepository.saveAndFlush(fbi);
         }

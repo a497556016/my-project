@@ -20,21 +20,21 @@ public class FileBaseInfoController {
     private FileBaseInfoService fileBaseInfoService;
 
     @GetMapping("/selectPage")
-    public PageResult<FileBaseInfoDTO> selectPage(int current, int size){
-        Page<FileBaseInfo> page = this.fileBaseInfoService.findByPage(PageRequest.of(current - 1, size, Sort.by(Sort.Direction.DESC,"createTime")));
+    public PageResult<FileBaseInfoDTO> selectPage(int current, int size) {
+        Page<FileBaseInfo> page = this.fileBaseInfoService.findByPage(PageRequest.of(current - 1, size, Sort.by(Sort.Direction.DESC, "createTime")));
         Iterable<FileBaseInfoDTO> records = FileBaseInfoDTO.builder().build().reverse().convertAll(page.getContent());
         return PageResult.of(FileBaseInfoDTO.class, current, size).success(Lists.newArrayList(records), page.getTotalElements());
     }
 
     @PutMapping("/updateBusId")
-    public boolean updateBusId(@RequestBody FileBaseInfo fbi){
+    public boolean updateBusId(@RequestBody FileBaseInfo fbi) {
         String path = fbi.getPath();
         String busId = fbi.getBusId();
-        if(null == busId) {
+        if (null == busId) {
             return false;
         }
         //busId的格式必须为[serviceId：服务ID]/[业务表类型]/[业务数据ID]
-        if(busId.contains("/")&&(busId.split("/").length==3)){
+        if (busId.contains("/") && (busId.split("/").length == 3)) {
             return this.fileBaseInfoService.updateBusId(path, busId);
         }
 
@@ -42,7 +42,7 @@ public class FileBaseInfoController {
     }
 
     @DeleteMapping("/delete")
-    public boolean delete(String path){
+    public boolean delete(String path) {
         return this.fileBaseInfoService.delete(path);
     }
 }

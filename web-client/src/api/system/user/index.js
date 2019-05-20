@@ -6,6 +6,8 @@ export default class UserService extends BaseService{
 
     }
 
-
+    assignRoles(user){
+        return this.post('/assignRoles', user);
+    }
 
 }

@@ -29,12 +29,12 @@ public class DownloadController {
     private FileProperties fileProperties;
 
     @GetMapping
-    public void index(HttpServletResponse response, @RequestParam("path") String encodedPath){
+    public void index(HttpServletResponse response, @RequestParam("path") String encodedPath) {
         DownloadLog.add();
         try {
             String path = URLDecoder.decode(encodedPath, StandardCharsets.UTF_8.name());
             File file = new File(fileProperties.getSavePath() + path);
-            if(file.exists()){
+            if (file.exists()) {
                 try {
                     OutputStream outputStream = response.getOutputStream();
                     IOUtils.write(FileUtils.readFileToByteArray(file), outputStream);
