@@ -20,5 +20,5 @@ public class RoleDTO extends MyConverter<RoleDTO, Role> {
     private String creater;
     private Date createTime;
 
-    private List<UserDTO> userList;
+    private List<UserDTO> users;
 }

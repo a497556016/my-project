@@ -47,3 +47,12 @@ spring:
 feign:
   hystrix:
     enabled: true
+
+filter:
+  auth:
+    ignore-urls:
+      - /userForm/**
+      - /account/login
+      - /download
+      - /account/refreshToken
+      - /emoticonImg/download

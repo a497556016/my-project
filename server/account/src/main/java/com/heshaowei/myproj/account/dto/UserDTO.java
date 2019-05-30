@@ -50,8 +50,6 @@ public class UserDTO extends MyConverter<UserDTO, User> {
 
     private Date modifyTime;
 
-    private List<RoleDTO> roleList;
-
     public User convert() {
         return this.convert(this);
     }
@@ -60,8 +58,8 @@ public class UserDTO extends MyConverter<UserDTO, User> {
     protected User doForward(UserDTO userDTO) {
         User user = super.doForward(userDTO);
 
-        List<Role> roles = Lists.newArrayList(new RoleDTO().convertAll(userDTO.getRoleList()));
-        user.setRoles(roles);
+//        List<Role> roles = Lists.newArrayList(new RoleDTO().convertAll(userDTO.getRoleList()));
+//        user.setRoles(roles);
 
         return user;
     }
@@ -69,9 +67,9 @@ public class UserDTO extends MyConverter<UserDTO, User> {
     @Override
     protected UserDTO doBackward(User user) {
         UserDTO dto = super.doBackward(user);
-        List<RoleDTO> roleDTOS = Lists.newArrayList(new RoleDTO().reverse().convertAll(user.getRoles()));
-        dto.setRoleList(roleDTOS);
-        dto.setPassword(null);
+//        List<RoleDTO> roleDTOS = Lists.newArrayList(new RoleDTO().reverse().convertAll(user.getRoles()));
+//        dto.setRoleList(roleDTOS);
+//        dto.setPassword(null);
         return dto;
     }
 }

@@ -1,11 +1,10 @@
 package com.heshaowei.myproj.account.controller;
 
-import com.google.common.collect.Lists;
-import com.heshaowei.myproj.account.controller.base.BaseController;
 import com.heshaowei.myproj.account.dto.UserAuthDTO;
 import com.heshaowei.myproj.account.entity.User;
 import com.heshaowei.myproj.account.dto.UserDTO;
 import com.heshaowei.myproj.account.service.UserService;
+import com.heshaowei.myproj.base.BaseController;
 import com.heshaowei.myproj.bean.response.PageResult;
 import com.heshaowei.myproj.bean.response.Result;
 import org.springframework.beans.factory.annotation.Autowired;

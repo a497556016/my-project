@@ -1,0 +1,35 @@
+server:
+  port: 7006
+
+spring:
+  application:
+    name: emoticon-server
+  datasource:
+    url: jdbc:postgresql://192.168.0.45:5432/postgres?currentSchema=emoticon
+    username: postgres
+    password: 123456
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  zipkin:
+    base-url: http://localhost:9411/
+  sleuth:
+    sampler:
+      probability: 1.0 # 0到1之间，1表示全部采样
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:7001/eureka/
+
+file:
+  save-path:
+    emoticon: F:\picture\project\emoticon

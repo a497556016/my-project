@@ -1,5 +1,6 @@
 import * as types from './types'
 import util from '@/util'
+import headerMenus from '@/route/menus';
 
 export default {
     namespaced: true,
@@ -16,11 +17,7 @@ export default {
         loadingProcess: 0,
 
         activeHeadMenu: 'system',
-        headerMenus: [
-            {name: '管理系统', route: 'system'}, //route 对应的在目录@/route/routes下的文件名称，新增的子系统需要添加对应的路由描述文件，默认的index不能改
-            {name: '文件系统', route: 'file'},
-            {name: '自定义表单系统', route: 'form'}
-        ],
+        headerMenus,
 
         noticeBoxVisible: false,
         noticeLoading: false,

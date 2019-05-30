@@ -23,6 +23,7 @@ http.get(`${process.env.BASE_URL}config.json`).then(config => {
 
     Vue.config.custom = config;
 
+    Vue.prototype.$baseURL = config.baseURL;
     http.defaults.baseURL = config.baseURL;  // 默认地址
     //创建http注入到全局
     Vue.prototype.$http = http;

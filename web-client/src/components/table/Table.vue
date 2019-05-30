@@ -35,7 +35,7 @@
             columns: Array,
             data: Array,
             page: {
-                type: Object,
+                type: Object|Boolean,
                 default(){
                     return {
                         showQuickJumper: true,

@@ -1,4 +1,4 @@
-package com.heshaowei.myproj.account.controller.base;
+package com.heshaowei.myproj.base;
 
 import com.google.common.base.Converter;
 import com.google.common.collect.Lists;
