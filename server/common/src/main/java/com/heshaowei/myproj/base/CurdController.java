@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 public class CurdController<R extends JpaRepository<E, Long>, E, D extends Converter<D, E>> extends BaseController {
 
     @Autowired
-    private R repository;
+    protected R repository;
 
     @GetMapping("/selectPage")
     public PageResult<D> selectPage(int current, int size, HttpServletRequest request) {
@@ -40,6 +40,43 @@ public class CurdController<R extends JpaRepository<E, Long>, E, D extends Conve
             e2.printStackTrace();
         }
 
+        Page<E> page = this.repository.findAll(buildExample(request, d), PageRequest.of(current - 1, size, buildSort(request)));
+
+        return pageConvert(d, page);
+    }
+
+    @PostMapping("/save")
+    public Result<D> save(@RequestBody D d) {
+        E e = d.convert(d);
+        e = this.repository.save(e);
+        return Result.success("保存成功！", d.reverse().convert(e));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public Result delete(@PathParam("id") Long id) {
+        this.repository.deleteById(id);
+        return Result.success();
+    }
+
+    @PutMapping("/delete")
+    public Result delete(@RequestBody D d) {
+        E e = d.convert(d);
+        this.repository.delete(e);
+        return Result.success();
+    }
+
+    @PutMapping("/batchDelete")
+    public Result batchDelete(@RequestBody List<D> list) {
+        if (null != list) {
+            D d = list.get(0);
+            Iterable<E> iterable = d.convertAll(list);
+            this.repository.deleteInBatch(iterable);
+            return Result.success();
+        }
+        return Result.error();
+    }
+
+    protected Example<E> buildExample(HttpServletRequest request, D d){
         Map<String, String[]> map = request.getParameterMap();
 
         ExampleMatcher matcher = this.createMatcher(map);
@@ -53,16 +90,18 @@ public class CurdController<R extends JpaRepository<E, Long>, E, D extends Conve
         E probe = d.convert(d);
         Example<E> example = Example.of(probe, matcher);
 
+        return example;
+    }
+
+    protected Sort buildSort(HttpServletRequest request){
         Sort sort = Sort.unsorted();
         String sortField = request.getParameter("sortField");
         String sortDirection = request.getParameter("sortDirection");
         if (StringUtils.isNotBlank(sortField) && StringUtils.isNotBlank(sortDirection)) {
-            sort.and(Sort.by(Sort.Direction.fromString(sortDirection), sortField));
+            sort = sort.and(Sort.by(Sort.Direction.fromString(sortDirection), sortField));
         }
 
-        Page<E> page = this.repository.findAll(example, PageRequest.of(current - 1, size, sort));
-
-        return pageConvert(d, page);
+        return sort;
     }
 
     private ExampleMatcher createMatcher(Map<String, String[]> paramsMap){
@@ -125,36 +164,5 @@ public class CurdController<R extends JpaRepository<E, Long>, E, D extends Conve
                 continue;
             }
         }
-    }
-
-    @PostMapping("/save")
-    public Result<D> save(@RequestBody D d) {
-        E e = d.convert(d);
-        e = this.repository.save(e);
-        return Result.success("保存成功！", d.reverse().convert(e));
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public Result delete(@PathParam("id") Long id) {
-        this.repository.deleteById(id);
-        return Result.success();
-    }
-
-    @PutMapping("/delete")
-    public Result delete(@RequestBody D d) {
-        E e = d.convert(d);
-        this.repository.delete(e);
-        return Result.success();
-    }
-
-    @PutMapping("/batchDelete")
-    public Result batchDelete(@RequestBody List<D> list) {
-        if (null != list) {
-            D d = list.get(0);
-            Iterable<E> iterable = d.convertAll(list);
-            this.repository.deleteInBatch(iterable);
-            return Result.success();
-        }
-        return Result.error();
     }
 }

@@ -21,6 +21,8 @@
         },
         methods: {
             loadTableData(params){
+                params.sortField = 'createTime';
+                params.sortDirection = 'desc';
                 return emoticonService.selectCatalogPage(params);
             }
         }

@@ -1,25 +1,34 @@
 package com.heshaowei.myproj.emoticon.task;
 
+import com.heshaowei.myproj.emoticon.job.IJobHandler;
 import com.heshaowei.myproj.emoticon.spider.DoutulaSpider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import us.codecraft.webmagic.Spider;
 
 /**
  * 爬取 https://www.doutula.com/ 上的表情任务
  */
-@Component
-public class DoutulaTask {
+@Component("doutulaTask")
+public class DoutulaTask implements IJobHandler {
 
     @Autowired
-    private DoutulaSpider spider;
+    private DoutulaSpider doutulaSpider;
 
-    public static void main(String[] args) {
-        new DoutulaTask().execute();
+//    @Scheduled(cron = "0 0 2 ? * *")
+    @Override
+    public void execute(){
+        this.doutulaSpider.execute();
     }
 
-    @Scheduled(cron = "0 0 2 ? * *")
-    public void execute(){
-        this.spider.createSpider().thread(8).run();
+    @Override
+    public void close() {
+        this.doutulaSpider.close();
+    }
+
+    @Override
+    public String status() {
+        return this.doutulaSpider.status();
     }
 }

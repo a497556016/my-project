@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import javax.websocket.server.PathParam;
 import java.io.File;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/emoticonImg")
@@ -29,6 +30,8 @@ public class EmoticonImgController extends CurdController<EmoticonImgRepository,
         try {
             byte[] bus = FileUtils.readFileToByteArray(new File(filePaths.getSavePath().get("emoticon") + File.separator + path));
             IOUtils.write(bus, response.getOutputStream());
+            response.setContentType("application/image");
+            response.addHeader("Content-Disposition", "attachment; filename="+ UUID.randomUUID()+path.substring(path.lastIndexOf(".")));
         } catch (Exception e){
             e.printStackTrace();
         }

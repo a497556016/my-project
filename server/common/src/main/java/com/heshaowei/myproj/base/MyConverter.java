@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.util.ReflectionUtils;
 
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.*;
 import java.util.Collection;
 import java.util.List;
@@ -29,7 +30,11 @@ public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
     }
 
     private Object getValueByProperty(Object obj, String propertyName) {
-        Method readMethod = BeanUtils.getPropertyDescriptor(obj.getClass(), propertyName).getReadMethod();
+        PropertyDescriptor propertyDescriptor = BeanUtils.getPropertyDescriptor(obj.getClass(), propertyName);
+        if(null == propertyDescriptor) {
+            return null;
+        }
+        Method readMethod = propertyDescriptor.getReadMethod();
         try {
             return readMethod.invoke(obj);
         } catch (IllegalAccessException e) {
@@ -41,7 +46,11 @@ public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
     }
 
     private void setValueByProperty(Object obj, String propertyName, Object ...args) {
-        Method writeMethod = BeanUtils.getPropertyDescriptor(obj.getClass(), propertyName).getWriteMethod();
+        PropertyDescriptor propertyDescriptor = BeanUtils.getPropertyDescriptor(obj.getClass(), propertyName);
+        if(null == propertyDescriptor) {
+            return;
+        }
+        Method writeMethod = propertyDescriptor.getWriteMethod();
         try {
             writeMethod.invoke(obj, args);
         } catch (IllegalAccessException e) {

@@ -4,11 +4,11 @@
             <template slot="src" slot-scope="{text, record, index}">
                 <a target="_blank" :href="text">{{text}}</a>
             </template>
-            <img slot="img" slot-scope="{text, record, index}" referrerpolicy="no-referrer" style="width: 100px;height: 100px;" @click="showImgModal(record)" :src="getImgSrc(record.path)">
+            <img slot="img" slot-scope="{text, record, index}" referrerpolicy="no-referrer" style="width: 50px;height: 50px;" @click="showImgModal(record)" :src="getImgSrc(record.path)">
         </curd-page>
 
         <a-modal title="查看图片" v-model="imgVisible">
-            <img :src="imgSrc" style="width: 100px;height: 100px;">
+            <img :src="imgSrc" style="width: 200px;height: 200px;">
         </a-modal>
     </div>
 </template>
@@ -37,6 +37,8 @@
         },
         methods: {
             loadTableData(params){
+                params.sortField = 'createTime';
+                params.sortDirection = 'desc';
                 return emoticonService.selectImgPage(params);
             },
             showImgModal(img){

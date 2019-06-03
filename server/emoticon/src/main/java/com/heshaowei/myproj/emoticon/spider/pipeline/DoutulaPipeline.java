@@ -5,6 +5,7 @@ import com.heshaowei.myproj.emoticon.config.FilePaths;
 import com.heshaowei.myproj.emoticon.entity.EmoticonCatalog;
 import com.heshaowei.myproj.emoticon.entity.EmoticonImg;
 import com.heshaowei.myproj.emoticon.repository.EmoticonCatalogRepository;
+import com.heshaowei.myproj.emoticon.spider.DoutulaSpider;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -33,6 +34,9 @@ public class DoutulaPipeline implements Pipeline {
     @Autowired
     private FilePaths filePaths;
 
+    @Autowired
+    private DoutulaSpider doutulaSpider;
+
     @Override
     public void process(ResultItems resultItems, Task task) {
         EmoticonCatalog catalog = resultItems.get("catalog");
@@ -40,9 +44,7 @@ public class DoutulaPipeline implements Pipeline {
         System.out.println(catalog);
         if(null != catalog) {
             //判断是否存在相同类别
-            EmoticonCatalog probe = new EmoticonCatalog();
-            probe.setCatalog(catalog.getCatalog());
-            boolean exist = this.emoticonCatalogRepository.exists(Example.of(probe));
+            boolean exist = this.doutulaSpider.exists(catalog.getCatalog());
 
             if(!exist) {
                 List<EmoticonImg> imgs = Lists.newArrayList();
@@ -72,7 +74,7 @@ public class DoutulaPipeline implements Pipeline {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    private void saveCatalog(EmoticonCatalog catalog) {
+    public void saveCatalog(EmoticonCatalog catalog) {
         emoticonCatalogRepository.save(catalog);
     }
 

@@ -6,8 +6,6 @@ import com.heshaowei.myproj.gateway.service.IAccountService;
 import com.heshaowei.myproj.utils.token.JWTUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.context.annotation.Bean;
@@ -17,9 +15,6 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.util.PathMatcher;
-import org.springframework.web.server.ServerWebExchange;
-import org.springframework.web.util.WebUtils;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
@@ -81,13 +76,6 @@ public class Config {
     }
 
     private boolean needFilter(String path) {
-        /*if (path.startsWith("/userForm/")
-                || path.equals("/account/login")
-                || path.equals("/download")
-                || path.equals("/account/refreshToken")
-        || path.startsWith("/emoticonImg/download")) {
-            return false;
-        }*/
         AntPathMatcher pathMatcher = new AntPathMatcher();
         for (String ignoreUrl : filterProps.getAuth().getIgnoreUrls()) {
             if(pathMatcher.match(ignoreUrl, path)){

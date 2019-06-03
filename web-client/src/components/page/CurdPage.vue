@@ -10,7 +10,7 @@
             <template v-if="moreActions.length > 0" slot="action" slot-scope="{record}">
                 <a-button v-for="btn in moreActions" :type="btn.type" :icon="btn.icon" :shape="btn.shape" @click="btn.handler(record)">{{btn.text}}</a-button>
             </template>
-            <a-button slot="edit" slot-scope="{record}" type="primary" shape="circle" icon="edit" @click="edit(record)"></a-button>
+            <a-button v-if="editable" slot="edit" slot-scope="{record}" type="primary" shape="circle" icon="edit" @click="edit(record)"></a-button>
         </m-table>
     </div>
 </template>
@@ -62,6 +62,10 @@
                 default(){
                     return []
                 }
+            },
+            editable: {
+                type: Boolean,
+                default: true
             }
         },
         data(){
@@ -90,7 +94,9 @@
                 }
 
                 //编辑操作列
-                this.columns.push({title: '编辑', width: 65, slot: 'edit', fixed: 'right', align: 'center'})
+                if(this.editable) {
+                    this.columns.push({title: '编辑', width: 65, slot: 'edit', fixed: 'right', align: 'center'})
+                }
             },
             edit(record){
                 this.$emit('edit', record);

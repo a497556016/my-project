@@ -40,7 +40,7 @@ public class DoutulaPageProcesser implements PageProcessor {
             List<Selectable> imgs = page.getHtml().xpath("//div[@class='artile_des']/table/tbody/tr/td/a/img").nodes();
 
             EmoticonCatalog emoticonCatalog = new EmoticonCatalog();
-            emoticonCatalog.setCatalog(catalog);
+            emoticonCatalog.setCatalog(catalog.replaceAll("[\\\\/:*?\"<>|]", "-"));
             emoticonCatalog.setTime(time);
 
             List<EmoticonImg> emoticonImgs = Lists.newArrayList();
@@ -67,6 +67,5 @@ public class DoutulaPageProcesser implements PageProcessor {
     public Site getSite() {
         return site;
     }
-
 
 }
