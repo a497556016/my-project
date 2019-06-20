@@ -1,5 +1,5 @@
 server:
-  port: 7006
+  port: 7007
 
 spring:
   application:
@@ -8,6 +8,9 @@ spring:
     url: jdbc:postgresql://192.168.0.45:5432/postgres?currentSchema=emoticon
     username: postgres
     password: 123456
+#    url: jdbc:mysql://192.168.0.45:3306/emoticon?characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=false
+#    username: root
+#    password: 123456
   jpa:
     hibernate:
       ddl-auto: update

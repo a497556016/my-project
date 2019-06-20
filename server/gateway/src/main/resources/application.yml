@@ -1,7 +1,7 @@
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:7001/eureka/
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:7001/eureka/
 server:
   port: 7002
 
@@ -22,6 +22,17 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
+#      routes:
+#        - id: account-server
+#          uri: lb://account-server
+#          predicates:
+#            - Path=/account-server/**
+#          filters:
+#            - StripPrefix=1 # 去除请求地址中的filer-server
+#        - id: account-server
+#          uri: lb://account-server
+#          predicates:
+#            - Path=/predicates/**
   cache:
     ehcache:
       config: classpath:cache/ehcache.xml
@@ -31,17 +42,7 @@ spring:
   sleuth:
     sampler:
       probability: 1.0 # 0到1之间，1表示全部采样
-#      routes:
-#        - id: file-server
-#          uri: lb://file-server
-#          predicates:
-#            - Path=/filer-server/**
-#          filters:
-#            - StripPrefix=1 # 去除请求地址中的filer-server
-#        - id: account-server
-#          uri: lb://account-server
-#          predicates:
-#            - Path=/predicates/**
+
 
 
 feign:
@@ -56,3 +57,4 @@ filter:
       - /download
       - /account/refreshToken
       - /emoticonImg/download
+      - /emoticonImg/selectPage
