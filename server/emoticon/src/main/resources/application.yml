@@ -28,11 +28,11 @@ spring:
     sampler:
       probability: 1.0 # 0到1之间，1表示全部采样
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:7001/eureka/
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:7001/eureka/
 
-file:
-  save-path:
-    emoticon: F:\picture\project\emoticon
+#file:
+#  save-path:
+#    emoticon: F:\picture\project\emoticon

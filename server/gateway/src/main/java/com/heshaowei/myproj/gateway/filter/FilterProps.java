@@ -3,12 +3,14 @@ package com.heshaowei.myproj.gateway.filter;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 @ConfigurationProperties("filter")
+@RefreshScope
 public class FilterProps {
     private AuthProp auth = new AuthProp();
 

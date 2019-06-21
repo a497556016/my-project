@@ -9,7 +9,6 @@ import com.heshaowei.myproj.cusform.entity.mongo.CustomerFormItem;
 import com.heshaowei.myproj.cusform.entity.mongo.UserForm;
 import com.heshaowei.myproj.cusform.service.CustomerFormService;
 import com.heshaowei.myproj.cusform.service.UserFormService;
-import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
