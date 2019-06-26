@@ -10,6 +10,8 @@
         <module>customer-form</module>
         <module>gateway</module>
         <module>emoticon</module>
+        <module>account-client</module>
+        <module>file-client</module>
     </modules>
 
     <parent>

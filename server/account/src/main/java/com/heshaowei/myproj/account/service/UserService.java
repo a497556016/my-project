@@ -3,8 +3,11 @@ package com.heshaowei.myproj.account.service;
 import com.google.common.collect.Lists;
 import com.heshaowei.myproj.account.entity.User;
 import com.heshaowei.myproj.account.repository.UserRepository;
+import com.heshaowei.myproj.file.client.controller.FileClient;
+import com.heshaowei.myproj.file.client.domain.FileReq;
 import com.heshaowei.myproj.utils.PropertyCopys;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,11 +21,14 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private IFileService fileService;
+    private FileClient fileClient;
+
+    @Value("${spring.application.name}")
+    private String appId;
 
     private void updateFileBusId(String path, Long id) {
         if (null != path) {
-            this.fileService.updateBusId(new IFileService.FileReq(path, "account-server/user/" + id));
+            this.fileClient.updateBusId(new FileReq(path, appId + "/user/" + id));
         }
     }
 

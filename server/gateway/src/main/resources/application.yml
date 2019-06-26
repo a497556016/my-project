@@ -1,6 +1,6 @@
 #eureka:
 #  client:
-#    service-url:
+#    controller-url:
 #      defaultZone: http://localhost:7001/eureka/
 server:
   port: 7002
