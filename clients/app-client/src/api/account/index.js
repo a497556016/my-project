@@ -7,7 +7,7 @@ const loginByAccount = (loginUser) => {
         return ErrorResult('请输入用户名和密码！');
     }
 
-    return http.get('/account-server/login', {
+    return http.get('/account-server/login/account', {
         params: loginUser
     });
 }

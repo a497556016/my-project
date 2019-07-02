@@ -7,25 +7,29 @@
                     <img class="swipe-img" :src="img.path"/>
                 </van-swipe-item>
             </van-swipe>
-            <div class="grid">
-                <van-row class="grid-row" type="flex" justify="space-between" v-for="row in menuRowCols">
-                    <van-col class="grid-cell" :span="col.span" v-for="col in row">
-                        <van-icon :name="col.icon" size="36" :color="col.color"></van-icon>
-                        <div class="text">{{col.title}}</div>
-                    </van-col>
-                </van-row>
-            </div>
+
+            <van-list
+                v-model="commendPosts.loading"
+                :finished="commendPosts.finished"
+                finished-text="没有更多了"
+                @load="getCommendPosts"
+            >
+                <posts-panel v-for="item in commendPosts.data" :title="item.title" :content="item.content" :desc="item.desc" :image="item.image" :author="item.author"></posts-panel>
+            </van-list>
         </div>
     </div>
 </template>
 
 <script>
-    import {Swipe, SwipeCell, SwipeItem, Row, Col, Icon, Field} from 'vant'
-    import {mapGetters, mapState} from 'vuex'
-    import MyHeaderBar from "../../../components/headerbar/index";
+    import {Swipe, SwipeCell, SwipeItem, Row, Col, Icon, Field, List} from 'vant'
+    import {mapGetters, mapState, mapActions} from 'vuex'
+    import {mapTypes} from '../../../store/types'
+    import MyHeaderBar from "../../../components/headerbar";
+    import PostsPanel from "../../../components/panel/posts-panel/index";
     export default {
         name: "Home",
         components: {
+            PostsPanel,
             MyHeaderBar,
             [Swipe.name]: Swipe,
             [SwipeCell.name]: SwipeCell,
@@ -33,19 +37,26 @@
             [Row.name]: Row,
             [Col.name]: Col,
             [Icon.name]: Icon,
-            [Field.name]: Field
+            [Field.name]: Field,
+            [List.name]: List
         },
         data(){
             return {
 
             }
         },
+        mounted(){
+            // this.getCommendPosts();
+        },
         computed: {
             ...mapState({
-                topImages: state => state.home.topImages
-            }),
-            ...mapGetters({
-                menuRowCols: 'home/GET_MENU_ROW_COLS'
+                topImages: state => state.home.topImages,
+                commendPosts: state => state.home.commendPosts
+            })
+        },
+        methods: {
+            ...mapActions({
+                getCommendPosts: mapTypes.home.GET_COMMEND_POSTS
             })
         }
     }
@@ -57,34 +68,20 @@
         .content-box {
             position: relative;
             top: 50px;
+            margin-bottom: 50px;
             .swipe-img {
                 height: 150px;
                 width: 100%;
             }
 
-            .grid {
-                .grid-row {
-                    margin: 15px 15px 0 15px;
-                    .grid-cell {
-                        position: relative;
-                        text-align: center;
-                        border: 0.02em solid #eee;
-                        background: #efefef;
-                        height: 80px;
+            /*.panel-content {
+                padding: 5px 15px;
+                font-size: 13px;
+                color: @light-text-color
+            }*/
 
-                        .van-icon {
-                            position: relative;
-                            top: 10px;
-                        }
-                        .text {
-                            position: absolute;
-                            bottom: 5px;
-                            width: 100%;
-                            text-align: center;
-                            font-size: 13px;
-                        }
-                    }
-                }
+            .van-list {
+                background: #e7e7e7;
             }
         }
     }

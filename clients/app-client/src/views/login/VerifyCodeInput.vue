@@ -20,6 +20,7 @@
 <script>
     import {Button, PasswordInput, NumberKeyboard, CellGroup, Cell} from 'vant'
     import {mapActions} from 'vuex'
+    import {mapTypes} from '../../store/types'
     export default {
         name: "PasswordInput",
         components: {
@@ -37,7 +38,7 @@
         },
         methods: {
             ...mapActions({
-                loginByPhoneCode: 'account/LOGIN_BY_PHONE_CODE'
+                loginByPhoneCode: mapTypes.account.LOGIN_BY_PHONE_CODE
             }),
             onInput(key){
                 this.value = (this.value + key).slice(0, 6);

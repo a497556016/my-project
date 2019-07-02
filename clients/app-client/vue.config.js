@@ -6,10 +6,10 @@ module.exports = {
             less: {
                 modifyVars: {
                     red: '#f41414',
-                    blue: '#245fae',
+                    blue: '#4e5e97', //active color
                     orange: '#f0741c',
-                    green: '#245fae',
-                    'text-color': '#111111'
+                    green: '#334151', //primary color
+                    'text-color': '#001226'
                 }
             }
         }

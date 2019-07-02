@@ -16,6 +16,7 @@
 <script>
     import {Button, CellGroup, Cell, Field} from 'vant'
     import {mapState, mapActions} from 'vuex'
+    import {mapTypes} from '../../store/types'
     export default {
         name: "Login",
         components: {
@@ -34,7 +35,7 @@
         },
         methods: {
             ...mapActions({
-                loginByAccount: 'account/LOGIN_BY_ACCOUNT'
+                loginByAccount: mapTypes.account.LOGIN_BY_ACCOUNT
             }),
             login(){
                 console.log(this.loginUser);

@@ -10,38 +10,17 @@ const state = {
     topImages: [
 
     ],
-    menuLayout: {
-        cols: 3
+    commendPosts: {
+        current: 1,
+        size: 5,
+        finished: false,
+        loading: false,
+        data: []
     },
-    menuItems: [
-        {icon: 'like', color: '#00f', title: '喜欢'},
-        {icon: 'star', color: '#ff3136', title: '收藏'},
-        {icon: 'shopping-cart', color: '#35ff9b', title: '购物车'},
-        {icon: 'shopping-cart', color: '#4b91ff', title: '购物车'}
-    ]
 }
 
 const getters = {
-    [types.GET_MENU_ROW_COLS] (state){
-        let start = 0, end = state.menuLayout.cols;
-        let span = 24 / state.menuLayout.cols - 1;
-        const result = [];
-        while(end <= state.menuItems.length) {
-            result.push(state.menuItems.slice(start, end));
-            start = end;
-            end = start + state.menuLayout.cols;
-        }
 
-        if(start < state.menuItems.length && end > state.menuItems.length) {
-            result.push(state.menuItems.slice(start));
-        }
-
-        result.forEach(items => {
-            items.forEach(item => item.span = span);
-        })
-
-        return result;
-    }
 }
 
 const mutations = {
@@ -55,6 +34,18 @@ const actions = {
         homeApi.getTopImages().then(res => {
             if(res.code == 1){
                 commit(types.SET_TOP_IMAGES, res.data);
+            }
+        })
+    },
+    [types.GET_COMMEND_POSTS] ({commit, state}){
+        state.commendPosts.loading = true;
+        homeApi.getRecommendPosts(state.commendPosts.current, state.commendPosts.size).then(res => {
+            state.commendPosts.loading = false;
+
+            if(res.code == 1){
+                state.commendPosts.finished = (res.current >= res.pages);
+                state.commendPosts.current = res.current + 1;
+                state.commendPosts.data.push(...res.data);
             }
         })
     }

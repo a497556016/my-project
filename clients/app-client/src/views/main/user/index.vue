@@ -12,6 +12,18 @@
 
         </div>
 
+        <van-grid :column-num="menuLayout.cols" :gutter="menuLayout.space" :border="false">
+            <van-grid-item v-for="menu in menuItems" :icon="menu.icon" :text="menu.title" :style="{color: menu.color}"></van-grid-item>
+        </van-grid>
+        <!--<div class="grid">
+            <van-row class="grid-row" type="flex" justify="space-between" v-for="row in menuRowCols">
+                <van-col class="grid-cell" :span="col.span" v-for="col in row">
+                    <van-icon :name="col.icon" size="36" :color="col.color"></van-icon>
+                    <div class="text">{{col.title}}</div>
+                </van-col>
+            </van-row>
+        </div>-->
+
         <van-action-sheet
                 v-model="showAccountActions"
                 :actions="accountActions"
@@ -23,8 +35,9 @@
 </template>
 
 <script>
-    import {ActionSheet, Icon} from 'vant'
+    import {ActionSheet, Icon, Grid, GridItem} from 'vant'
     import {mapGetters, mapState, mapMutations} from 'vuex'
+    import {mapTypes} from '../../../store/types'
 
     const accountActions = [
         {name: '退出登录', className: 'warn-action'},
@@ -35,7 +48,9 @@
         name: "User",
         components: {
             [ActionSheet.name]: ActionSheet,
-            [Icon.name]: Icon
+            [Icon.name]: Icon,
+            [Grid.name]: Grid,
+            [GridItem.name]: GridItem,
         },
         data(){
             return {
@@ -44,13 +59,18 @@
             }
         },
         computed: {
+            ...mapState({
+                menuItems: state => state[mapTypes.menus.value].menuItems,
+                menuLayout: state => state[mapTypes.menus.value].menuLayout
+            }),
             ...mapGetters({
-                loginUser: 'account/GET_LOGIN_USER',
+                loginUser: mapTypes.account.GET_LOGIN_USER,
+                menuRowCols: mapTypes.menus.GET_MENU_ROW_COLS,
             })
         },
         methods: {
             ...mapMutations({
-                logoutCurrentUser: 'account/LOGOUT_CURRENT_USER'
+                logoutCurrentUser: mapTypes.account.LOGOUT_CURRENT_USER
             }),
             onAccountActionSelect(item, index){
                 if(index == 0) {
@@ -98,5 +118,30 @@
                 }
             }
         }
+
+        /*.grid {
+            .grid-row {
+                margin: 15px 15px 0 15px;
+                .grid-cell {
+                    position: relative;
+                    text-align: center;
+                    border: 0.02em solid #f7f3ed;
+                    background: #f1f1f1;
+                    height: 80px;
+
+                    .van-icon {
+                        position: relative;
+                        top: 10px;
+                    }
+                    .text {
+                        position: absolute;
+                        bottom: 5px;
+                        width: 100%;
+                        text-align: center;
+                        font-size: 13px;
+                    }
+                }
+            }
+        }*/
     }
 </style>
