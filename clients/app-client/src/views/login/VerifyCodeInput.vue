@@ -52,7 +52,7 @@
                     this.loginByPhoneCode(this.value).then((res) => {
                         if(res.code == 1) {
                             this.$toast('登录成功！');
-                            this.$router.push({path: '/', replace: true})
+                            this.$router.replace({path: '/'})
                         }else {
                             this.$toast.fail(res.msg);
                         }

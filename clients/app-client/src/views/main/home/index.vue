@@ -1,6 +1,8 @@
 <template>
     <div class="home-page">
         <my-header-bar @search="(value) => $toast(value)"></my-header-bar>
+
+
         <div class="content-box">
             <van-swipe :autoplay="3000" indicator-color="white">
                 <van-swipe-item v-for="img in topImages">
@@ -8,28 +10,25 @@
                 </van-swipe-item>
             </van-swipe>
 
-            <van-list
-                v-model="commendPosts.loading"
-                :finished="commendPosts.finished"
-                finished-text="没有更多了"
-                @load="getCommendPosts"
-            >
-                <posts-panel v-for="item in commendPosts.data" :title="item.title" :content="item.content" :desc="item.desc" :image="item.image" :author="item.author"></posts-panel>
-            </van-list>
+            <posts-list :posts-data="commendPosts" :on-load="getCommendPosts" :on-refresh="refreshRecommendPosts"></posts-list>
         </div>
+
+        <float-button @click="toAddPosts()"></float-button>
     </div>
 </template>
 
 <script>
-    import {Swipe, SwipeCell, SwipeItem, Row, Col, Icon, Field, List} from 'vant'
+    import {Swipe, SwipeCell, SwipeItem, Row, Col, Icon, Field} from 'vant'
     import {mapGetters, mapState, mapActions} from 'vuex'
     import {mapTypes} from '../../../store/types'
     import MyHeaderBar from "../../../components/headerbar";
-    import PostsPanel from "../../../components/panel/posts-panel/index";
+    import FloatButton from "../../../components/button/float-button/index";
+    import PostsList from "../../../components/list/posts-list/index";
     export default {
         name: "Home",
         components: {
-            PostsPanel,
+            PostsList,
+            FloatButton,
             MyHeaderBar,
             [Swipe.name]: Swipe,
             [SwipeCell.name]: SwipeCell,
@@ -38,7 +37,6 @@
             [Col.name]: Col,
             [Icon.name]: Icon,
             [Field.name]: Field,
-            [List.name]: List
         },
         data(){
             return {
@@ -46,7 +44,7 @@
             }
         },
         mounted(){
-            // this.getCommendPosts();
+
         },
         computed: {
             ...mapState({
@@ -56,8 +54,13 @@
         },
         methods: {
             ...mapActions({
-                getCommendPosts: mapTypes.home.GET_COMMEND_POSTS
-            })
+                getCommendPosts: mapTypes.home.GET_COMMEND_POSTS,
+                refreshRecommendPosts: mapTypes.home.REFRESH_COMMEND_POSTS
+            }),
+            toAddPosts(){
+                this.$toast('去吧，皮卡丘！');
+                this.$router.push({path: '/posts/create'})
+            }
         }
     }
 </script>
@@ -74,15 +77,6 @@
                 width: 100%;
             }
 
-            /*.panel-content {
-                padding: 5px 15px;
-                font-size: 13px;
-                color: @light-text-color
-            }*/
-
-            .van-list {
-                background: #e7e7e7;
-            }
         }
     }
 </style>

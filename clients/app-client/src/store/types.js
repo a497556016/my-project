@@ -7,10 +7,16 @@ export const LOGOUT_CURRENT_USER = "LOGOUT_CURRENT_USER";
 //home
 export const SET_TOP_IMAGES = "SET_TOP_IMAGES";
 export const LOAD_TOP_IMAGES = "LOAD_TOP_IMAGES";
+
 export const GET_COMMEND_POSTS = "GET_COMMEND_POSTS";
+export const REFRESH_COMMEND_POSTS = "REFRESH_COMMEND_POSTS"; //刷新主页推荐
 
 //menus
 export const GET_MENU_ROW_COLS = "GET_MENU_ROW_COLS";
+
+//relation
+export const GET_FRIENDS_SHARE_LIST = "GET_FRIENDS_SHARE_LIST";
+export const REFRESH_FRIENDS_SHARE = "REFRESH_FRIENDS_SHARE";
 
 
 const moduleTypes = {
@@ -25,10 +31,15 @@ const moduleTypes = {
         GET_MENU_ROW_COLS,
         SET_TOP_IMAGES,
         LOAD_TOP_IMAGES,
-        GET_COMMEND_POSTS
+        GET_COMMEND_POSTS,
+        REFRESH_COMMEND_POSTS
     },
     'menus': {
         GET_MENU_ROW_COLS
+    },
+    'relation': {
+        GET_FRIENDS_SHARE_LIST,
+        REFRESH_FRIENDS_SHARE
     }
 }
 

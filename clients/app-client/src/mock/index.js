@@ -7,7 +7,8 @@ const requests = [
     {url: RegExp(/^\/account-server\/login\/account/), type: 'get', call: account.loginByAccount},
     {url: RegExp(/^\/account-server\/login\/phone/), type: 'get', call: account.loginByPhoneCode},
     {url: RegExp(/^\/file-server\/getTopImages$/), type: 'get', call: data.getTopImages},
-    {url: RegExp(/^\/bbs-server\/getRecommendPosts/), type: 'get', call: data.getRecommendPosts}
+    {url: RegExp(/^\/bbs-server\/getRecommendPosts/), type: 'get', call: data.getRecommendPosts},
+    {url: RegExp(/^\/bbs-server\/getFriendsShareData/), type: 'get', call: data.getFriendsShareData}
 ]
 
 requests.forEach(request => {

@@ -1,6 +1,6 @@
 module.exports = {
-    outputDir: 'docs',
-    publicPath: process.env.NODE_ENV === 'production' ? '/vant-demo/' : '/',
+    outputDir: 'dist',
+    publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
     css: {
         loaderOptions: {
             less: {
@@ -13,5 +13,6 @@ module.exports = {
                 }
             }
         }
-    }
+    },
+    runtimeCompiler: true,
 };

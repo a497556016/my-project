@@ -75,11 +75,11 @@
             onAccountActionSelect(item, index){
                 if(index == 0) {
                     this.logoutCurrentUser();
-                    this.$router.push({path: '/login', replace: true});
+                    this.$router.replace({path: '/login'});
                 }
             },
             onEdit(){
-                this.$router.push({path: '/main/user/edit', replace: true})
+                this.$router.push({path: '/main/user/edit'})
             }
         }
     }

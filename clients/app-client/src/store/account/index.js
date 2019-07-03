@@ -18,7 +18,7 @@ const state = {
 const getters = {
     [types.GET_LOGIN_USER] (state){
         if(!state.loginUser || !state.loginUser.username) {
-            const json = sessionStorage.getItem(SESSION_LOGIN_USER);
+            const json = localStorage.getItem(SESSION_LOGIN_USER);
             if(json) {
                 state.loginUser = JSON.parse(json);
             }
@@ -30,10 +30,10 @@ const getters = {
 const mutations = {
     [types.SAVE_LOGIN_USER] (state) {
         const json = JSON.stringify(state.loginUser);
-        sessionStorage.setItem(SESSION_LOGIN_USER, json);
+        localStorage.setItem(SESSION_LOGIN_USER, json);
     },
     [types.LOGOUT_CURRENT_USER] (state) {
-        sessionStorage.removeItem(SESSION_LOGIN_USER);
+        localStorage.removeItem(SESSION_LOGIN_USER);
         state.loginUser = {}
     }
 }

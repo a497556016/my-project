@@ -42,7 +42,7 @@
                 this.loginByAccount().then((res) => {
                     if(res.code == 1) {
                         this.$toast.success('登录成功！');
-                        this.$router.push({path: '/main/home', replace: true})
+                        this.$router.replace({path: '/main/home'})
                     }else {
                         this.$toast.fail(res.msg);
                     }

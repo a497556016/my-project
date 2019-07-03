@@ -2,7 +2,8 @@
     <div>
         <router-view />
         <van-tabbar v-model="active" route>
-            <van-tabbar-item name="home" replace to="/main/home" icon="home-o">主页</van-tabbar-item>
+            <van-tabbar-item name="home" replace to="/main/home" icon="home-o">推荐</van-tabbar-item>
+            <van-tabbar-item name="relation" replace to="/main/relation" icon="friends">圈子</van-tabbar-item>
             <van-tabbar-item name="user" replace to="/main/user" icon="user-o">个人中心</van-tabbar-item>
         </van-tabbar>
     </div>

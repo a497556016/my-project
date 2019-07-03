@@ -1,6 +1,7 @@
 import * as types from '../types'
 
 import homeApi from '../../api/home'
+import postsApi from '../../api/posts'
 
 const state = {
     headerBar: {
@@ -15,6 +16,8 @@ const state = {
         size: 5,
         finished: false,
         loading: false,
+        refreshing: false,
+        refreshIndex: 0,
         data: []
     },
 }
@@ -38,16 +41,30 @@ const actions = {
         })
     },
     [types.GET_COMMEND_POSTS] ({commit, state}){
-        state.commendPosts.loading = true;
-        homeApi.getRecommendPosts(state.commendPosts.current, state.commendPosts.size).then(res => {
-            state.commendPosts.loading = false;
+        setTimeout(() => {
+            postsApi.getRecommendPosts(state.commendPosts.current, state.commendPosts.size).then(res => {
+                state.commendPosts.loading = false;
+                if(res.code == 1){
+                    state.commendPosts.finished = (res.current >= res.pages);
+                    state.commendPosts.current = res.current + 1;
 
-            if(res.code == 1){
-                state.commendPosts.finished = (res.current >= res.pages);
-                state.commendPosts.current = res.current + 1;
-                state.commendPosts.data.push(...res.data);
-            }
-        })
+                    state.commendPosts.data.push(...res.data);
+                }
+            })
+        }, 1000)
+
+    },
+    [types.REFRESH_COMMEND_POSTS] ({commit, state}){
+        state.commendPosts.refreshing = true;
+        setTimeout(() => {
+            postsApi.refreshRecommendPosts().then(res => {
+                state.commendPosts.refreshing = false;
+                if(res.code == 1){
+                    state.commendPosts.data = res.data.concat(state.commendPosts.data);
+                    state.commendPosts.refreshIndex = res.data.length;
+                }
+            })
+        }, 1000);
     }
 }
 

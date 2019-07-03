@@ -63,7 +63,7 @@
         height: 50px;
         line-height: 58px;
         position: fixed;
-        z-index: 1;
+        z-index: 10;
         width: 100%;
         display: flex;
 

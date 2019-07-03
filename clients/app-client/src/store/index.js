@@ -6,11 +6,13 @@ Vue.use(Vuex);
 import account from './account'
 import home from './home'
 import menus from './menus'
+import relation from './relation'
 
 export default new Vuex.Store({
     modules: {
         account,
         home,
-        menus
+        menus,
+        relation
     }
 })

@@ -10,7 +10,8 @@
   "dependencies": {
     "axios": "^0.19.0",
     "core-js": "^2.6.5",
-    "vant": "^2.0.4",
+    "font-awesome": "^4.7.0",
+    "vant": "^2.0.5",
     "vue": "^2.6.10",
     "vue-router": "^3.0.6",
     "vuex": "^3.1.1"
@@ -26,6 +27,7 @@
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
     "mockjs": "^1.0.1-beta3",
+    "vue-html5-editor": "^1.1.1",
     "vue-template-compiler": "^2.6.10"
   },
   "eslintConfig": {

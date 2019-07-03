@@ -1,35 +1,55 @@
 <template>
     <div class="posts-panel">
         <my-card>
-            <div v-if="title" slot="title">
-                <div>{{title}}</div>
-                <div v-if="author" class="author">
-                    <img :src="author.avatar"/>
-                    <div>{{author.name}}</div>
+            <div v-if="data.title" slot="title">
+                <div class="van-ellipsis">{{data.title}}</div>
+                <div v-if="data.author" class="author">
+                    <img :src="data.author.avatar"/>
+                    <div>{{data.author.name}}</div>
                 </div>
             </div>
             <div class="content van-hairline--top-bottom">
                 <div class="img">
-                    <img v-if="image" :src="image"/>
+                    <img v-if="data.image" :src="data.image"/>
                 </div>
-                <div>{{content}}</div>
+                <div>{{data.content}}</div>
             </div>
-            <div class="footer" slot="footer">{{desc}}</div>
+            <div class="footer" slot="footer">
+                <div class="left">
+                    <van-icon name="like-o"></van-icon>
+                    <span>{{data.likes}}</span>
+                    <van-icon name="star-o"></van-icon>
+                    <span>{{data.stars}}</span>
+                    <van-icon name="eye-o"></van-icon>
+                    <span>{{reads}}</span>
+                </div>
+                <div class="right">{{data.desc}}</div>
+            </div>
         </my-card>
     </div>
 </template>
 
 <script>
+    import {Icon} from 'vant'
     import MyCard from "../../card/index";
     export default {
         name: "PostsPanel",
-        components: {MyCard},
+        components: {
+            MyCard,
+            [Icon.name]: Icon
+        },
         props: {
-            title: String,
-            content: String,
-            desc: String,
-            image: String,
-            author: Object
+            data: Object
+        },
+        computed: {
+            reads(){
+                const reads = this.data.reads || 0;
+                if(reads > 1000) {
+                    return (reads/1000).toFixed(2) + 'k';
+                }else {
+                    return reads;
+                }
+            }
         }
     }
 </script>
@@ -67,8 +87,23 @@
             padding: 5px 0;
         }
         .footer {
-            text-align: right;
             color: @thin-text-color;
+            height: 16px;
+            line-height: 15px;
+            .left {
+                float: left;
+                display: flex;
+                .van-icon {
+                    font-size: 14px;
+                }
+                span{
+                    margin-left: 3px;
+                    margin-right: 8px;
+                }
+            }
+            .right {
+                float: right;
+            }
         }
     }
 </style>
