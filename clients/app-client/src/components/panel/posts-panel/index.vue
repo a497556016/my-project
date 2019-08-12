@@ -85,6 +85,7 @@
             }
             color: @light-text-color;
             padding: 5px 0;
+            font-size: 14px;
         }
         .footer {
             color: @thin-text-color;

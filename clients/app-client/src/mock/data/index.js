@@ -59,7 +59,13 @@ const getRecommendPosts = function (options) {
 
 const getFriendsShareData = function (options) {
     return createPageData(options, 100, (i) => {
-        const item = {id: i+1, name: Random.cname(), avatar: Random.dataImage('60x60', this.name), content: Random.cparagraph(3, 10), date: Random.date(),
+        const item = {
+            id: i+1,
+            name: Random.cname(),
+            avatar: Random.dataImage('60x60', this.name),
+            content: '😀😁😂😃😄😅😆😉😊😋😎😍😘😗😙😚☺😇😐😑😶😏😣😥😮😯😪😫😴😌😛😜😝😒😓😔😕😲😷😖😞😟😤😢😭😦😧😨😬😰😱😳😵'+Random.cparagraph(3, 10),
+            date: Random.date(),
+            videos: [],
             likes: [],
             comments: [],
             images: []
@@ -73,6 +79,10 @@ const getFriendsShareData = function (options) {
         }
         for (let j = 0; j < imagesSize; j++) {
             item.images.push({title: Random.title(), src: Random.dataImage('300x500', '晒图啦')})
+        }
+        const video = Random.natural(0,10)%3 == 0;
+        if(video) {
+            item.videos.push({type: 'video/mp4', src: 'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm'})
         }
         return item;
     })

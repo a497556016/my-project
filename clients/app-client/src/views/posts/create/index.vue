@@ -7,7 +7,8 @@
                 <van-field placeholder="请输入标题" size="large" v-model="title"></van-field>
             </div>
             <div class="editor-content van-hairline--bottom">
-                <editor :height="editorHeight" :content="content" :show-module-name="false" ref="editor" @change="updateData"></editor>
+                <h5-editor ref="editor" :height="300" :remote="true" :url="'http://127.0.0.1:7002/file-server/upload'" :onsuccess="onSuccess"></h5-editor>
+                <!--<editor :height="editorHeight" :content="content" :show-module-name="false" ref="editor" @change="updateData"></editor>-->
             </div>
         </div>
 
@@ -23,7 +24,7 @@
 <script>
     import MyNavBar from "../../../components/navbar/index";
     import {Field, Button, Icon} from 'vant'
-    import VueHtml5Editor from 'vue-html5-editor'
+    /*import VueHtml5Editor from 'vue-html5-editor'
     const Editor = new VueHtml5Editor({
         showModuleName: false,
         image: {
@@ -69,11 +70,11 @@
             "hr",
 
         ],
-    })
+    })*/
     export default {
         name: "PostsCreate",
         components: {
-            Editor,
+            // Editor,
             MyNavBar,
             [Field.name]: Field,
             [Button.name]: Button,
@@ -86,35 +87,40 @@
             }
         },
         mounted() {
-            /*const field = this.$refs.content;
-            console.log(window.innerHeight)
-            console.log(field.$refs.input.style.height);
-            field.$refs.input.style.height = (window.innerHeight - 110) + 'px';*/
-            const editor = this.$refs.editor;
-            const toolbar = editor.$refs.toolbar.childNodes[0];
-            console.log(toolbar)
-            toolbar.style.position = 'fixed';
-            toolbar.style.bottom = '44px';
-            toolbar.style.width = '100%';
-            toolbar.style.backgroundColor = 'white';
-            toolbar.style.borderTop = '1px solid #eeeeee';
+            // const editor = this.$refs.editor;
+            // const toolbar = editor.$refs.toolbar.childNodes[0];
+            // console.log(toolbar)
+            // toolbar.style.position = 'fixed';
+            // toolbar.style.bottom = '44px';
+            // toolbar.style.width = '100%';
+            // toolbar.style.backgroundColor = 'white';
+            // toolbar.style.borderTop = '1px solid #eeeeee';
         },
         computed: {
-            editorHeight(){
-                return (window.innerHeight - 110);
-            }
+            // editorHeight(){
+            //     return (window.innerHeight - 110);
+            // }
         },
         methods: {
             submit(){
-                console.log(this.content);
+                console.log(this.$refs.editor.getContent());
                 if(!this.title) {
                     this.$toast.fail('请输入标题！')
                     return;
                 }
 
             },
-            updateData(data){
-                this.content = data;
+            // updateData(data){
+            //     this.content = data;
+            // },
+
+            onSuccess(response){
+                const res = JSON.parse(response);
+                if(res.code == 1) {
+                    return 'http://127.0.0.1:7002/file-server/download?path='+encodeURI(res.data.path);
+                }else {
+                    return null;
+                }
             }
         }
     }

@@ -16,6 +16,7 @@
 <script>
     import { List} from 'vant'
     import FriendSharePanel from "../../panel/friend-share-panel/index";
+
     export default {
         name: "FriendsShareList",
         components: {
@@ -25,6 +26,14 @@
         props: {
             friendsShareData: Object,
             onLoad: Function
+        },
+        data(){
+            return {
+
+            }
+        },
+        computed: {
+
         }
     }
 </script>

@@ -33,6 +33,6 @@ spring:
 #    serviceUrl:
 #      defaultZone: http://localhost:7001/eureka/
 
-#file:
-#  save-path:
-#    emoticon: F:\picture\project\emoticon
+file:
+  save-path:
+    emoticon: F:\picture\project\emoticon

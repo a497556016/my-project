@@ -2,7 +2,7 @@ package com.heshaowei.myproj.gateway.filter;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.heshaowei.myproj.gateway.service.IAccountService;
+import com.heshaowei.myproj.gateway.service.AccountService;
 import com.heshaowei.myproj.utils.token.JWTUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import java.util.List;
 public class Config {
 
     @Autowired
-    private IAccountService accountService;
+    private AccountService accountService;
 
     @Autowired
     private FilterProps filterProps;
@@ -59,6 +59,10 @@ public class Config {
                         ServerHttpRequest host = exchange.getRequest().mutate().header("username", username).build();
                         //将现在的request 变成 change对象
                         exchange = exchange.mutate().request(host).build();
+                    }else {
+                        //清除缓存
+                        this.accountService.removeByUsername(username);
+                        throw new Exception("查询用户信息异常！");
                     }
                 } catch (Exception e) {
                     log.error(e);

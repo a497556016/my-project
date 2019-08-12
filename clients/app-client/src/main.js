@@ -9,6 +9,8 @@ import {Toast} from 'vant'
 Vue.use(Toast)
 import { ImagePreview } from 'vant';
 Vue.use(ImagePreview);
+import H5Editor from '../public/plugins/h5-editor'
+Vue.use(H5Editor);
 
 const mock = require('./mock');
 Vue.prototype.$mock = mock.default;

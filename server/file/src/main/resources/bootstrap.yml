@@ -5,3 +5,6 @@ spring:
       port: 8500
       config:
         format: yaml
+      discovery:
+        prefer-ip-address: true
+        ip-address: 192.168.0.171

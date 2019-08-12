@@ -6,6 +6,9 @@
         <div class="content">
             <div class="name">{{data.name}}</div>
             <div class="words">{{data.content}}</div>
+            <div class="videos" v-if="data.videos.length">
+                <video-player @click="$toast('???')" ref="videoPlayer" :options="videoOptions" style="margin-bottom: 15px"></video-player>
+            </div>
             <div class="images" v-if="data.images">
                 <van-image v-for="(img, index) in data.images" width="85" height="85" :src="img.src" @click="imagePreview(index)"></van-image>
             </div>
@@ -31,9 +34,20 @@
 
 <script>
     import {Icon, Image} from 'vant'
+
+    import VideoPlayer from '../../media/video'
+
+    const videoOptions = {
+        muted: true,
+        autoplay: true,
+        height: 150,
+        sources: [],
+    }
+
     export default {
         name: "FriendSharePanel",
         components: {
+            VideoPlayer,
             [Icon.name]: Icon,
             [Image.name]: Image
         },
@@ -41,11 +55,23 @@
             data: Object
         },
         data(){
+            videoOptions.sources.push(...this.data.videos);
             return {
                 showImagePreview: false,
                 images: [],
-                startPosition: 0
+                startPosition: 0,
+                videoOptions
             }
+        },
+        mounted(){
+            const videoPlayer = this.$refs.videoPlayer;
+            if(videoPlayer) {
+                videoPlayer.player.options_.width = videoPlayer.$el.clientWidth;
+                console.log(videoPlayer.player);
+            }
+        },
+        computed: {
+
         },
         methods: {
             imagePreview(index){
@@ -84,6 +110,9 @@
                 font-size: 15px;
                 padding: 8px 8px 8px 0;
                 color: @text-color;
+            }
+            .videos {
+                padding: 8px 8px 8px 0;
             }
             .images {
                 display: flex;

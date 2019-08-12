@@ -6,7 +6,11 @@ import routes from './routes'
 import store from "../store";
 
 const router = new VueRouter({
-    routes
+    routes,
+    scrollBehavior (to, from, savedPosition) {
+        // return 期望滚动到哪个的位置
+        return { x: 0, y: 0 }
+    }
 })
 
 router.beforeEach((to, from, next) => {

@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableDiscoveryClient
 @EnableCaching
 @EnableScheduling
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"com.heshaowei.myproj.account.client"})
 public class GatewayApplication {
 
     public static void main(String[] args) {

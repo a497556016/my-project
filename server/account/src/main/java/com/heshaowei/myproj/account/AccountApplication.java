@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication(scanBasePackages = {"com.heshaowei.myproj"})
 @EnableDiscoveryClient
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"com.heshaowei.myproj.file.client"})
 public class AccountApplication {
 
     public static void main(String[] args) {
