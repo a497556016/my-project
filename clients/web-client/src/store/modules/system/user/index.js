@@ -15,7 +15,7 @@ const state = {
 
     //给此用户分配角色
     assignRoleUser: {
-        roleList: [] //用户拥有的角色
+        roles: [] //用户拥有的角色
     },
     //系统角色列表
     roleList: []
@@ -34,7 +34,7 @@ const mutations = {
         state.selectedKeys = keys;
     },
     [mutationTypes.SET_ROLE_LIST] (state, roleList) {
-        const ids = state.assignRoleUser.roleList.map(role => role.id);
+        const ids = state.assignRoleUser.roles.map(role => role.id);
 
         state.roleList = roleList.map(role => {
             role.assigned = _.includes(ids, role.id);

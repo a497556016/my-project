@@ -4,18 +4,43 @@ import com.google.common.base.Converter;
 import com.google.common.collect.Lists;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.util.ReflectionUtils;
+import sun.reflect.generics.reflectiveObjects.TypeVariableImpl;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
 
-    private Class<?> getType(int index) {
-        ParameterizedType parameterizedType = (ParameterizedType) this.getClass().getGenericSuperclass();//获取当前new对象的泛型的父类类型
-        Class<?> type = (Class<?>) parameterizedType.getActualTypeArguments()[index];
-        return type;
+    public static Class<?> getMyConverterClass(Class<?> calzz){
+        Class<?> superclass = calzz.getSuperclass();
+        while (superclass != null) {
+            if(superclass.getName().equals("java.lang.Object")){
+                break;
+            }
+            if(superclass.getName().equals("com.heshaowei.myproj.base.MyConverter")) {
+                return calzz;
+            }
+            calzz = superclass;
+            superclass = superclass.getSuperclass();
+        }
+        return null;
+    }
+
+    private Class<?> getEntityType() {
+        Class<?> classes = getMyConverterClass(this.getClass());
+
+        ParameterizedType parameterizedType = (ParameterizedType) classes.getGenericSuperclass();
+        Type[] types = parameterizedType.getActualTypeArguments();
+        if(types.length > 1) {
+            if(types[1] instanceof Class) {
+                return (Class<?>) types[1];
+            }
+        }
+
+        return null;
     }
 
     private <T> T newInstance(Class<T> clz) {
@@ -85,30 +110,48 @@ public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
 
     @Override
     protected B doForward(A a) {
-        Class<B> clz = (Class<B>) getType(1);
+        Class<B> clz = (Class<B>) getEntityType();
+
+        if(null == clz) {
+            return null;
+        }
+
         B b = newInstance(clz);
 
-        this.copy(a, b, a.getClass(), false);
+        this.copy(a, b, a.getClass(), false, 0);
         return b;
     }
 
     @Override
     protected A doBackward(B b) {
-        Class<A> clz = (Class<A>) getType(0);
+        Class<A> clz = (Class<A>) this.getClass();
+
+        if(null == clz) {
+            return null;
+        }
+
         A a = newInstance(clz);
 
-        this.copy(b, a, clz, false);
+        this.copy(b, a, clz, false, 0);
         return a;
     }
 
-    private void copy(Object source, Object target, Class dtoClz, boolean ignoreDtoField){
+    private void copy(Object source, Object target, Class dtoClz, boolean ignoreDtoField, int deep){
         boolean sourceDto = true;
         Class dtoClass = source.getClass();
         if(target.getClass().equals(dtoClz)) {
             dtoClass = target.getClass();
             sourceDto = false;
         }
-        for (Field field : dtoClass.getDeclaredFields()) {
+        List<Field> fields = Lists.newArrayList(dtoClass.getDeclaredFields());
+        Class superClz = dtoClass.getSuperclass();
+        while(null != superClz && !superClz.equals(MyConverter.class)){
+            fields.addAll(Lists.newArrayList(superClz.getDeclaredFields()));
+            superClz = superClz.getSuperclass();
+        }
+
+
+        for (Field field : fields) {
             if(isDTO(field)) {
                 if(!ignoreDtoField) {
                     Object v = this.getValueByProperty(source, field.getName());
@@ -116,7 +159,9 @@ public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
                         //目标的类型
                         Class targetClz = BeanUtils.getPropertyDescriptor(target.getClass(), field.getName()).getPropertyType();
                         Object t = newInstance(targetClz);
-                        this.copy(v, t, sourceDto ? v.getClass() : t.getClass(), true);
+                        if(deep < 1) {
+                            this.copy(v, t, sourceDto ? v.getClass() : t.getClass(), true, deep + 1);
+                        }
                         this.setValueByProperty(target, field.getName(), t);
                     }
                 }
@@ -129,7 +174,9 @@ public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
                             List<Object> newList = Lists.newArrayList();
                             for (Object v : list) {
                                 Object t = newInstance(typeClz);
-                                this.copy(v, t, sourceDto ? v.getClass() : t.getClass(), true);
+                                if(deep < 1) {
+                                    this.copy(v, t, sourceDto ? v.getClass() : t.getClass(), true, deep + 1);
+                                }
                                 newList.add(t);
                             }
 

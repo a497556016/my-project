@@ -7,18 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
-public class RoleDTO extends MyConverter<RoleDTO, Role> {
-
+public class RoleDTO<T extends MyConverter> extends MyConverter<T, Role> {
     private Long id;
     private String name;
     private String code;
     private String creater;
     private Date createTime;
-
-    private List<UserDTO> users;
 }

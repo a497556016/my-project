@@ -1,8 +1,9 @@
 package com.heshaowei.myproj.account.controller;
 
 import com.heshaowei.myproj.account.dto.UserAuthDTO;
+import com.heshaowei.myproj.account.dto.UserRolesDTO;
 import com.heshaowei.myproj.account.entity.User;
-import com.heshaowei.myproj.account.dto.UserDTO;
+import com.heshaowei.myproj.account.dto.UserBaseDTO;
 import com.heshaowei.myproj.account.service.UserService;
 import com.heshaowei.myproj.base.BaseController;
 import com.heshaowei.myproj.bean.response.PageResult;
@@ -28,13 +29,13 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/selectPage")
-    public PageResult<UserDTO> selectPage(int current, int size) {
+    public PageResult<UserRolesDTO> selectPage(int current, int size) {
         Page<User> page = this.userService.selectPage(PageRequest.of(current - 1, size));
-        return pageConvert(new UserDTO(), page);
+        return pageConvert(new UserRolesDTO(), page);
     }
 
     @PostMapping("/save")
-    public Result save(@RequestBody UserDTO user) {
+    public Result save(@RequestBody UserBaseDTO user) {
         this.userService.save(user.convert());
         return Result.success();
     }
@@ -42,7 +43,7 @@ public class UserController extends BaseController {
     @GetMapping("/selectById")
     public Result selectById(Long id) {
         User user = this.userService.selectById(id);
-        UserDTO userDTO = new UserDTO().reverse().convert(user);
+        UserBaseDTO userDTO = new UserBaseDTO().reverse().convert(user);
         return Result.success(userDTO);
     }
 
@@ -53,7 +54,7 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("/assignRoles")
-    public Result assignRoles(@RequestBody UserDTO userDTO) {
+    public Result assignRoles(@RequestBody UserBaseDTO userDTO) {
         User user = userDTO.convert();
         this.userService.updateUserRoles(user);
         return Result.success();
