@@ -1,4 +1,4 @@
-package com.heshaowei.myproj.utils.token;
+package com.heshaowei.myproj.auth.utils.token;
 
 import lombok.Data;
 

@@ -11,4 +11,7 @@ public interface UserClient {
 
     @GetMapping("/user/findByUsername")
     String findByUsername(@RequestParam("username") String username);
+
+    @GetMapping("/account/verify")
+    boolean verify(@RequestParam("accessToken") String accessToken, @RequestParam("path") String path);
 }

@@ -12,6 +12,7 @@
         <module>emoticon</module>
         <module>account-client</module>
         <module>file-client</module>
+        <module>auth-core</module>
     </modules>
 
     <parent>

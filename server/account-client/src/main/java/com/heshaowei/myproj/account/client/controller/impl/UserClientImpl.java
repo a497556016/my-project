@@ -9,4 +9,9 @@ public class UserClientImpl implements UserClient {
     public String findByUsername(String username) {
         return "{\"code\": 0, \"msg\": \"查询失败，请稍后重试。\"}";
     }
+
+    @Override
+    public boolean verify(String accessToken, String path) {
+        return false;
+    }
 }

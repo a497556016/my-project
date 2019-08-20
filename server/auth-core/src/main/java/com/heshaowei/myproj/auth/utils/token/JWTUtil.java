@@ -1,4 +1,4 @@
-package com.heshaowei.myproj.utils.token;
+package com.heshaowei.myproj.auth.utils.token;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -16,6 +16,8 @@ public class JWTUtil {
     // 过期时间5分钟
     private static final long EXPIRE_TIME = 5 * 60 * 1000;
 
+    private static final String USER_INFO_CLAIM = "userinfo";
+
     /**
      * 校验token是否正确
      *
@@ -23,13 +25,14 @@ public class JWTUtil {
      * @param secret 用户的密码
      * @return 是否正确
      */
-    public static void verify(String token, String username, String secret) throws InvalidClaimException, TokenExpiredException {
+    public static DecodedJWT verify(String token, String userinfo, String secret) throws InvalidClaimException, TokenExpiredException {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             JWTVerifier verifier = JWT.require(algorithm)
-                    .withClaim("username", username)
+                    .withClaim(USER_INFO_CLAIM, userinfo)
                     .build();
             DecodedJWT jwt = verifier.verify(token);
+            return jwt;
         } catch (InvalidClaimException exception) {
             throw new InvalidClaimException("非法的Token值！");
         } catch (TokenExpiredException exception) {
@@ -44,10 +47,10 @@ public class JWTUtil {
      *
      * @return token中包含的用户名
      */
-    public static String getUsername(String token) {
+    public static String getUserinfo(String token) {
         try {
             DecodedJWT jwt = JWT.decode(token);
-            return jwt.getClaim("username").asString();
+            return jwt.getClaim(USER_INFO_CLAIM).asString();
         } catch (JWTDecodeException e) {
             return null;
         }
@@ -56,11 +59,11 @@ public class JWTUtil {
     /**
      * 生成签名
      *
-     * @param username 用户名
+     * @param userinfo 用户名
      * @param secret   用户的密码
      * @return 加密的token
      */
-    public static TokenResponse sign(String username, String secret, Long expireTime) {
+    public static TokenResponse sign(String userinfo, String secret, Long expireTime) {
         try {
             if (null == expireTime) {
                 expireTime = EXPIRE_TIME;
@@ -69,7 +72,7 @@ public class JWTUtil {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             // 附带username信息
             String accessToken = JWT.create()
-                    .withClaim("username", username)
+                    .withClaim(USER_INFO_CLAIM, userinfo)
                     .withExpiresAt(date)
                     .sign(algorithm);
             return new TokenResponse(accessToken, date.getTime());

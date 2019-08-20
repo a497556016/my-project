@@ -7,6 +7,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+
 @Service
 @CacheConfig(cacheNames = "user")
 public class AccountService {
@@ -22,5 +24,9 @@ public class AccountService {
     @CacheEvict(key = "#username")
     public void removeByUsername(String username) {
 
+    }
+
+    public boolean verify(String accessToken, String path){
+        return this.userClient.verify(accessToken, path);
     }
 }

@@ -1,12 +1,16 @@
 package com.heshaowei.myproj.account.controller;
 
 import com.google.common.collect.Maps;
+import com.google.gson.Gson;
 import com.heshaowei.myproj.account.entity.User;
+import com.heshaowei.myproj.account.service.UserDetail;
 import com.heshaowei.myproj.account.service.UserService;
+import com.heshaowei.myproj.auth.core.AccessDecisionManager;
+import com.heshaowei.myproj.auth.core.model.UserInfo;
+import com.heshaowei.myproj.auth.utils.token.JWTUtil;
+import com.heshaowei.myproj.auth.utils.token.TokenResponse;
 import com.heshaowei.myproj.bean.response.Result;
 import com.heshaowei.myproj.utils.PasswordEncode;
-import com.heshaowei.myproj.utils.token.JWTUtil;
-import com.heshaowei.myproj.utils.token.TokenResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -24,14 +28,17 @@ public class AccountController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AccessDecisionManager accessDecisionManager;
+
     @GetMapping("/login")
     public Result login(String username, String password) {
-        User user = this.userService.findByUsername(username);
+        UserDetail user = this.userService.selectByUsername(username);
         if (null == user) {
             return Result.error("用户名不存在！");
         }
         if (PasswordEncode.verify(password, user.getSalt(), user.getPassword())) {
-            TokenResponse tr = JWTUtil.sign(user.getUsername(), user.getPassword(), EXPIRE_TIME);
+            TokenResponse tr = JWTUtil.sign(new Gson().toJson(user), user.getPassword(), EXPIRE_TIME);
             Map<String, Object> accountInfo = Maps.newHashMap();
             accountInfo.put("avatar", user.getAvatar());
             accountInfo.put("accessToken", tr.getAccessToken());
@@ -83,9 +90,15 @@ public class AccountController {
 
     @GetMapping("/refreshToken")
     public Result refreshToken(String accessToken) {
-        String username = JWTUtil.getUsername(accessToken);
-        User managerInfo = this.userService.findByUsername(username);
+        String json = JWTUtil.getUserinfo(accessToken);
+        UserDetail userInfo = new Gson().fromJson(json, UserDetail.class);
+        userInfo = this.userService.selectByUsername(userInfo.getUsername());
 
-        return Result.success(JWTUtil.sign(username, managerInfo.getPassword(), EXPIRE_TIME));
+        return Result.success(JWTUtil.sign(new Gson().toJson(userInfo), userInfo.getPassword(), EXPIRE_TIME));
+    }
+
+    @GetMapping("/verify")
+    public boolean verify(String accessToken, String path){
+        return this.accessDecisionManager.verify(accessToken, path);
     }
 }
