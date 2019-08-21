@@ -53,18 +53,18 @@
 <style scoped>
     .outer-panel {
         padding: 28px 25px;
-        border: 1px solid #9ab8dc;
+        border: 1px solid rgba(132, 220, 217, 0.49);
         /* opacity: 0.3; */
         z-index: 1;
-        box-shadow: 0 0 20px #eee;
+        box-shadow: 0 0 10px rgba(233, 232, 208, 0.68);
         border-radius: 4px;
-        background: #5f95e857;
+        background: rgba(80, 93, 255, 0.09);
     }
     .inner-panel {
         width: 400px;
-        border: 1px solid #00649f;
+        border: 1px solid rgba(124, 232, 234, 0.56);
         z-index: 9;
         /* box-shadow: rgb(61, 72, 140) 0px 0px 30px; */
-        background: #35495e61;
+        background: rgba(53, 73, 94, 0.22);
     }
 </style>
