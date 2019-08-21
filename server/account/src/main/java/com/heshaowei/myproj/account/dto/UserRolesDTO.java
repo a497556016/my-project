@@ -16,5 +16,5 @@ import java.util.List;
 @NoArgsConstructor
 public class UserRolesDTO extends UserDTO<UserRolesDTO> {
 
-    private List<RoleDTO> roles;
+    private List<RoleBaseDTO> roles;
 }

@@ -29,6 +29,22 @@ const menus = [
                     title: '角色管理',
                     icon: 'cluster'
                 }
+            },
+            {
+                component: () => import('@/views/system/permission/Manage'),
+                name: 'PermissionManagePage',
+                meta: {
+                    title: '权限管理',
+                    icon: 'cluster'
+                }
+            },
+            {
+                component: () => import('@/views/system/resource/Manage'),
+                name: 'ResourceManagePage',
+                meta: {
+                    title: '资源管理',
+                    icon: 'cluster'
+                }
             }
         ]
     },

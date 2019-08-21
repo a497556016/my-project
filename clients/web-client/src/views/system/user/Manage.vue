@@ -72,7 +72,7 @@
         },
         computed: {
             ...mapGetters({
-                userAssignedInfo: user.getters.GET_USER_ASSIGNED_INFO
+                // userAssignedInfo: user.getters.GET_USER_ASSIGNED_INFO
             })
         },
         mounted() {
@@ -108,6 +108,7 @@
                 });
             },
             assignRole(user){
+                console.log(user)
                 this.setAssignRoleUser(user);
                 this.queryRoleList({
                     current: 1,
@@ -121,8 +122,8 @@
                 });
             },
             saveAssignRoles(){
-                console.log(this.userAssignedInfo);
-                this.assignUserRoles(this.userAssignedInfo).then(res => {
+                // console.log(this.userAssignedInfo);
+                this.assignUserRoles().then(res => {
                     this.$message.success("角色分配完成！");
                 });
             }

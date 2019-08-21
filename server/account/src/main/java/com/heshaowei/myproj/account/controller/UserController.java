@@ -54,8 +54,8 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("/assignRoles")
-    public Result assignRoles(@RequestBody UserBaseDTO userDTO) {
-        User user = userDTO.convert();
+    public Result assignRoles(@RequestBody UserRolesDTO userDTO) {
+        User user = userDTO.convert(userDTO);
         this.userService.updateUserRoles(user);
         return Result.success();
     }

@@ -53,6 +53,9 @@
                 const maxLeft = window.innerWidth-this.$refs.floatPanel.clientWidth;
                 const maxTop = window.innerHeight-this.$refs.floatPanel.clientHeight;
 
+                this.floatPanelStyle.left = Math.floor(Math.random()*maxLeft);
+                this.floatPanelStyle.top = Math.floor(Math.random()*maxTop);
+
                 let step = this.createStep();
                 this.interval = setInterval(() => {
                     // console.log(this.floatPanelStyle, maxLeft, maxTop, step)

@@ -88,7 +88,7 @@ public class UserService implements com.heshaowei.myproj.auth.core.UserService, 
         if (null != update) {
             update.setRoles(user.getRoles());
         }
-        this.userRepository.saveAndFlush(update);
+        this.userRepository.save(update);
     }
 
     private Map<String, Collection<ConfigAttribute>> resourceMaps;

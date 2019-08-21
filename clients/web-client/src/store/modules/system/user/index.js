@@ -23,9 +23,9 @@ const state = {
 
 const getters = {
     [getterTypes.GET_USER_ASSIGNED_INFO] (state) {
-        state.assignRoleUser.roleList = state.roleList.filter(role => role.assigned);
+        // state.assignRoleUser.roles = state.roleList.filter(role => role.assigned);
 
-        return state.assignRoleUser;
+        return state.roleList.filter(role => role.assigned);
     }
 }
 
@@ -65,8 +65,9 @@ const actions = {
         console.log('删除', state.selectedKeys)
         return userService.batchDelete(state.selectedKeys);
     },
-    [actionTypes.ASSIGN_USER_ROLES] ({commit, state}, user) {
-        return userService.assignRoles(user);
+    [actionTypes.ASSIGN_USER_ROLES] ({commit, state}) {
+        state.assignRoleUser.roles = state.roleList.filter(role => role.assigned);
+        return userService.assignRoles(state.assignRoleUser);
     }
 }
 

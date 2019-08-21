@@ -8,6 +8,8 @@ import * as userEditTypes from './modules/system/user/edit/types'
 import * as userAddTypes from './modules/system/user/add/types'
 //角色
 import * as roleTypes from './modules/system/role/types'
+//权限
+import * as permissionTypes from './modules/system/permission/types'
 
 //界面布局
 import * as layoutTypes from './modules/layout/types'
@@ -57,6 +59,7 @@ export const user = _export(userTypes, 'user');
 export const userEdit = _export(userEditTypes, 'userEdit');
 export const userAdd = _export(userAddTypes, 'userAdd');
 export const role = _export(roleTypes, 'role');
+export const permission = _export(permissionTypes, 'permission');
 
 export const layout = _export(layoutTypes, 'layout');
 

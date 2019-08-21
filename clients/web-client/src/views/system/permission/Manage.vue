@@ -7,10 +7,6 @@
         <a-modal v-model="showEdit" @ok="saveRole">
             <role-edit></role-edit>
         </a-modal>
-
-        <a-modal title="分配权限" v-model="showAssignPermission" @ok="saveAssignPermissions">
-            <assign-permission></assign-permission>
-        </a-modal>
     </div>
 </template>
 
@@ -18,12 +14,11 @@
     import CurdPage from "../../../components/page/CurdPage";
     import RoleEdit from "./Edit"
 
-    import {mapGetters, mapActions, mapMutations, mapState} from 'vuex'
-    import {role, account, permission} from '../../../store/types'
-    import AssignPermission from "./AssignPermission";
+    import {mapGetters, mapActions, mapMutations} from 'vuex'
+    import {role, account} from '../../../store/types'
     export default {
         name: "Manage",
-        components: {AssignPermission, CurdPage, RoleEdit},
+        components: {CurdPage, RoleEdit},
         data(){
             return {
                 searchItems: [
@@ -42,9 +37,7 @@
                 moreActions: [
                     // {text: '分配权限', handler(record){}},
                     // {text: '分配权限', handler(record){}}
-                ],
-
-                showAssignPermission: false
+                ]
             }
         },
         computed: {
@@ -55,23 +48,13 @@
         methods: {
             ...mapActions({
                 loadTableData: role.QUERY_ROLE_LIST,
-                saveEditRole: role.SAVE_EDIT_ROLE,
-                queryPermissions: permission.QUERY_LIST,
-                saveAssignPermissions: role.SAVE_ASSIGNED_PERMISSIONS
+                saveEditRole: role.SAVE_EDIT_ROLE
             }),
             ...mapMutations({
-                setEditRole: role.SET_EDIT_ROLE_DATA,
-                setAssignPermissionRole: role.SET_ASSIGN_PERMISSION_ROLE,
-                setAssignedPermissions: role.SET_ASSIGNED_PERMISSIONS
+                setEditRole: role.SET_EDIT_ROLE_DATA
             }),
             assignPermission(record){
                 console.log(record)
-                this.setAssignPermissionRole(record);
-                this.queryPermissions().then(res => {
-                    this.setAssignedPermissions(res.data);
-
-                    this.showAssignPermission = true;
-                })
             },
             addRole(){
                 this.setEditRole({

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
 
-    public static Class<?> getMyConverterClass(Class<?> calzz){
+    public Class<?> getMyConverterClass(Class<?> calzz){
         Class<?> superclass = calzz.getSuperclass();
         while (superclass != null) {
             if(superclass.getName().equals("java.lang.Object")){
@@ -29,8 +29,12 @@ public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
         return null;
     }
 
-    private Class<?> getEntityType() {
-        Class<?> classes = getMyConverterClass(this.getClass());
+    private Class<?> getEntityType(Class clz) {
+        Class<?> classes = getMyConverterClass(clz);
+
+        if(null == classes) {
+            return null;
+        }
 
         ParameterizedType parameterizedType = (ParameterizedType) classes.getGenericSuperclass();
         Type[] types = parameterizedType.getActualTypeArguments();
@@ -89,7 +93,7 @@ public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
         return MyConverter.class.equals(field.getType().getSuperclass());
     }
 
-    private Class isListDTO(Field field){
+    private Class isListDTO(Field field, boolean sourceDto){
         if(field.getType().isAssignableFrom(List.class)) {
             Type type = field.getGenericType();
             //得到泛型类型的类名
@@ -99,18 +103,26 @@ public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
 //            ParameterizedType pt = (ParameterizedType) field.getType().getGenericSuperclass();
 //            Type[] types = pt.getActualTypeArguments();
             //判断List泛型的父类是MyConverter
+
             Class typeClz = (Class)types[0];
-            Class superClz = typeClz.getSuperclass();
-            if(superClz.equals(MyConverter.class)) {
-                return typeClz;
+
+            //如果是DTO转Entity，获取目标实体的类型
+            if(sourceDto){
+                return getEntityType(typeClz);
+            }else {
+                //如果是entity转DTO，获取DTO类型，即当前集合的泛型
+                if(null != getMyConverterClass(typeClz)){
+                    return typeClz;
+                }
             }
+
         }
         return null;
     }
 
     @Override
     protected B doForward(A a) {
-        Class<B> clz = (Class<B>) getEntityType();
+        Class<B> clz = (Class<B>) getEntityType(this.getClass());
 
         if(null == clz) {
             return null;
@@ -166,7 +178,7 @@ public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
                     }
                 }
             }else {
-                Class typeClz = isListDTO(field);
+                Class typeClz = isListDTO(field, sourceDto);
                 if(null != typeClz) {
                     if(!ignoreDtoField) {
                         List<?> list = (List<?>) this.getValueByProperty(source, field.getName());

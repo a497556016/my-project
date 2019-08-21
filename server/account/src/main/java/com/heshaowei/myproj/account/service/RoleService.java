@@ -15,4 +15,12 @@ public class RoleService {
     public Page<Role> selectPage(PageRequest pr) {
         return this.roleRepository.findAll(pr);
     }
+
+    public void updateRolePermissions(Role role) {
+        Role update = this.roleRepository.findById(role.getId()).get();
+        if(null != update) {
+            update.setPermissions(role.getPermissions());
+        }
+        this.roleRepository.save(update);
+    }
 }
