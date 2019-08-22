@@ -1,2 +1,9 @@
 //查询资源列表
 export const QUERY_LIST = "QUERY_LIST"
+
+export const SAVE_EDIT_RESOURCE = "SAVE_EDIT_RESOURCE"
+
+export const SET_EDIT_RESOURCE_DATA = "SET_EDIT_RESOURCE_DATA"
+
+//删除资源
+export const DELETE_RESOURCES = "DELETE_RESOURCES"

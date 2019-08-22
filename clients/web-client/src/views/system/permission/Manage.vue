@@ -1,6 +1,6 @@
 <template>
     <div>
-        <curd-page ref="page" :search-items="searchItems" :columns="columns" :load-fun="loadTableData" @add="addPermission" @edit="editPermission" :more-actions="moreActions">
+        <curd-page ref="page" :search-items="searchItems" :columns="columns" :load-fun="loadTableData" @add="addPermission" @edit="editPermission" @delete="deletePermission" :more-actions="moreActions">
             <a-button slot="assign" slot-scope="{text, record, index}" @click="assignPermission(record)" shape="circle" icon="diff"></a-button>
         </curd-page>
 
@@ -19,8 +19,12 @@
     import PermissionEdit from "./Edit"
     import AssignResource from "./AssignResource"
 
-    import {mapState, mapGetters, mapActions, mapMutations} from 'vuex'
-    import {permission, account} from '../../../store/types'
+    import {createNamespacedHelpers} from 'vuex'
+    const permissionStore = createNamespacedHelpers("permission");
+    const accountStore = createNamespacedHelpers("account");
+    // import {permission} from '../../../store/types'
+    import types from '../../../store/types'
+    const {permissionTypes, accountTypes} = types;
     export default {
         name: "Manage",
         components: {CurdPage, PermissionEdit, AssignResource},
@@ -48,19 +52,20 @@
             }
         },
         computed: {
-            ...mapGetters({
-                userInfo: account.getters.GET_USER_INFO
+            ...accountStore.mapGetters({
+                userInfo: accountTypes.getters.GET_USER_INFO
             })
         },
         methods: {
-            ...mapActions({
-                loadTableData: permission.QUERY_PERMISSION_RESOURCE_LIST,
-                saveEditPermission: permission.SAVE_EDIT_PERMISSION,
-                saveAssignedResources: permission.SAVE_ASSIGNED_RESOURCES,
-                setAssignedResources: permission.SET_ASSIGNED_RESOURCES
+            ...permissionStore.mapActions({
+                loadTableData: permissionTypes.QUERY_PERMISSION_RESOURCE_LIST,
+                saveEditPermission: permissionTypes.SAVE_EDIT_PERMISSION,
+                saveAssignedResources: permissionTypes.SAVE_ASSIGNED_RESOURCES,
+                setAssignedResources: permissionTypes.SET_ASSIGNED_RESOURCES,
+                deletePermissions: permissionTypes.DELETE_PERMISSIONS
             }),
-            ...mapMutations({
-                setEditPermission: permission.SET_EDIT_PERMISSION_DATA
+            ...permissionStore.mapMutations({
+                setEditPermission: permissionTypes.SET_EDIT_PERMISSION_DATA
             }),
             assignPermission(record){
                 console.log(record)
@@ -84,6 +89,10 @@
                     this.$refs.page.reload();
                     this.showEdit = false;
                 })
+            },
+            async deletePermission(pageData, selectKeys){
+                await this.deletePermissions(selectKeys);
+                this.$refs.page.reload();
             }
         }
     }

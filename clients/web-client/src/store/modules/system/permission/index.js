@@ -59,8 +59,8 @@ const actions = {
     [types.SET_ASSIGNED_RESOURCES] ({commit, state, dispatch}, permission){
         commit(types.SET_EDIT_PERMISSION_DATA, permission);
         const ids = state.editPermission.resources.map(r => r.id);
-        return dispatch(resource.QUERY_LIST, {current: 1, size: 100}, {root: true}).then(data => {
-            state.assignedResources = data.map(r => {
+        return dispatch(resource.QUERY_LIST, {current: 1, size: 100}, {root: true}).then(res => {
+            state.assignedResources = res.data.map(r => {
                 r.assigned = _.includes(ids, r.id);
                 return r;
             });
@@ -71,6 +71,22 @@ const actions = {
         if(res.code == 1) {
             Vue.prototype.$message.success('已完成资源配置！');
         }
+    },
+    [types.DELETE_PERMISSIONS] ({commit, state}, keys) {
+        return new Promise(resolve => {
+            Vue.prototype.$confirm({
+                content: '是否要删除？',
+                async onOk(){
+                    const res = await permissionService.batchDelete(keys);
+                    if(res.code == 1){
+                        Vue.prototype.$success({
+                            content: "删除成功"
+                        })
+                    }
+                    resolve()
+                }
+            })
+        })
     }
 }
 

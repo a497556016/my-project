@@ -1,35 +1,38 @@
 <template>
     <div>
-        <curd-page ref="page" :search-items="searchItems" :columns="columns" :load-fun="loadTableData" @add="addRole" @edit="editRole" :more-actions="moreActions">
+        <curd-page ref="page" :search-items="searchItems" :columns="columns" :load-fun="loadTableData" @add="addResource" @edit="editResource" @delete="deleteResource" :more-actions="moreActions">
             <a-button slot="assign" slot-scope="{text, record, index}" @click="assignPermission(record)" shape="circle" icon="diff"></a-button>
         </curd-page>
 
-        <a-modal v-model="showEdit" @ok="saveRole">
-            <role-edit></role-edit>
+        <a-modal v-model="showEdit" @ok="saveResource">
+            <resource-edit></resource-edit>
         </a-modal>
     </div>
 </template>
 
 <script>
     import CurdPage from "../../../components/page/CurdPage";
-    import RoleEdit from "./Edit"
+    import ResourceEdit from "./Edit"
 
-    import {mapGetters, mapActions, mapMutations} from 'vuex'
-    import {role, account} from '../../../store/types'
+    import {createNamespacedHelpers} from 'vuex'
+
+    const accountStore = createNamespacedHelpers("account");
+    const resourceStore = createNamespacedHelpers("resource");
+    import types from '../../../store/types'
     export default {
         name: "Manage",
-        components: {CurdPage, RoleEdit},
+        components: {CurdPage, ResourceEdit},
         data(){
             return {
                 searchItems: [
-                    {component: 'a-input', field: 'name', placeholder: '请输入角色名称'}
+                    {component: 'a-input', field: 'name', placeholder: '请输入资源名称或路径'}
                 ],
                 columns: [
                     {title: '名称', dataIndex: 'name'},
-                    {title: '编码', dataIndex: 'code'},
+                    {title: '路径', dataIndex: 'path'},
+                    {title: '类型', dataIndex: 'type'},
                     {title: '创建时间', dataIndex: 'createTime'},
-                    {title: '创建人', dataIndex: 'creater'},
-                    {title: '分配权限', dataIndex: 'id', width: 100, slot: 'assign', align: 'center'}
+                    {title: '创建人', dataIndex: 'creater'}
                 ],
 
                 showEdit: false,
@@ -41,38 +44,44 @@
             }
         },
         computed: {
-            ...mapGetters({
-                userInfo: account.getters.GET_USER_INFO
+            ...accountStore.mapGetters({
+                userInfo: types.accountTypes.getters.GET_USER_INFO
             })
         },
         methods: {
-            ...mapActions({
-                loadTableData: role.QUERY_ROLE_LIST,
-                saveEditRole: role.SAVE_EDIT_ROLE
+            ...resourceStore.mapActions({
+                loadTableData: types.resourceTypes.QUERY_LIST,
+                saveEditResource: types.resourceTypes.SAVE_EDIT_RESOURCE,
+                deleteResources: types.resourceTypes.DELETE_RESOURCES
             }),
-            ...mapMutations({
-                setEditRole: role.SET_EDIT_ROLE_DATA
+            ...resourceStore.mapMutations({
+                setEditResource: types.resourceTypes.SET_EDIT_RESOURCE_DATA
             }),
             assignPermission(record){
                 console.log(record)
             },
-            addRole(){
-                this.setEditRole({
+            addResource(){
+                this.setEditResource({
                     creater: this.userInfo.username
                 });
                 this.showEdit = true;
             },
-            editRole(record){
+            editResource(record){
                 this.showEdit = true;
                 record.modifier = this.userInfo.username;
-                this.setEditRole(record);
+                this.setEditResource(record);
             },
-            saveRole(){
-                this.saveEditRole().then(res => {
+            saveResource(){
+                this.saveEditResource().then(() => {
                     this.showEdit = false;
-                    this.$message.success("保存成功！");
+                    // this.$message.success("保存成功！");
                     this.$refs.page.reload();
                 })
+            },
+            deleteResource(pageData, selectRows){
+                this.deleteResources(selectRows).then(() => {
+                    this.$refs.page.reload();
+                });
             }
         }
     }

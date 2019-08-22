@@ -1,6 +1,6 @@
 <template>
     <div>
-        <curd-page ref="page" :search-items="searchItems" :columns="columns" :load-fun="loadTableData" @add="addRole" @edit="editRole" :more-actions="moreActions">
+        <curd-page ref="page" :search-items="searchItems" :columns="columns" :load-fun="loadTableData" @add="addRole" @edit="editRole" @delete="deleteRole" :more-actions="moreActions">
             <a-button slot="assign" slot-scope="{text, record, index}" @click="assignPermission(record)" shape="circle" icon="diff"></a-button>
         </curd-page>
 
@@ -18,8 +18,12 @@
     import CurdPage from "../../../components/page/CurdPage";
     import RoleEdit from "./Edit"
 
-    import {mapGetters, mapActions, mapMutations, mapState} from 'vuex'
-    import {role, account, permission} from '../../../store/types'
+    import {createNamespacedHelpers} from 'vuex'
+    const roleStore = createNamespacedHelpers("role");
+    const accountStore = createNamespacedHelpers("account");
+    const permissionStore = createNamespacedHelpers("permission");
+    import types from '../../../store/types'
+    const {roleTypes, accountTypes, permissionTypes} = types;
     import AssignPermission from "./AssignPermission";
     export default {
         name: "Manage",
@@ -48,21 +52,24 @@
             }
         },
         computed: {
-            ...mapGetters({
-                userInfo: account.getters.GET_USER_INFO
+            ...accountStore.mapGetters({
+                userInfo: accountTypes.getters.GET_USER_INFO
             })
         },
         methods: {
-            ...mapActions({
-                loadTableData: role.QUERY_ROLE_LIST,
-                saveEditRole: role.SAVE_EDIT_ROLE,
-                queryPermissions: permission.QUERY_LIST,
-                saveAssignPermissions: role.SAVE_ASSIGNED_PERMISSIONS
+            ...roleStore.mapActions({
+                loadTableData: roleTypes.QUERY_ROLE_LIST,
+                saveEditRole: roleTypes.SAVE_EDIT_ROLE,
+                saveAssignPermissions: roleTypes.SAVE_ASSIGNED_PERMISSIONS,
+                deleteRoles: roleTypes.DELETE_ROLES
             }),
-            ...mapMutations({
-                setEditRole: role.SET_EDIT_ROLE_DATA,
-                setAssignPermissionRole: role.SET_ASSIGN_PERMISSION_ROLE,
-                setAssignedPermissions: role.SET_ASSIGNED_PERMISSIONS
+            ...permissionStore.mapActions({
+                queryPermissions: permissionTypes.QUERY_LIST,
+            }),
+            ...roleStore.mapMutations({
+                setEditRole: roleTypes.SET_EDIT_ROLE_DATA,
+                setAssignPermissionRole: roleTypes.SET_ASSIGN_PERMISSION_ROLE,
+                setAssignedPermissions: roleTypes.SET_ASSIGNED_PERMISSIONS
             }),
             assignPermission(record){
                 console.log(record)
@@ -90,6 +97,10 @@
                     this.$message.success("保存成功！");
                     this.$refs.page.reload();
                 })
+            },
+            async deleteRole(data, selectKeys) {
+                await this.deleteRoles(selectKeys);
+                this.$refs.page.reload();
             }
         }
     }

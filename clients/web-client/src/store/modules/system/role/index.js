@@ -55,6 +55,24 @@ const actions = {
                 Vue.prototype.$message.success('分配权限完成！');
             }
         });
+    },
+    [types.DELETE_ROLES] ({}, keys) {
+        return new Promise(resolve => {
+            Vue.prototype.$confirm({
+                content: '确认要删除吗？',
+                async onOk(){
+                    const res = await roleService.batchDelete(keys);
+                    if(res.code == 1) {
+                        Vue.prototype.$success({
+                            content: '删除成功！',
+                            onOk(){
+                                resolve();
+                            }
+                        })
+                    }
+                }
+            })
+        })
     }
 }
 
