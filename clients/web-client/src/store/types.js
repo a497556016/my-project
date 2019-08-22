@@ -10,6 +10,8 @@ import * as userAddTypes from './modules/system/user/add/types'
 import * as roleTypes from './modules/system/role/types'
 //权限
 import * as permissionTypes from './modules/system/permission/types'
+//资源
+import * as resourceTypes from './modules/system/resource/types'
 
 //界面布局
 import * as layoutTypes from './modules/layout/types'
@@ -54,12 +56,28 @@ const _export = function (types, m) {
     return _export;
 };
 
+const types = {
+    accountTypes,
+    userTypes,
+    userEditTypes,
+    userAddTypes,
+    roleTypes,
+    permissionTypes,
+    resourceTypes,
+    layoutTypes,
+    fileTypes,
+    fileMainTypes,
+    fileManageTypes,
+    formTypes
+}
+
 export const account = _export(accountTypes, 'account');
 export const user = _export(userTypes, 'user');
 export const userEdit = _export(userEditTypes, 'userEdit');
 export const userAdd = _export(userAddTypes, 'userAdd');
 export const role = _export(roleTypes, 'role');
 export const permission = _export(permissionTypes, 'permission');
+export const resource = _export(resourceTypes, 'resource');
 
 export const layout = _export(layoutTypes, 'layout');
 
@@ -69,4 +87,7 @@ export const fileManage = _export(fileManageTypes, 'fileManage');
 
 export const form = _export(formTypes, 'form');
 
+
+
+export default types
 

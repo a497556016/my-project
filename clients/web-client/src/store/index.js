@@ -7,6 +7,7 @@ import userEdit from './modules/system/user/edit'
 import userAdd from './modules/system/user/add'
 import role from './modules/system/role'
 import permission from './modules/system/permission'
+import resource from './modules/system/resource'
 import layout from './modules/layout'
 import file from './modules/file'
 import fileMain from './modules/file/main'
@@ -26,6 +27,7 @@ const store = new Vuex.Store({
         userAdd,
         role,
         permission,
+        resource,
         layout,
         file,
         fileMain,

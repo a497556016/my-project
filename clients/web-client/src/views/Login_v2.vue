@@ -43,7 +43,7 @@
 
             setInterval(() => {
                 this.bgIndex = this.createBgIndex();
-            }, 5000);
+            }, 15000);
         },
         methods: {
             createBgIndex(){

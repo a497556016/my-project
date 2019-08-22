@@ -2,10 +2,10 @@
     <div>
         <a-form>
             <a-form-item label="名称">
-                <a-input v-model="role.name"></a-input>
+                <a-input v-model="permission.name"></a-input>
             </a-form-item>
             <a-form-item label="编码">
-                <a-input v-model="role.code"></a-input>
+                <a-input v-model="permission.code"></a-input>
             </a-form-item>
         </a-form>
     </div>
@@ -13,7 +13,7 @@
 
 <script>
     import {mapGetters} from 'vuex'
-    import {role as types} from '@/store/types'
+    import {permission} from '@/store/types'
     export default {
         name: "Edit",
         data(){
@@ -23,7 +23,7 @@
         },
         computed: {
             ...mapGetters({
-                role: types.GET_EDIT_ROLE_DATA
+                permission: permission.GET_EDIT_PERMISSION_DATA
             })
         }
     }
