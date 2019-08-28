@@ -13,6 +13,7 @@
         <module>account-client</module>
         <module>file-client</module>
         <module>auth-core</module>
+        <module>im-core</module>
     </modules>
 
     <parent>

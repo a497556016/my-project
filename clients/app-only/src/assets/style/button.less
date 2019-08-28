@@ -1,0 +1,33 @@
+@import "color";
+
+.im-{
+  &button{
+    background: @white;
+    color: @black;
+    border: 1px solid @gray-light;
+
+    padding: 0px 12px;
+    font-size: 16px;
+    height: 38px;
+    line-height: 38px;
+
+    &-primary {
+      background: @green;
+      color: @white;
+      border: 0px;
+    }
+    &-default {
+      background: @white;
+      color: @black;
+      border: 1px solid @gray-light;
+    }
+  }
+
+  &button:not(:nth-last-child(1)) {
+    margin-right: 10px;
+  }
+
+  &button-flat {
+    width: 100%;
+  }
+}

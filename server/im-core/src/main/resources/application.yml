@@ -1,0 +1,18 @@
+server:
+  port: 8081
+
+netty:
+  server:
+    port: 8000
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://192.168.0.45:27017/im-core
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
