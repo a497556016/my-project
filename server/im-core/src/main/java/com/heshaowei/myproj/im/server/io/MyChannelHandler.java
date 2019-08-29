@@ -185,26 +185,28 @@ public class MyChannelHandler extends SimpleChannelInboundHandler<Object> {
                     public void operationComplete(Future<? super Void> future) throws Exception {
                         if(future.isSuccess()){
                             m.setSendState(MessageStates.SUCCESS);
+                        }else if(future.isCancellable()) {
+                            m.setSendState(MessageStates.CANCEL);
                         }else {
                             m.setSendState(MessageStates.FAIL);
                         }
+
+                        handlerMessage(m, ctx);
                     }
                 });
 
             }else {
                 //对方没有连接上，则直接保存到数据库
-                m.setSendState(MessageStates.NOT_SEND);
+                m.setSendState(MessageStates.NOT_RECEIVE);
+
+                handlerMessage(m, ctx);
             }
 
-            if(null != messageRepository) {
-                m.setTime(new Date());
-                this.messageRepository.save(m);
-            }
         }
         if(MessageTypes.GROUP.getValue().equals(type)) {
             GroupMessage gm = GroupMessage.buildFromJson(text);
 
-            this.messageRepository.save(gm);
+            handlerMessage(gm, ctx);
         }
 
         //群发
@@ -212,6 +214,16 @@ public class MyChannelHandler extends SimpleChannelInboundHandler<Object> {
             channel.writeAndFlush(msg.copy());
         }*/
 
+    }
+
+    private void handlerMessage(Message message, ChannelHandlerContext ctx){
+        //返回消息给前端
+        ctx.channel().writeAndFlush(new TextWebSocketFrame(GsonUtil.get().toJson(message)));
+        //保存消息
+        if(null != messageRepository) {
+            message.setTime(new Date());
+            messageRepository.push(message);
+        }
     }
 
 
@@ -234,7 +246,7 @@ public class MyChannelHandler extends SimpleChannelInboundHandler<Object> {
         JwtUtils.CheckResult cr = JwtUtils.validate(token);
         if(!cr.isSuccess()){
             LOGGER.error("权限验证失败！"+cr.getErrCode());
-            ctx.close();
+            sendHttpResponse(ctx, (FullHttpRequest) msg,new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,HttpResponseStatus.UNAUTHORIZED));
         }
         String username = cr.getClaims().getSubject();
         if(!uris[1].equals(URI)){

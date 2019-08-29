@@ -73,7 +73,7 @@ public class NettyServer {
         }
     }
 
-    @PostConstruct()
+//    @PostConstruct()
     public void init(){
         //需要开启一个新的线程来执行netty server 服务器
         new Thread(new Runnable() {

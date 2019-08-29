@@ -1,5 +1,6 @@
 <template>
     <div :class="[type, 'msg']">
+        <div style="margin: 5px"></div>
         <img class="avatar" :src="record.from.avatar"/>
 
         <div class="text-box" >
@@ -21,15 +22,12 @@
 </script>
 
 <style scoped lang="less">
-    .avatar(){
-        > * {
+
+    .msg {
+        .avatar {
             width: 36px;
             height: 36px;
         }
-    }
-
-    .msg {
-        .avatar();
 
         display: flex;
         width: 100%;
@@ -53,10 +51,10 @@
 
                 color: #e7f3fd;
                 /*height: 100%;*/
-                width: fit-content;
+                /*width: fit-content;*/
                 padding: 0 5px;
                 /*max-width: 70%;*/
-                display: table;
+                /*display: table;*/
                 position: relative;
 
                 white-space:pre-wrap;

@@ -46,6 +46,13 @@ const getters = {
 }
 
 const mutations = {
+    [types.LOGOUT] (state) {
+        state.loginUserInfo = null;
+        localStorage.removeItem(LOGIN_USER_INFO_KEY);
+
+        state.lineUserInfo = null;
+        localStorage.removeItem(LINE_USER_INFO_KEY);
+    },
     [types.SET_LOGIN_USER] (state, user) {
         if(user) {
             localStorage.setItem(LOGIN_USER_INFO_KEY, JSON.stringify(user));

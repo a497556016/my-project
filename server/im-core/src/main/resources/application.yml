@@ -1,18 +1,14 @@
 server:
-  port: 8081
+  port: 8082
 
 netty:
   server:
     port: 8000
 
 spring:
-  data:
-    mongodb:
-      uri: mongodb://192.168.0.45:27017/im-core
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: GMT+8
+  application:
+    name: im-core-server
+
+feign:
+  hystrix:
+    enabled: true

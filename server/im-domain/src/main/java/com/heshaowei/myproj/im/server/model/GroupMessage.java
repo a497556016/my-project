@@ -1,6 +1,5 @@
 package com.heshaowei.myproj.im.server.model;
 
-import com.google.gson.Gson;
 import com.heshaowei.myproj.im.server.utils.GsonUtil;
 import lombok.Data;
 

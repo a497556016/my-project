@@ -19,6 +19,7 @@ export default (http) => {
             config.headers['token'] = loginUser.token;
         }
 
+
         return config;
     }, function (error) {
         http.closeLoading();

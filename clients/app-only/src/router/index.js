@@ -25,12 +25,11 @@ router.beforeEach((to, from, next) => {
         console.log('检查用户登录信息：', userInfo)
         if(!userInfo || (!userInfo.username && !userInfo.phone)){
             next({path: '/login'});
-        }
-    }
-    if(to.path == '/chat') {
-        const lineUserInfo = store.getters['user/'+userTypes.GET_LINE_USER_INFO];
-        if(null == lineUserInfo) {
-            next({path: '/search_user'});
+        }else if(to.path == '/chat') {
+            const lineUserInfo = store.getters['user/'+userTypes.GET_LINE_USER_INFO];
+            if(null == lineUserInfo) {
+                next({path: '/search_user'});
+            }
         }
     }
 

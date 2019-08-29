@@ -1,14 +1,6 @@
 <template>
     <div class="chat-page">
-        <div class="actions-sheet" v-if="actionsVisible">
-            <div class="modal" @click="actionsVisible = false"></div>
-            <div class="item">
-                <i class="fa fa-circle-o"></i>&nbsp;&nbsp;切换对象
-            </div>
-            <div class="item">
-                <i class="fa fa-circle-o"></i>&nbsp;&nbsp;退出登录
-            </div>
-        </div>
+        <action-sheet v-model="actionsVisible" :items="actionItems" @select="actionSelect" :position="{right: '10px', top: '10px'}"></action-sheet>
 
         <div class="title">
             <div>
@@ -20,6 +12,11 @@
             </div>
         </div>
 
+        <div class="connection-error" @click="reconnect" v-if="!isConnected">
+            连接已断开
+            <a>点击重试</a>
+        </div>
+
         <div ref="content" class="content">
             <div class="split-tips"><span>打个招呼吧</span></div>
 
@@ -27,9 +24,9 @@
 
             <div class="split-tips" v-if="hisChatRecords.length > 0"><span>以上是历史消息</span></div>
 
-            <!--<msg-box :record="{from: {avatar: require('../assets/logo.png')}, msg: '你好，我是某某某！'}" type="left"></msg-box>-->
-            <!--<msg-box :record="{from: {avatar: require('../assets/logo.png')}, msg: '滚！'}" type="right"></msg-box>-->
-            <!--<msg-box :record="{from: {avatar: require('../assets/logo.png')}, msg: '你dfjsukj健康的计算机开发你受苦尽可能上岛咖啡跟你说的功能开始就开始更健康送给你！'}" type="left"></msg-box>-->
+            <msg-box v-for="record in newReceiveMessages" :record="record" :type="msgClass(record)"></msg-box>
+
+            <div class="split-tips" v-if="newReceiveMessages.length > 0"><span>以上是最新</span></div>
 
             <msg-box v-for="record in chatRecords" :record="record" :type="msgClass(record)"></msg-box>
         </div>
@@ -53,20 +50,32 @@
     const chatStore = createNamespacedHelpers("chat");
     import {user as userTypes, chat as chatTypes} from '../store/types'
     import MsgBox from "../components/chat/MsgBox";
+    import ActionSheet from "../components/sheets/ActionSheet";
     export default {
         name: "Home",
-        components: {MsgBox},
+        components: {ActionSheet, MsgBox},
         data(){
+            const that = this;
             return {
                 inputWords: '',
-                actionsVisible: false
+                actionsVisible: false,
+                actionItems: [
+                    {text: '切换对象', icon: 'fa fa-circle-o', index: 0},
+                    {text: '退出登录', icon: 'fa fa-circle-o', index: 1},
+                    {text: '清除缓存', icon: 'fa fa-circle-o', index: 2}
+                ]
             }
         },
         computed: {
             ...chatStore.mapState({
+                chatRecords: state => state.chatRecords,
                 hisChatRecords: state => state.hisChatRecords,
-                chatRecords: state => state.chatRecords
+                newReceiveMessages: state => state.newReceiveMessages,
+                isConnected: state => state.isConnected
             }),
+            /*...chatStore.mapGetters({
+                chatRecords: chatTypes.GET_CUR_CHAT_RECORDS
+            }),*/
             ...userStore.mapGetters({
                 lineUserInfo: userTypes.GET_LINE_USER_INFO,
                 loginUserInfo: userTypes.GET_LOGIN_USER
@@ -74,29 +83,58 @@
         },
         watch: {
             chatRecords(){
-                const el = this.$refs.content;
-                console.log(el.scrollTop, el.scrollHeight)
                 setTimeout(() => {
-                    el.scrollTo({
-                        top: el.scrollHeight+500
-                    })
-                }, 500)
-
+                    this.goEnd();
+                }, 200)
             }
         },
         mounted(){
-            this.loadHisChatRecord();
-            ImServer.init();
+            this.reconnect()
         },
         methods: {
             ...chatStore.mapActions({
                 loadHisChatRecord: chatTypes.LOAD_HIS_CHAT_RECORDS
             }),
             ...chatStore.mapMutations({
-                addChatRecord: chatTypes.ADD_CHAT_RECORD
+                addChatRecord: chatTypes.ADD_CHAT_RECORD,
+                setChatRecords: chatTypes.SET_CUR_CHAT_RECORDS
             }),
+            ...userStore.mapMutations({
+                logout: userTypes.LOGOUT
+            }),
+            async reconnect(){
+                ImServer.init();
+
+                this.setChatRecords([]);
+                await this.loadHisChatRecord();
+                this.goEnd();
+            },
+            actionSelect(item){
+                if(item.index == 0){
+                    this.$router.push({path: '/search_user'})
+                }else if(item.index == 1){
+                    this.logout();
+                    this.$router.push({path: '/login'})
+                }else if(item.index == 2){
+                    localStorage.clear();
+                }
+            },
+            goEnd(){
+                const el = this.$refs.content;
+                console.log(el.scrollTop, el.scrollHeight)
+
+                el.scrollTo({
+                    top: el.scrollHeight+500
+                })
+            },
             msgClass(record){
-                return (record.from.username == this.loginUserInfo.username && record.to.username != this.loginUserInfo.username)?'right':'left';
+                if(record.from.username == this.loginUserInfo.username && record.to.username == this.lineUserInfo.username){
+                    return 'right';
+                }
+                if(record.from.username == this.lineUserInfo.username && record.to.username == this.loginUserInfo.username) {
+                    return 'left';
+                }
+                return '';
             },
             sendMsg(){
                 this.iMServer.send({
@@ -114,8 +152,11 @@
                         username: this.lineUserInfo.username,
                         nickname: this.lineUserInfo.nickname
                     }
+                }).then(() => {
+                    this.inputWords = '';
+                }).catch(() => {
+                    alert('发送失败，请重试！')
                 });
-                this.inputWords = '';
             },
             showActions(){
                 this.actionsVisible = true;
@@ -126,48 +167,32 @@
 
 <style scoped lang="less">
 
-    /*.avatar(){
-        > * {
-            width: 36px;
-            height: 36px;
-        }
-    }*/
-
-    .actions-sheet{
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        display: inline-block;
-        z-index: 100;
-        padding: 5px 10px;
-        background: white;
-        .item {
-            font-size: 13px;
-            padding: 10px 0;
-            &:not(:last-child){
-                border-bottom: 1px solid #d2dde6;
-            }
-        }
-        .modal {
-            z-index: 99;
-            position: fixed;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            background: #d2dde6;
-            opacity: 0.3;
-        }
-    }
 
     .chat-page {
+        .connection-error{
+            text-align: center;
+            color: red;
+            font-size: 13px;
+            background: #d2dde6;
+            padding: 5px 0;
+            position: absolute;
+            left: 0;
+            right: 0;
+
+            a{
+                color: #2f54eb;
+            }
+        }
+
         background: #f8f8f8;
         height: 100%;
         .title{
-            height: 2.5rem;
-            line-height: 2.5rem;
+            height: 3rem;
+            line-height: 3rem;
             color: #000;
             text-align: center;
+            font-size: 1.1rem;
+            font-weight: 500;
             border-bottom: 0.01rem solid #e3e3e3;
 
             padding: 0 15px;
@@ -185,7 +210,7 @@
 
         .content {
             position: absolute;
-            top: 2.5rem;
+            top: 3rem;
             bottom: 3.6rem;
             overflow-y: scroll;
             /*padding: 10px;*/

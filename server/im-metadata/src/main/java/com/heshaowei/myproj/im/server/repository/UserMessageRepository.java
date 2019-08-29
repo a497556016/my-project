@@ -12,4 +12,7 @@ public interface UserMessageRepository extends MongoRepository<UserMessage, Stri
 
     @Query(value = "{'$or':[{'$and':[{'from.username': ?0},{'to.username': ?1}]},{'$and':[{'from.username': ?1},{'to.username': ?0}]}]}")
     Page<UserMessage> selectHisUserMessages(String loginUsername, String lineUsername, Pageable pageable);
+
+    @Query(value = "{'$or':[{'$and':[{'from.username': ?1},{'to.username': ?0},{'sendState': 'NOT_RECEIVE'}]}]}")
+    Page<UserMessage> selectNotReceiveMessages(String loginUsername, String lineUsername, Pageable pageable);
 }
