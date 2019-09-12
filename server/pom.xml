@@ -13,11 +13,6 @@
         <module>account-client</module>
         <module>file-client</module>
         <module>auth-core</module>
-        <module>im-core</module>
-        <module>im-metadata</module>
-        <module>im-metadata-client</module>
-        <module>im-domain</module>
-        <module>im-common</module>
     </modules>
 
     <parent>
