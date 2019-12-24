@@ -18,7 +18,7 @@ public class RoleService {
 
     public void updateRolePermissions(Role role) {
         Role update = this.roleRepository.findById(role.getId()).get();
-        if(null != update) {
+        if (null != update) {
             update.setPermissions(role.getPermissions());
         }
         this.roleRepository.save(update);

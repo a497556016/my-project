@@ -20,7 +20,7 @@ public class RolePermissionController extends CurdController<RoleRepository, Rol
     private RoleService roleService;
 
     @PutMapping("/assignPermissions")
-    public Result assignPermissions(@RequestBody RolePermissionsDTO rolePermissions){
+    public Result assignPermissions(@RequestBody RolePermissionsDTO rolePermissions) {
         Role role = rolePermissions.convert(rolePermissions);
         this.roleService.updateRolePermissions(role);
         return Result.success();

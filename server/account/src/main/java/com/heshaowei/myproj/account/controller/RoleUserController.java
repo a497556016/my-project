@@ -13,5 +13,4 @@ import org.springframework.web.bind.annotation.RestController;
 public class RoleUserController extends CurdController<RoleRepository, Role, RoleUsersDTO> {
 
 
-
 }

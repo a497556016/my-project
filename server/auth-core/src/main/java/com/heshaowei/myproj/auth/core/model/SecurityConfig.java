@@ -10,7 +10,7 @@ public class SecurityConfig implements ConfigAttribute {
 
     private String name;
 
-    public SecurityConfig(String name){
+    public SecurityConfig(String name) {
         this.name = name;
     }
 

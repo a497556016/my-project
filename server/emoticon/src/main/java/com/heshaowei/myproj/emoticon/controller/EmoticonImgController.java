@@ -25,14 +25,14 @@ public class EmoticonImgController extends CurdController<EmoticonImgRepository,
     private FilePaths filePaths;
 
     @GetMapping("/download")
-    public void download(String path, HttpServletResponse response){
+    public void download(String path, HttpServletResponse response) {
         System.out.println(path);
         try {
             byte[] bus = FileUtils.readFileToByteArray(new File(filePaths.getSavePath().get("emoticon") + File.separator + path));
             IOUtils.write(bus, response.getOutputStream());
             response.setContentType("application/image");
-            response.addHeader("Content-Disposition", "attachment; filename="+ UUID.randomUUID()+path.substring(path.lastIndexOf(".")));
-        } catch (Exception e){
+            response.addHeader("Content-Disposition", "attachment; filename=" + UUID.randomUUID() + path.substring(path.lastIndexOf(".")));
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

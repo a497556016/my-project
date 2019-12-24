@@ -14,8 +14,8 @@ public class EmoticonCatalogService {
 
     private List<String> catalogs;
 
-    public boolean exists(String catalog){
-        if(null == catalogs) {
+    public boolean exists(String catalog) {
+        if (null == catalogs) {
             catalogs = this.emoticonCatalogRepository.findAll().stream().map(c -> c.getCatalog()).collect(Collectors.toList());
         }
 

@@ -20,5 +20,4 @@ import java.util.List;
 public class RoleController extends CurdController<RoleRepository, Role, RoleBaseDTO> {
 
 
-
 }

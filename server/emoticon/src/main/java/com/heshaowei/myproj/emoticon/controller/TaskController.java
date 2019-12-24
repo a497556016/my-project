@@ -49,16 +49,16 @@ public class TaskController extends CurdController<SpiderTaskRepository, SpiderT
 
     private IJobHandler getJobHander(String jobInstance) throws NotFoundException {
         Object obj = this.webApplicationContext.getBean(jobInstance);
-        if(null != obj && obj instanceof IJobHandler) {
+        if (null != obj && obj instanceof IJobHandler) {
             IJobHandler jobHandler = (IJobHandler) obj;
             return jobHandler;
-        }else {
+        } else {
             throw new NotFoundException("对应任务实例不存在！");
         }
     }
 
     @GetMapping("/start")
-    public Result start(Long taskId){
+    public Result start(Long taskId) {
         SpiderTask task = this.repository.findById(taskId).get();
         try {
             IJobHandler jobHandler = this.getJobHander(task.getJobInstance());
@@ -76,7 +76,7 @@ public class TaskController extends CurdController<SpiderTaskRepository, SpiderT
     @GetMapping("/stop")
     public Result stop(Long taskId) {
         ScheduledFuture<?> future = this.spiderTaskMap.get(taskId);
-        if(null != future) {
+        if (null != future) {
             future.cancel(true);
         }
         return Result.success();
@@ -84,11 +84,12 @@ public class TaskController extends CurdController<SpiderTaskRepository, SpiderT
 
     /**
      * 一次性运行
+     *
      * @param taskId
      * @return
      */
     @GetMapping("/run")
-    public Result run(Long taskId){
+    public Result run(Long taskId) {
         SpiderTask task = this.repository.findById(taskId).get();
         try {
             IJobHandler jobHandler = this.getJobHander(task.getJobInstance());
@@ -102,7 +103,7 @@ public class TaskController extends CurdController<SpiderTaskRepository, SpiderT
     }
 
     @GetMapping("/shutdown")
-    public Result shutdown(Long taskId){
+    public Result shutdown(Long taskId) {
         SpiderTask task = this.repository.findById(taskId).get();
         try {
             IJobHandler jobHandler = this.getJobHander(task.getJobInstance());
@@ -115,19 +116,19 @@ public class TaskController extends CurdController<SpiderTaskRepository, SpiderT
 
     @GetMapping("/selectPage")
     @Override
-    public PageResult<SpiderTaskDTO> selectPage(int current, int size, HttpServletRequest request){
+    public PageResult<SpiderTaskDTO> selectPage(int current, int size, HttpServletRequest request) {
         SpiderTaskDTO dto = new SpiderTaskDTO();
         Page<SpiderTask> page = this.spiderTaskService.findByPage(current, size, super.buildExample(request, dto));
         PageResult<SpiderTaskDTO> pageResult = super.pageConvert(dto, page);
         pageResult.getData().forEach(spiderTaskDTO -> {
             ScheduledFuture<?> future = spiderTaskMap.get(spiderTaskDTO.getId());
-            if(null == future) {
+            if (null == future) {
                 spiderTaskDTO.setStatus("0"); //没有任务运行
-            }else if (future.isDone()){
+            } else if (future.isDone()) {
                 spiderTaskDTO.setStatus("1"); //已经停止
-            }else if (future.isCancelled()) {
+            } else if (future.isCancelled()) {
                 spiderTaskDTO.setStatus("2"); //已经取消
-            }else {
+            } else {
                 spiderTaskDTO.setStatus("3"); //运行中状态
             }
             try {

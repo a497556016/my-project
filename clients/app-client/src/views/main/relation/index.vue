@@ -19,7 +19,7 @@
     import PersonalShowPanel from "../../../components/panel/personal-show-panel/index";
     import FriendsShareList from "../../../components/list/friends-share-list";
     import {mapActions, mapState} from 'vuex'
-    import {mapTypes} from '../../../store/types'
+    import mapTypes from '../../../store/types'
     export default {
         name: "index",
         components: {

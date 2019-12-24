@@ -11,6 +11,7 @@ export default [
         ]
     },
 
+    {path: '/posts/detail', component: () => import('@/views/posts/detail'), props: (route) => ({id: route.query.id})},
     {path: '/posts/create', component: () => import('@/views/posts/create')},
 
     {path: '/login', component: () => import('@/views/login/AccountLogin')},

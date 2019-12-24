@@ -16,9 +16,9 @@ public class DoutulaTask implements IJobHandler {
     @Autowired
     private DoutulaSpider doutulaSpider;
 
-//    @Scheduled(cron = "0 0 2 ? * *")
+    //    @Scheduled(cron = "0 0 2 ? * *")
     @Override
-    public void execute(){
+    public void execute() {
         this.doutulaSpider.execute();
     }
 

@@ -1,4 +1,4 @@
-import * as types from '../types'
+import * as types from './types'
 
 import homeApi from '../../api/home'
 import postsApi from '../../api/posts'
@@ -20,15 +20,21 @@ const state = {
         refreshIndex: 0,
         data: []
     },
+    viewPost: {}
 }
 
 const getters = {
-
+    [types.GET_VIEW_POST](state){
+        return state.viewPost;
+    }
 }
 
 const mutations = {
     [types.SET_TOP_IMAGES] (state, images) {
         state.topImages = images;
+    },
+    [types.SET_VIEW_POST] (state, post) {
+        state.viewPost = post;
     }
 }
 
@@ -36,6 +42,7 @@ const actions = {
     [types.LOAD_TOP_IMAGES] ({commit, state}) {
         homeApi.getTopImages().then(res => {
             if(res.code == 1){
+                console.log(types.SET_TOP_IMAGES)
                 commit(types.SET_TOP_IMAGES, res.data);
             }
         })

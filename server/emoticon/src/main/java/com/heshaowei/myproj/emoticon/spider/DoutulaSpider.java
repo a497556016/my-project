@@ -24,30 +24,30 @@ public class DoutulaSpider {
 
     private Spider spider;
 
-    private void setCatalogs(){
-        if(null == catalogs) {
+    private void setCatalogs() {
+        if (null == catalogs) {
             catalogs = this.emoticonCatalogRepository.findAll().stream().map(c -> c.getCatalog()).collect(Collectors.toList());
         }
     }
 
-    public boolean exists(String catalog){
+    public boolean exists(String catalog) {
         return this.catalogs.contains(catalog);
     }
 
-    public void execute(){
-        if(null == this.spider) {
+    public void execute() {
+        if (null == this.spider) {
             this.spider = this.createSpider();
         }
 //        if(this.spider.getStatus().equals(Spider.Status.Stopped)){
 //            this.spider.start();
 //        }
 //        else if(!this.spider.getStatus().equals(Spider.Status.Running)) {
-            this.spider.thread(8).run();
+        this.spider.thread(8).run();
 //        }
     }
 
     public void close() {
-        if(null != this.spider) {
+        if (null != this.spider) {
             this.spider.stop();
             this.spider.close();
             this.spider = null;
@@ -55,14 +55,14 @@ public class DoutulaSpider {
     }
 
     public String status() {
-        if(null == this.spider) {
+        if (null == this.spider) {
             return null;
         }
         Spider.Status status = this.spider.getStatus();
         return status.name();
     }
 
-    private Spider createSpider(){
+    private Spider createSpider() {
         this.setCatalogs();
         return Spider.create(DoutulaPageProcesser.of(doMain))
                 .addUrl(url)

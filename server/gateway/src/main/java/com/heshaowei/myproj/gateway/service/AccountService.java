@@ -26,7 +26,7 @@ public class AccountService {
 
     }
 
-    public boolean verify(String accessToken, String path){
+    public boolean verify(String accessToken, String path) {
         return this.userClient.verify(accessToken, path);
     }
 }

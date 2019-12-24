@@ -1,0 +1,11 @@
+
+export const GET_MENU_ROW_COLS = "GET_MENU_ROW_COLS";
+export const SET_TOP_IMAGES = "SET_TOP_IMAGES";
+export const LOAD_TOP_IMAGES = "LOAD_TOP_IMAGES";
+
+export const GET_COMMEND_POSTS = "GET_COMMEND_POSTS";
+
+export const SET_VIEW_POST = "SET_VIEW_POST";
+export const GET_VIEW_POST = "GET_VIEW_POST";
+
+export const REFRESH_COMMEND_POSTS = "REFRESH_COMMEND_POSTS";

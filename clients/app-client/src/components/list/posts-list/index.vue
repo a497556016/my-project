@@ -11,7 +11,9 @@
                     <div class="refresh-index" v-if="postsData.refreshIndex != 0 && postsData.refreshIndex == index" @click="doRefresh">
                         上次看到这儿 点击刷新
                     </div>
-                    <posts-panel :data="item"></posts-panel>
+                    <a @click="viewTail(item)">
+                        <posts-panel :data="item"></posts-panel>
+                    </a>
                 </template>
                 <van-skeleton title avatar :row="3" :loading="postsData.loading"></van-skeleton>
             </van-list>
@@ -34,7 +36,8 @@
         props: {
             postsData: Object,
             onLoad: Function,
-            onRefresh: Function
+            onRefresh: Function,
+            viewTail: Function
         },
         data(){
             return {

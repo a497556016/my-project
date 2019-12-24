@@ -1,4 +1,4 @@
-import * as types from '../types'
+import * as types from './types'
 import accountApi from '../../api/account'
 
 const SESSION_LOGIN_USER = "login_user";

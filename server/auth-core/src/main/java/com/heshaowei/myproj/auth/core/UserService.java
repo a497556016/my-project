@@ -6,6 +6,7 @@ public interface UserService {
 
     /**
      * 查询用户信息，在系统登录时调用
+     *
      * @param username
      * @return
      */

@@ -92,6 +92,7 @@ public class UserService implements com.heshaowei.myproj.auth.core.UserService, 
     }
 
     private Map<String, Collection<ConfigAttribute>> resourceMaps;
+
     @Override
     public void loadResourceDefine() {
         resourceMaps = Maps.newHashMap();
@@ -105,7 +106,7 @@ public class UserService implements com.heshaowei.myproj.auth.core.UserService, 
 
                 for (Resource resource : resources) {
                     Collection<ConfigAttribute> roleAttributes = resourceMaps.get(resource.getPath());
-                    if(null == roleAttributes) {
+                    if (null == roleAttributes) {
                         roleAttributes = Lists.newArrayList();
                         resourceMaps.put(resource.getPath(), roleAttributes);
                     }
@@ -117,7 +118,7 @@ public class UserService implements com.heshaowei.myproj.auth.core.UserService, 
 
     @Override
     public Collection<ConfigAttribute> getAttributes(String path) {
-        if(null == resourceMaps) {
+        if (null == resourceMaps) {
             this.loadResourceDefine();
         }
         return resourceMaps.get(path);

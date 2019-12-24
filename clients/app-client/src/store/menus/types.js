@@ -1,0 +1,1 @@
+export const GET_MENU_ROW_COLS = "GET_MENU_ROW_COLS";

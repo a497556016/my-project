@@ -14,13 +14,13 @@ import java.util.List;
 
 public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
 
-    public Class<?> getMyConverterClass(Class<?> calzz){
+    public Class<?> getMyConverterClass(Class<?> calzz) {
         Class<?> superclass = calzz.getSuperclass();
         while (superclass != null) {
-            if(superclass.getName().equals("java.lang.Object")){
+            if (superclass.getName().equals("java.lang.Object")) {
                 break;
             }
-            if(superclass.getName().equals("com.heshaowei.myproj.base.MyConverter")) {
+            if (superclass.getName().equals("com.heshaowei.myproj.base.MyConverter")) {
                 return calzz;
             }
             calzz = superclass;
@@ -32,14 +32,14 @@ public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
     private Class<?> getEntityType(Class clz) {
         Class<?> classes = getMyConverterClass(clz);
 
-        if(null == classes) {
+        if (null == classes) {
             return null;
         }
 
         ParameterizedType parameterizedType = (ParameterizedType) classes.getGenericSuperclass();
         Type[] types = parameterizedType.getActualTypeArguments();
-        if(types.length > 1) {
-            if(types[1] instanceof Class) {
+        if (types.length > 1) {
+            if (types[1] instanceof Class) {
                 return (Class<?>) types[1];
             }
         }
@@ -60,7 +60,7 @@ public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
 
     private Object getValueByProperty(Object obj, String propertyName) {
         PropertyDescriptor propertyDescriptor = BeanUtils.getPropertyDescriptor(obj.getClass(), propertyName);
-        if(null == propertyDescriptor) {
+        if (null == propertyDescriptor) {
             return null;
         }
         Method readMethod = propertyDescriptor.getReadMethod();
@@ -74,9 +74,9 @@ public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
         return null;
     }
 
-    private void setValueByProperty(Object obj, String propertyName, Object ...args) {
+    private void setValueByProperty(Object obj, String propertyName, Object... args) {
         PropertyDescriptor propertyDescriptor = BeanUtils.getPropertyDescriptor(obj.getClass(), propertyName);
-        if(null == propertyDescriptor) {
+        if (null == propertyDescriptor) {
             return;
         }
         Method writeMethod = propertyDescriptor.getWriteMethod();
@@ -89,12 +89,12 @@ public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
         }
     }
 
-    private boolean isDTO(Field field){
+    private boolean isDTO(Field field) {
         return MyConverter.class.equals(field.getType().getSuperclass());
     }
 
-    private Class isListDTO(Field field, boolean sourceDto){
-        if(field.getType().isAssignableFrom(List.class)) {
+    private Class isListDTO(Field field, boolean sourceDto) {
+        if (field.getType().isAssignableFrom(List.class)) {
             Type type = field.getGenericType();
             //得到泛型类型的类名
             ParameterizedType parameterizedType = (ParameterizedType) type;
@@ -104,14 +104,14 @@ public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
 //            Type[] types = pt.getActualTypeArguments();
             //判断List泛型的父类是MyConverter
 
-            Class typeClz = (Class)types[0];
+            Class typeClz = (Class) types[0];
 
             //如果是DTO转Entity，获取目标实体的类型
-            if(sourceDto){
+            if (sourceDto) {
                 return getEntityType(typeClz);
-            }else {
+            } else {
                 //如果是entity转DTO，获取DTO类型，即当前集合的泛型
-                if(null != getMyConverterClass(typeClz)){
+                if (null != getMyConverterClass(typeClz)) {
                     return typeClz;
                 }
             }
@@ -124,7 +124,7 @@ public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
     protected B doForward(A a) {
         Class<B> clz = (Class<B>) getEntityType(this.getClass());
 
-        if(null == clz) {
+        if (null == clz) {
             return null;
         }
 
@@ -138,7 +138,7 @@ public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
     protected A doBackward(B b) {
         Class<A> clz = (Class<A>) this.getClass();
 
-        if(null == clz) {
+        if (null == clz) {
             return null;
         }
 
@@ -148,45 +148,45 @@ public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
         return a;
     }
 
-    private void copy(Object source, Object target, Class dtoClz, boolean ignoreDtoField, int deep){
+    private void copy(Object source, Object target, Class dtoClz, boolean ignoreDtoField, int deep) {
         boolean sourceDto = true;
         Class dtoClass = source.getClass();
-        if(target.getClass().equals(dtoClz)) {
+        if (target.getClass().equals(dtoClz)) {
             dtoClass = target.getClass();
             sourceDto = false;
         }
         List<Field> fields = Lists.newArrayList(dtoClass.getDeclaredFields());
         Class superClz = dtoClass.getSuperclass();
-        while(null != superClz && !superClz.equals(MyConverter.class)){
+        while (null != superClz && !superClz.equals(MyConverter.class)) {
             fields.addAll(Lists.newArrayList(superClz.getDeclaredFields()));
             superClz = superClz.getSuperclass();
         }
 
 
         for (Field field : fields) {
-            if(isDTO(field)) {
-                if(!ignoreDtoField) {
+            if (isDTO(field)) {
+                if (!ignoreDtoField) {
                     Object v = this.getValueByProperty(source, field.getName());
-                    if(null != v) {
+                    if (null != v) {
                         //目标的类型
                         Class targetClz = BeanUtils.getPropertyDescriptor(target.getClass(), field.getName()).getPropertyType();
                         Object t = newInstance(targetClz);
-                        if(deep < 1) {
+                        if (deep < 1) {
                             this.copy(v, t, sourceDto ? v.getClass() : t.getClass(), true, deep + 1);
                         }
                         this.setValueByProperty(target, field.getName(), t);
                     }
                 }
-            }else {
+            } else {
                 Class typeClz = isListDTO(field, sourceDto);
-                if(null != typeClz) {
-                    if(!ignoreDtoField) {
+                if (null != typeClz) {
+                    if (!ignoreDtoField) {
                         List<?> list = (List<?>) this.getValueByProperty(source, field.getName());
                         if (null != list && !list.isEmpty()) {
                             List<Object> newList = Lists.newArrayList();
                             for (Object v : list) {
                                 Object t = newInstance(typeClz);
-                                if(deep < 1) {
+                                if (deep < 1) {
                                     this.copy(v, t, sourceDto ? v.getClass() : t.getClass(), true, deep + 1);
                                 }
                                 newList.add(t);
@@ -195,7 +195,7 @@ public class MyConverter<A extends MyConverter, B> extends Converter<A, B> {
                             this.setValueByProperty(target, field.getName(), newList);
                         }
                     }
-                }else {
+                } else {
                     Object value = this.getValueByProperty(source, field.getName());
                     this.setValueByProperty(target, field.getName(), value);
                 }

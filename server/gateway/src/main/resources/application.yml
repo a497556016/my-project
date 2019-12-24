@@ -22,17 +22,17 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
-#      routes:
-#        - id: account-server
-#          uri: lb://account-server
-#          predicates:
-#            - Path=/account-server/**
-#          filters:
-#            - StripPrefix=1 # 去除请求地址中的filer-server
-#        - id: account-server
-#          uri: lb://account-server
-#          predicates:
-#            - Path=/predicates/**
+  #      routes:
+  #        - id: account-server
+  #          uri: lb://account-server
+  #          predicates:
+  #            - Path=/account-server/**
+  #          filters:
+  #            - StripPrefix=1 # 去除请求地址中的filer-server
+  #        - id: account-server
+  #          uri: lb://account-server
+  #          predicates:
+  #            - Path=/predicates/**
   cache:
     ehcache:
       config: classpath:cache/ehcache.xml

@@ -42,11 +42,11 @@ public class DoutulaPipeline implements Pipeline {
         EmoticonCatalog catalog = resultItems.get("catalog");
 
         System.out.println(catalog);
-        if(null != catalog) {
+        if (null != catalog) {
             //判断是否存在相同类别
             boolean exist = this.doutulaSpider.exists(catalog.getCatalog());
 
-            if(!exist) {
+            if (!exist) {
                 List<EmoticonImg> imgs = Lists.newArrayList();
                 for (EmoticonImg img : catalog.getImgs()) {
                     String src = img.getSrc();
@@ -65,7 +65,7 @@ public class DoutulaPipeline implements Pipeline {
                     imgs.add(img);
                 }
 
-                if(!imgs.isEmpty()) {
+                if (!imgs.isEmpty()) {
                     catalog.setImgs(imgs);
                     this.saveCatalog(catalog);
                 }
@@ -81,16 +81,16 @@ public class DoutulaPipeline implements Pipeline {
     //链接url下载图片
     private static void downloadPicture(String urlList, String savePath) throws Exception {
         URL url = new URL(urlList);
-        URLConnection uc ;
+        URLConnection uc;
         uc = url.openConnection();
-        uc.addRequestProperty("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36");
+        uc.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36");
         uc.setDoInput(true);//设置是否要从 URL 连接读取数据,默认为true
         uc.connect();
 
         InputStream inputStream = uc.getInputStream();
 
         File file = new File(savePath);
-        if(!file.getParentFile().exists()) {
+        if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
         FileOutputStream fileOutputStream = new FileOutputStream(file);

@@ -37,7 +37,7 @@
 <script>
     import {ActionSheet, Icon, Grid, GridItem} from 'vant'
     import {mapGetters, mapState, mapMutations} from 'vuex'
-    import {mapTypes} from '../../../store/types'
+    import mapTypes from '../../../store/types'
 
     const accountActions = [
         {name: '退出登录', className: 'warn-action'},

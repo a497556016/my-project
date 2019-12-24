@@ -1,5 +1,5 @@
 module.exports = {
-    outputDir: 'dist',
+    outputDir: 'app/www',
     publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
     css: {
         loaderOptions: {

@@ -7,10 +7,15 @@ import store from "../store";
 
 const router = new VueRouter({
     routes,
-    scrollBehavior (to, from, savedPosition) {
-        // return 期望滚动到哪个的位置
-        return { x: 0, y: 0 }
-    }
+    /*scrollBehavior (to, from, savedPosition) {
+        console.log(from.path, document.scrollingElement.scrollTop)
+        if (savedPosition) {
+            return savedPosition
+        } else {
+            from.meta.savedPosition = document.scrollingElement.scrollTop;
+            return { x: 0, y: to.meta.savedPosition ||0}
+        }
+    }*/
 })
 
 router.beforeEach((to, from, next) => {

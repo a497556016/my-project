@@ -10,7 +10,7 @@
                 </van-swipe-item>
             </van-swipe>
 
-            <posts-list :posts-data="commendPosts" :on-load="getCommendPosts" :on-refresh="refreshRecommendPosts"></posts-list>
+            <posts-list :posts-data="commendPosts" :on-load="getCommendPosts" :on-refresh="refreshRecommendPosts" :view-tail="viewTail"></posts-list>
         </div>
 
         <float-button @click="toAddPosts()"></float-button>
@@ -19,8 +19,8 @@
 
 <script>
     import {Swipe, SwipeCell, SwipeItem, Row, Col, Icon, Field} from 'vant'
-    import {mapGetters, mapState, mapActions} from 'vuex'
-    import {mapTypes} from '../../../store/types'
+    import {mapGetters, mapState, mapActions, mapMutations} from 'vuex'
+    import mapTypes from '../../../store/types'
     import MyHeaderBar from "../../../components/headerbar";
     import FloatButton from "../../../components/button/float-button/index";
     import PostsList from "../../../components/list/posts-list/index";
@@ -57,9 +57,22 @@
                 getCommendPosts: mapTypes.home.GET_COMMEND_POSTS,
                 refreshRecommendPosts: mapTypes.home.REFRESH_COMMEND_POSTS
             }),
+            ...mapMutations({
+                setViewPost: mapTypes.home.SET_VIEW_POST
+            }),
             toAddPosts(){
                 this.$toast('去吧，皮卡丘！');
                 this.$router.push({path: '/posts/create'})
+            },
+            viewTail(item) {
+                console.log(item)
+                this.setViewPost(item);
+                this.$router.push({
+                    path: "/posts/detail",
+                    query: {
+                        id: item.id
+                    }
+                })
             }
         }
     }
@@ -70,7 +83,7 @@
     .home-page {
         .content-box {
             position: relative;
-            top: 50px;
+            top: 46px;
             margin-bottom: 50px;
             .swipe-img {
                 height: 150px;

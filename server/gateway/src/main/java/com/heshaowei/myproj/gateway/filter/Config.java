@@ -47,14 +47,14 @@ public class Config {
                     String accessToken = accessTokens.get(0);
 
                     boolean isAuthed = this.accountService.verify(accessToken, request.getPath().pathWithinApplication().value());
-                    if(isAuthed) {
+                    if (isAuthed) {
                         /*String json = JWTUtil.getUserinfo(accessToken);
                         UserInfo userInfo = new Gson().fromJson(json, UserInfo.class);
                         //向headers中放文件，记得build
                         ServerHttpRequest host = exchange.getRequest().mutate().header("username", userInfo.getUsername()).build();
                         //将现在的request 变成 change对象
                         exchange = exchange.mutate().request(host).build();*/
-                    }else {
+                    } else {
                         throw new Exception("没有访问权限！");
                     }
 
@@ -91,7 +91,7 @@ public class Config {
     private boolean needFilter(String path) {
         AntPathMatcher pathMatcher = new AntPathMatcher();
         for (String ignoreUrl : filterProps.getAuth().getIgnoreUrls()) {
-            if(pathMatcher.match(ignoreUrl, path)){
+            if (pathMatcher.match(ignoreUrl, path)) {
                 return false;
             }
         }

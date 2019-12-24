@@ -76,7 +76,7 @@ public class CurdController<R extends JpaRepository<E, Long>, E, D extends Conve
         return Result.error();
     }
 
-    protected Example<E> buildExample(HttpServletRequest request, D d){
+    protected Example<E> buildExample(HttpServletRequest request, D d) {
         Map<String, String[]> map = request.getParameterMap();
 
         ExampleMatcher matcher = this.createMatcher(map);
@@ -93,7 +93,7 @@ public class CurdController<R extends JpaRepository<E, Long>, E, D extends Conve
         return example;
     }
 
-    protected Sort buildSort(HttpServletRequest request){
+    protected Sort buildSort(HttpServletRequest request) {
         Sort sort = Sort.unsorted();
         String sortField = request.getParameter("sortField");
         String sortDirection = request.getParameter("sortDirection");
@@ -104,11 +104,11 @@ public class CurdController<R extends JpaRepository<E, Long>, E, D extends Conve
         return sort;
     }
 
-    private ExampleMatcher createMatcher(Map<String, String[]> paramsMap){
+    private ExampleMatcher createMatcher(Map<String, String[]> paramsMap) {
         ExampleMatcher matcher = ExampleMatcher.matching();
 
         for (String key : paramsMap.keySet()) {
-            if(key.startsWith("like@")) {
+            if (key.startsWith("like@")) {
                 matcher = matcher.withMatcher(key.substring(5), ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
             }
         }
@@ -121,17 +121,17 @@ public class CurdController<R extends JpaRepository<E, Long>, E, D extends Conve
         for (String key : paramsMap.keySet()) {
             String[] values = paramsMap.get(key);
 
-            if(key.contains("@")) {
-                String newKey = key.substring(key.lastIndexOf("@")+1);
+            if (key.contains("@")) {
+                String newKey = key.substring(key.lastIndexOf("@") + 1);
                 newMap.put(newKey, values);
-            }else {
+            } else {
                 newMap.put(key, values);
             }
         }
         return newMap;
     }
 
-    private void createExample(Map<String, String[]> paramsMap, Object probe) throws Exception{
+    private void createExample(Map<String, String[]> paramsMap, Object probe) throws Exception {
         Class clz = probe.getClass();
         for (String key : paramsMap.keySet()) {
             try {
@@ -155,12 +155,12 @@ public class CurdController<R extends JpaRepository<E, Long>, E, D extends Conve
                         try {
                             Object obj = new Gson().fromJson(value, field.getType());
                             field.set(probe, obj);
-                        }catch (Exception e) {
+                        } catch (Exception e) {
                             field.set(probe, value);
                         }
                     }
                 }
-            }catch (NoSuchFieldException e) {
+            } catch (NoSuchFieldException e) {
                 continue;
             }
         }

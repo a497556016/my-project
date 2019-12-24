@@ -98,7 +98,7 @@ public class AccountController {
     }
 
     @GetMapping("/verify")
-    public boolean verify(String accessToken, String path){
+    public boolean verify(String accessToken, String path) {
         return this.accessDecisionManager.verify(accessToken, path);
     }
 }

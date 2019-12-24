@@ -28,11 +28,11 @@ public class DoutulaPageProcesser implements PageProcessor {
         //下一页
         String nextUrl = page.getHtml().xpath("//a[@class='page-link'][@rel='next']/@href").get();
 
-        if(detailUrls.isEmpty()) {
+        if (detailUrls.isEmpty()) {
             page.setSkip(true);
         }
 
-        if(page.getRequest().getUrl().matches("https://www.doutula.com/article/detail/\\d+")) {
+        if (page.getRequest().getUrl().matches("https://www.doutula.com/article/detail/\\d+")) {
             String catalog = page.getHtml().xpath("//div[@class='pic-title']/h1/a/text()").get();
             String time = page.getHtml().xpath("//span[@class='glyphicon glyphicon-time']/text()").get();
 
@@ -54,11 +54,11 @@ public class DoutulaPageProcesser implements PageProcessor {
             emoticonCatalog.setImgs(emoticonImgs);
 
             page.putField("catalog", emoticonCatalog);
-        }else {
+        } else {
             page.addTargetRequests(detailUrls);
         }
 
-        if(null != nextUrl) {
+        if (null != nextUrl) {
             page.addTargetRequest(nextUrl);
         }
     }

@@ -21,12 +21,42 @@ import 'font-awesome/css/font-awesome.min.css'
 
 Vue.config.productionTip = false
 
-document.addEventListener('deviceready', () => {
-  Toast('deviceready');
-})
+function init() {
+  new Vue({
+    render: h => h(App),
+    router,
+    store
+  }).$mount('#app')
+}
 
-new Vue({
-  render: h => h(App),
-  router,
-  store
-}).$mount('#app')
+if('undefined' == typeof cordova){
+  init();
+}else {
+  document.addEventListener('deviceready', () => {
+    Toast('deviceready');
+    // StatusBar.hide();
+    init();
+  })
+
+  let exitClicks = 0;
+  document.addEventListener("backbutton", () => {
+    const path = location.href.split("#")[1];
+    Toast(path);
+
+    if(path.startsWith("/main")){
+      if(exitClicks >= 1){
+        navigator.app.exitApp();
+      }else {
+        Toast('再次点击退出系统', {duration: 2000});
+        setTimeout(() => {exitClicks = 0}, 2000);
+        exitClicks+=1;
+      }
+    }else {
+      router.back();
+    }
+  }, false);
+}
+
+
+
+

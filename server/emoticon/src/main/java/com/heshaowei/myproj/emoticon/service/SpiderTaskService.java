@@ -15,7 +15,7 @@ public class SpiderTaskService {
     private SpiderTaskRepository spiderTaskRepository;
 
     public Page<SpiderTask> findByPage(int current, int size, Example<SpiderTask> example) {
-        Page<SpiderTask> page = this.spiderTaskRepository.findAll(example, PageRequest.of(current-1, size));
+        Page<SpiderTask> page = this.spiderTaskRepository.findAll(example, PageRequest.of(current - 1, size));
 
         return page;
     }
