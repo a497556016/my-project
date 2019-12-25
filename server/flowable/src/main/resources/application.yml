@@ -1,0 +1,32 @@
+server:
+  port: 7008
+
+spring:
+  application:
+    name: flowable-server
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    host: 192.168.0.45
+    db: flowable_server
+    url: jdbc:mysql://${spring.datasource.host}:3306/${spring.datasource.db}?characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=false
+    username: root
+    password: 123456
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 100MB
+  profiles:
+    active: flowable
+
+
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:7001/eureka/
