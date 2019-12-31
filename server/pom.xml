@@ -13,7 +13,6 @@
         <module>account-client</module>
         <module>file-client</module>
         <module>auth-core</module>
-        <module>flowable</module>
     </modules>
 
     <parent>
